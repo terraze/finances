@@ -25,7 +25,7 @@ class App extends React.Component {
         return (
             <div>
                 <Header/>
-                <Container>
+                <Container fluid>
                     <Body data={this.state.data}/>
                 </Container>
                 <Footer/>

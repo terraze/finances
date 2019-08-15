@@ -7,9 +7,13 @@ class Body extends React.Component {
     render() {
         return (
             <Row>
-                <Col xs="8" className={'main'}>Main</Col>
-                <Col xs="4" className={'sidebar'}>
-                    <Sidebar data={this.props.data}/>
+                <Col>
+                    <h1>Semana X</h1>
+                    <p>de dd/mm a dd/mm</p>
+
+                    <p>Salário Previsto</p>
+                    <p>Despesas Previsto</p>
+                    <p>Saldo Previsto</p>
                 </Col>
             </Row>
         );

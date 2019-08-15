@@ -2,13 +2,45 @@
   text-align: center;
 }
 
+p {
+
+}
+
 h1 {
-  font-size: 40px;
+  font-size: 35px;
   margin-bottom: -12px;
-  margin-top: 60px;
-  font-family: Courier New;
+  font-family: Arial;
+  color: #000000;
+  text-align: center;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-family: ;
+  color: #40403d;
 }
 
 body {
-  background-color: #fffede;
+  background-color: #f5f5f5;
+}
+
+.terra-dark .nav-link{
+  color: #212529;
+}
+.terra-body {
+  margin-top: 80px;
+}
+
+.terra-right {
+  text-align: right;
+}
+
+.terra-left {
+  text-align: left;
+}
+
+.terra-textalert {
+  font-size: 20px;
+  color: #40403d;
 }

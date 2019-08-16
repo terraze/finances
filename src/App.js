@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/header.js'
 import Resumo from './components/resumo.js'
 import Balanco from './components/balanco.js'
+import Configuracao from './components/configuracao.js'
 import Footer from './components/footer.js'
 
 import { Container } from 'reactstrap';
@@ -35,6 +36,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/" exact={true} component={Resumo} />
                         <Route path="/balanco" component={Balanco} />
+                        <Route path="/configuracao" component={Configuracao} />
                     </Switch>
                     </Container>
                     <Footer/>

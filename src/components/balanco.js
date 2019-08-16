@@ -5,17 +5,24 @@ import { Form, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faPlus, faCheck, faTimes, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 
 class Balanco extends React.Component {
     constructor() {
       super();
 
+      const currentDate = moment().locale('pt-br');
+
       this.state = {
-          mode: "view"
+          mode: "view",
+          date: currentDate
       };
 
       this.toggleMode = this.toggleMode.bind(this);
+      this.prevMonth = this.prevMonth.bind(this);
+      this.nextMonth = this.nextMonth.bind(this);
     }
 
 
@@ -33,6 +40,18 @@ class Balanco extends React.Component {
       });
     }
 
+    prevMonth(){
+      this.setState({
+          date: moment(this.state.date).add(-1, 'M')
+      });
+    }
+
+    nextMonth(){
+      this.setState({
+          date: moment(this.state.date).add(1, 'M')
+      });
+    }
+
     render() {
         let mode = this.state.mode;
         return (
@@ -40,15 +59,15 @@ class Balanco extends React.Component {
                 <Col lg={{size:10, offset:4}}>
                     <Row>
                         <Col lg="1">
-                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                            <Button  onClick={this.prevMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowLeft} />
                             </Button>
                         </Col>
                         <Col lg="3">
-                            <h1>m de yyyy</h1>
+                            <h1>{this.state.date.format('MMMM')} de {this.state.date.format('YYYY')}</h1>
                         </Col>
                         <Col lg="2">
-                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                            <Button onClick={this.nextMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowRight} />
                             </Button>
 

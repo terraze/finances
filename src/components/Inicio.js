@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col , Alert} from 'reactstrap';
-
 import Sidebar from './sidebar.js'
 
 class Body extends React.Component {
@@ -13,33 +12,33 @@ class Body extends React.Component {
                 <br/>
                 </Col>
                 <Col lg={{size:4, offset:4}}>
-                    <Alert color="success">
+                    <Alert className={"terra-home terra-recebido"}>
                         <Row>
                             <Col>
-                                <strong className={"terra-textalert terra-left"}>Salário Previsto</strong>
+                                <strong>Salário</strong>
                             </Col>
                             <Col>
-                                <span className={"terra-textalert terra.right"}> R$ xxx</span>
+                                <span> R$ 00,00</span>
                             </Col>
                         </Row>
                     </Alert>
-                    <Alert color="danger">
+                    <Alert className={"terra-home terra-vencido"}>
                         <Row>
                             <Col>
-                                <strong className={"terra-textalert terra-left"}>Despesas Previstas</strong>
+                                <strong>Despesas</strong>
                             </Col>
                             <Col>
-                                <span className={"terra-textalert terra.right"}> R$ xxx</span>
+                                <span> R$ 00,00</span>
                             </Col>
                         </Row>
                     </Alert>
-                    <Alert color="warning">
+                    <Alert className={"terra-home terra-pago"}>
                         <Row>
                             <Col>
-                                <strong className={"terra-textalert terra-left"}>Saldo Previsto</strong>
+                                <strong>Saldo</strong>
                             </Col>
                             <Col>
-                                <span className={"terra-textalert terra.right"}> R$ xxx</span>
+                                <span> R$ 00,00</span>
                             </Col>
                         </Row>
                     </Alert>

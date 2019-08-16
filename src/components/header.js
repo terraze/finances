@@ -1,25 +1,36 @@
 import React from "react";
-import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+import { Navbar, Nav, NavItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom'
 
 class Header extends React.Component {
     render() {
-        return <header className={"ml-auto"}>
-                <Navbar className={"terra-dark terra-background"} light expand="md" fixed="top">
+        return <header>
+                <Navbar className={"terra-dark terra-background terra-navbar"} light expand="md" fixed="top">
                     <Nav pills className={"nav terra-dark"}>
                         <NavItem>
-                            <NavLink className={'active'} href={"#"}>Resumo</NavLink>
+                            <NavLink exact="true" className="nav-link" to="/" activeClassName="active">
+                              Resumo
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href={"#"}>Balanço</NavLink>
+                            <NavLink className="nav-link" to="/balanco" activeClassName="active">
+                              Balanço
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href={"#"}>Saldo</NavLink>
+                            <NavLink className="nav-link" to="/saldo" activeClassName="active">
+                              Saldo
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href={"#"}>Relatórios</NavLink>
+                            <NavLink className="nav-link" to="/relatorios" activeClassName="active">
+                              Relatórios
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href={"#"}>Configuração</NavLink>
+                            <NavLink className="nav-link" to="/configuracao" activeClassName="active">
+                              Configuração
+                            </NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>

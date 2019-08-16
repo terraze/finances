@@ -17,7 +17,7 @@ class Sidebar extends React.Component {
         table-success - Pago
         (none) - Próximas
          */
-        if(currentDay == rowDay) {
+        if(currentDay === rowDay) {
             return 'table-warning';
         } else if(currentDay > rowDay) {
             return 'table-danger';

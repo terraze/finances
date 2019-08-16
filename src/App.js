@@ -2,11 +2,14 @@ import React from 'react';
 import './App.css';
 
 import Header from './components/header.js'
-import Body from './components/balanco.js'
+import Resumo from './components/resumo.js'
+import Balanco from './components/balanco.js'
 import Footer from './components/footer.js'
 
 import { Container } from 'reactstrap';
 import FirebaseService from './services/FirebaseService.js';
+
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
     state = {
@@ -15,21 +18,28 @@ class App extends React.Component {
 
 
     componentDidMount() {
+        /*
         FirebaseService.getDataList(
             'bills',
             (dataReceived) => this.setState({data: dataReceived})
         );
+        */
     }
 
     render(){
         return (
-            <div>
-                <Header/>
-                <Container>
-                    <Body data={this.state.data}/>
-                </Container>
-                <Footer/>
-            </div>
+            <BrowserRouter>
+                <div>
+                    <Header/>
+                    <Container>
+                    <Switch>
+                        <Route path="/" exact={true} component={Resumo} />
+                        <Route path="/balanco" component={Balanco} />
+                    </Switch>
+                    </Container>
+                    <Footer/>
+                </div>
+            </BrowserRouter>
         );
     }
 }

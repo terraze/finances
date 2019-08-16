@@ -7,7 +7,7 @@ import { faEdit, faPlus, faCheck, faTimes, faArrowLeft, faArrowRight } from "@fo
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 
-class Body extends React.Component {
+class Balanco extends React.Component {
     constructor() {
       super();
 
@@ -186,4 +186,4 @@ class Body extends React.Component {
     }
 }
 
-export default Body;
+export default Balanco;

@@ -2,9 +2,8 @@ import React from "react";
 import { Row, Col , Alert, Button} from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Sidebar from './sidebar.js'
 
-class Body extends React.Component {
+class Resumo extends React.Component {
     render() {
         return (
             <div className={"row terra-body"}>
@@ -65,4 +64,4 @@ class Body extends React.Component {
     }
 }
 
-export default Body;
+export default Resumo;

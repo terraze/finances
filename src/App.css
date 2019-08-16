@@ -21,14 +21,15 @@ h1 {
 }
 
 h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 35px;
+  margin-bottom: -8px;
+  color: #000000;
+  text-align: left;
 }
 
 h3 {
-  font-size: 20px;
-  margin-bottom: 0px;
-  color: #40403d;
+  font-size: 15px;
+  text-align: left;
 }
 
 .terra-dark .nav-link{
@@ -87,8 +88,50 @@ h3 {
   width: 100%;
 }
 
+.terra-table-col-info {
+  text-align: center;
+}
+
 .terra-saldo {
   background-color: #f5f5f5;
   font-weight: bold;
 }
 
+
+.terra-icone: {
+  background-color: white;
+}
+
+.terra-icone:hover {
+  color: #736d6d;
+  background-color: white;
+  border-color: white;
+}
+
+.terra-icone-background: {
+  background-color: transparent;
+}
+
+.terra-icone-background:hover {
+  color: #736d6d;
+  background-color: transparent;
+  border-color: white;
+}
+
+
+.terra-icone-black {
+  color: black;
+}
+
+.terra-icone-red {
+  color: red;
+}
+
+.terra-icone-green {
+  color: green;
+}
+
+.terra-button {
+  background-color: white;
+  border: 0px;
+}

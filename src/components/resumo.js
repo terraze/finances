@@ -1,15 +1,32 @@
 import React from "react";
-import { Row, Col , Alert} from 'reactstrap';
+import { Row, Col , Alert, Button} from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from './sidebar.js'
 
 class Body extends React.Component {
     render() {
         return (
             <div className={"row terra-body"}>
-                <Col lg="12">
-                <h1>Semana X</h1>
-                <p style={{textAlign: "center"}}>de dd/mm a dd/mm</p>
-                <br/>
+                <Col lg={{size:10, offset:4}}>
+                    <Row>
+                        <Col lg="1">
+                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                                <FontAwesomeIcon  icon={faArrowLeft} />
+                            </Button>
+                        </Col>
+                        <Col lg="3">
+                            <h1>Semana X</h1>
+                            <h4>de dd/mm a dd/mm</h4>
+                        </Col>
+                        <Col lg="2">
+                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                                <FontAwesomeIcon  icon={faArrowRight} />
+                            </Button>
+
+                        </Col>
+                    </Row>
+                    <br/>
                 </Col>
                 <Col lg={{size:4, offset:4}}>
                     <Alert className={"terra-home terra-recebido"}>

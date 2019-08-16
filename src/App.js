@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 import Header from './components/header.js'
-import Body from './components/balanco.js'
+import Body from './components/resumo.js'
 import Footer from './components/footer.js'
 
 import { Container, Row, Col } from 'reactstrap';

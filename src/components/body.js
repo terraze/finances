@@ -10,17 +10,26 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 class Body extends React.Component {
     render() {
-        let mode = 'edit';
+        let mode = 'view';
         return (
             <div className={"row terra-body"}>
-                <Col lg="12">
-                    <Button className={"terra-button terra-icone-background terra-icone-black"}>
-                        <FontAwesomeIcon  icon={faArrowLeft} />
-                    </Button>
-                    <h1>m de yyyy</h1>
-                    <Button className={"terra-button terra-icone-background terra-icone-black"}>
-                        <FontAwesomeIcon  icon={faArrowRight} />
-                    </Button>
+                <Col lg={{size:10, offset:4}}>
+                    <Row>
+                        <Col lg="1">
+                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                                <FontAwesomeIcon  icon={faArrowLeft} />
+                            </Button>
+                        </Col>
+                        <Col lg="3">
+                            <h1>m de yyyy</h1>
+                        </Col>
+                        <Col lg="2">
+                            <Button className={"terra-button-background terra-icone-background terra-icone-black"}>
+                                <FontAwesomeIcon  icon={faArrowRight} />
+                            </Button>
+
+                        </Col>
+                    </Row>
                     <br/>
                 </Col>
                 <Col lg={{size:5, offset:1}}>

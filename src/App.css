@@ -109,12 +109,12 @@ h3 {
 }
 
 .terra-icone-background: {
-  background-color: transparent;
+  background-color: #f5f5f5;
 }
 
 .terra-icone-background:hover {
   color: #736d6d;
-  background-color: transparent;
+  background-color: #f5f5f5;
   border-color: white;
 }
 
@@ -133,5 +133,10 @@ h3 {
 
 .terra-button {
   background-color: white;
+  border: 0px;
+}
+
+.terra-button-background {
+  background-color: #f5f5f5;
   border: 0px;
 }

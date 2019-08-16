@@ -2,10 +2,10 @@ import React from 'react';
 import './App.css';
 
 import Header from './components/header.js'
-import Body from './components/resumo.js'
+import Body from './components/balanco.js'
 import Footer from './components/footer.js'
 
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 import FirebaseService from './services/FirebaseService.js';
 
 class App extends React.Component {

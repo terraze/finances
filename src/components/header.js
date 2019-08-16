@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, NavItem, NavLink , button } from 'reactstrap';
+import { Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 
 class Header extends React.Component {
     render() {

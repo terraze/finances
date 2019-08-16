@@ -5,14 +5,14 @@ class TerraAlert extends React.Component {
     render() {
         let text = '';
         let content = this.props.children;
-        if (this.props.type == 'pago'){
+        if (this.props.type === 'pago'){
         	text = 'Pago em ';
-        } else if (this.props.type == 'a-vencer'){
+        } else if (this.props.type === 'a-vencer'){
         	text = 'Vence em ';
-        } else if (this.props.type == 'vencido'){
+        } else if (this.props.type === 'vencido'){
         	content = '';
         	text = 'Vencido';
-        } else if (this.props.type == 'recebido'){
+        } else if (this.props.type === 'recebido'){
         	content = '';
         	text = 'Recebido';
         }

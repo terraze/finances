@@ -11,7 +11,7 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 class Body extends React.Component {
     render() {
-        let mode = 'edit';
+        let mode = 'view';
         return (
             <div className={"row terra-body"}>
                 <Col lg={{size:10, offset:4}}>

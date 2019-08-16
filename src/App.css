@@ -15,7 +15,7 @@ p {
 
 h1 {
   font-size: 35px;
-  margin-bottom: -6px;
+  margin-bottom: -8px;
   color: #000000;
   text-align: center;
 }
@@ -37,8 +37,12 @@ h4 {
   text-align: center;
 }
 
-.terra-dark .nav-link{
-  color: #212529;
+.terra-dark .nav-link {
+  color: black !important;
+}
+
+.terra-dark  .active {
+  background-color: #bec1c4 !important;
 }
 
 .terra-background {
@@ -76,26 +80,23 @@ h4 {
   width: 100%;
   border-radius: 5px;
   border: 0px;
+  color: #FFFFFF;
 }
 
 .terra-recebido {
   background-color: #2c6e2b;
-  color: #FFFFFF;
 }
 
 .terra-pago {
   background-color: #2e3975;
-  color: #FFFFFF;
 }
 
 .terra-a-vencer {
   background-color: #f0ad4e;
-  color: #FFFFFF;
 }
 
 .terra-vencido {
   background-color: #e62e2e;
-  color: #FFFFFF;
 }
 
 .terra-table {
@@ -111,7 +112,6 @@ h4 {
   background-color: #f5f5f5;
   font-weight: bold;
 }
-
 
 .terra-icone: {
   background-color: white;
@@ -151,6 +151,11 @@ h4 {
 }
 
 .terra-button {
+  background-color: white;
+  border: 0px;
+}
+
+.terra-button:hover {
   background-color: white;
   border: 0px;
 }

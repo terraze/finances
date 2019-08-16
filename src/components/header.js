@@ -4,10 +4,10 @@ import { Navbar, Nav, NavItem, NavLink , button } from 'reactstrap';
 class Header extends React.Component {
     render() {
         return <header>
-                <Navbar color="link" light expand="md" fixed="top">
+                <Navbar className={"terra-dark terra-background"} light expand="md" fixed="top">
                     <img src="https://firebasestorage.googleapis.com/v0/b/terrafinance-6c073.appspot.com/o/assets%2FLogo.png?alt=media&token=72b7a41d-433a-4309-84ed-e0c2fa91105c" alt={""} width={"40"} height={"40"} style=
                     {{marginRight: "15px"}}></img>
-                    <Nav color="dark" className={"nav-tabs terra-dark"}>
+                    <Nav className={"nav-tabs terra-dark"}>
                         <NavItem>
                             <NavLink className={'active'} href={"#"}>Início</NavLink>
                         </NavItem>

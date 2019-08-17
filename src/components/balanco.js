@@ -54,17 +54,17 @@ class Balanco extends React.Component {
         let weeks = Datetime.weekList(this.state.date);
         return (
             <div className={"row terra-body"}>
-                <Col lg={{size:10, offset:4}}>
+                <Col lg='12' className={"terra-center"}>
                     <Row>
-                        <Col lg="1">
+                        <Col className={'terra-right'} lg="4">
                             <Button  onClick={this.prevMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowLeft} />
                             </Button>
                         </Col>
-                        <Col lg="3">
+                        <Col className={"terra-center"} lg="4">
                             <h1>{Datetime.monthName(this.state.date)} de {Datetime.year(this.state.date)}</h1>
                         </Col>
-                        <Col lg="2">
+                        <Col className={"terra-left"} lg="4">
                             <Button onClick={this.nextMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowRight} />
                             </Button>
@@ -74,7 +74,7 @@ class Balanco extends React.Component {
                     <br/>
                 </Col>
                 { weeks.map((item, i) => (
-                  <Col  key={i} lg={{size:5, offset:1}}>
+                  <Col  key={i} lg="6">
                     <Card color="link">
                       <CardBody>
                           <Form inline>
@@ -198,6 +198,7 @@ class Balanco extends React.Component {
                         </Form>
                       </CardBody>
                     </Card>
+                    <br/>
                   </Col>
                 ))}
             </div>

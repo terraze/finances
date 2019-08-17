@@ -5,19 +5,16 @@ import { Form, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faPlus, faCheck, faTimes, faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import moment from 'moment';
-import 'moment/locale/pt-br';
+import Datetime from '../utils/datetimeUtils.js';
 
 
 class Balanco extends React.Component {
     constructor() {
       super();
 
-      const currentDate = moment().locale('pt-br');
-
       this.state = {
           mode: "view",
-          date: currentDate
+          date: Datetime.currentDate()
       };
 
       this.toggleMode = this.toggleMode.bind(this);
@@ -40,20 +37,21 @@ class Balanco extends React.Component {
       });
     }
 
-    prevMonth(){
+    prevMonth() {
       this.setState({
-          date: moment(this.state.date).add(-1, 'M')
+          date: Datetime.prevMonth(this.state.date)
       });
     }
 
-    nextMonth(){
+    nextMonth() {
       this.setState({
-          date: moment(this.state.date).add(1, 'M')
+          date: Datetime.nextMonth(this.state.date)
       });
     }
 
     render() {
         let mode = this.state.mode;
+        let weeks = Datetime.weekList(this.state.date);
         return (
             <div className={"row terra-body"}>
                 <Col lg={{size:10, offset:4}}>
@@ -64,7 +62,7 @@ class Balanco extends React.Component {
                             </Button>
                         </Col>
                         <Col lg="3">
-                            <h1>{this.state.date.format('MMMM')} de {this.state.date.format('YYYY')}</h1>
+                            <h1>{Datetime.monthName(this.state.date)} de {Datetime.year(this.state.date)}</h1>
                         </Col>
                         <Col lg="2">
                             <Button onClick={this.nextMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
@@ -75,131 +73,133 @@ class Balanco extends React.Component {
                     </Row>
                     <br/>
                 </Col>
-                <Col lg={{size:5, offset:1}}>
-                  <Card color="link">
-                    <CardBody>
-                        <Form inline>
-                        <Row>
-                        <Col lg="6">
-                            <h2>Semana S</h2>
+                { weeks.map((item, i) => (
+                  <Col  key={i} lg={{size:5, offset:1}}>
+                    <Card color="link">
+                      <CardBody>
+                          <Form inline>
+                          <Row>
+                          <Col lg="6">
+                              <h2>Semana {weeks[i].number}</h2>
 
-                            <h3>de dd/mm a dd/mm</h3>
-                        </Col>
-                        <Col className={" terra-right"}>
-                            { mode === 'view' &&
-                                <Button onClick={this.toggleMode} className={"terra-button terra-icone terra-icone-black"}>
-                                    <FontAwesomeIcon  icon={faEdit} />
-                                </Button>
-                            }
-                            { mode === 'edit' && 
-                                <React.Fragment>
-                                    <Button className={"terra-button terra-icone terra-icone-blue"}>
-                                        <FontAwesomeIcon  icon={faPlus} />
-                                    </Button>
-                                    <Button className={"terra-button terra-icone terra-icone-green"}>
-                                        <FontAwesomeIcon  icon={faCheck} />
-                                    </Button>
-                                    <Button onClick={this.toggleMode}className={"terra-button terra-icone terra-icone-red"}>
-                                        <FontAwesomeIcon  icon={faTimes} />
-                                    </Button>
-                                </React.Fragment>
-                            }
-                        </Col>
-                          <table className={'table terra-table'}>
-                              <tbody>
-                                <tr>
-                                  <td>Entrada</td>
-                                  <td>R$ 00,00</td>
-                                      <td className={"terra-table-col-info"}>
-                                        { mode === 'view' &&
-                                          <TerraAlert type="recebido">
-                                            dd/mm
-                                          </TerraAlert>
-                                        }
-                                        { mode === 'edit' &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"}>
-                                                <FontAwesomeIcon  icon={faTrashAlt} />
-                                            </Button>
-                                        }
-                                      </td>
-                                  </tr> 
-                                  <tr>
-                                      <td>Saída</td>
-                                      <td>R$ 00,00</td>
-                                      <td className={"terra-table-col-info"}>
-                                        { mode === 'view' &&
-                                          <TerraAlert type="pago">
-                                            dd/mm
-                                          </TerraAlert>
-                                        }
-                                        { mode === 'edit' &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"}>
-                                                <FontAwesomeIcon  icon={faTrashAlt} />
-                                            </Button>
-                                        }
-                                      </td>
-                                  </tr>
-                                    <tr>
-                                      <td>Saída</td>
-                                      <td>R$ 00,00</td>
-                                      <td className={"terra-table-col-info"}>
-                                        { mode === 'view' &&
-                                          <TerraAlert type="a-vencer">
-                                            dd/mm
-                                          </TerraAlert>
-                                        }
-                                        { mode === 'edit' &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"}>
-                                                <FontAwesomeIcon  icon={faTrashAlt} />
-                                            </Button>
-                                        }
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>Saída</td>
-                                      <td>R$ 00,00</td>
-                                      <td className={"terra-table-col-info"}>
-                                        { mode === 'view' &&
-                                          <TerraAlert type="vencido">
-                                            dd/mm
-                                          </TerraAlert>
-                                        }
-                                        { mode === 'edit' &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"}>
-                                                <FontAwesomeIcon  icon={faTrashAlt} />
-                                            </Button>
-                                        }
-                                      </td>                             
-                                  </tr>
-                                  { mode === 'view' &&
-                                  <tr className={'terra-saldo'}>
-                                      <td>Saldo</td>
-                                      <td>R$ 00,00</td>
-                                      <td></td>
-                                  </tr>
-                                  }
-                                  { mode === 'edit' && 
+                              <h3>de {Datetime.dm(weeks[i].start)} a {Datetime.dm(weeks[i].end)}</h3>
+                          </Col>
+                          <Col className={" terra-right"}>
+                              { mode === 'view' &&
+                                  <Button onClick={this.toggleMode} className={"terra-button terra-icone terra-icone-black"}>
+                                      <FontAwesomeIcon  icon={faEdit} />
+                                  </Button>
+                              }
+                              { mode === 'edit' && 
                                   <React.Fragment>
+                                      <Button className={"terra-button terra-icone terra-icone-blue"}>
+                                          <FontAwesomeIcon  icon={faPlus} />
+                                      </Button>
+                                      <Button className={"terra-button terra-icone terra-icone-green"}>
+                                          <FontAwesomeIcon  icon={faCheck} />
+                                      </Button>
+                                      <Button onClick={this.toggleMode}className={"terra-button terra-icone terra-icone-red"}>
+                                          <FontAwesomeIcon  icon={faTimes} />
+                                      </Button>
+                                  </React.Fragment>
+                              }
+                          </Col>
+                            <table className={'table terra-table'}>
+                                <tbody>
+                                  <tr>
+                                    <td>Entrada</td>
+                                    <td>R$ 00,00</td>
+                                        <td className={"terra-table-col-info"}>
+                                          { mode === 'view' &&
+                                            <TerraAlert type="recebido">
+                                              dd/mm
+                                            </TerraAlert>
+                                          }
+                                          { mode === 'edit' &&
+                                              <Button className={"terra-button terra-icone terra-icone-red"}>
+                                                  <FontAwesomeIcon  icon={faTrashAlt} />
+                                              </Button>
+                                          }
+                                        </td>
+                                    </tr> 
                                     <tr>
-                                        <td>
-                                          <Input type="text" size="10" name="text" value="Conta"/>
-                                        </td>
-                                        <td>
-                                          <Input type="text" size="5" name="text" value="R$"/>
-                                        </td>
-                                        <td>
-                                          <Input type="text" size="2" name="text" value="Data"/>
+                                        <td>Saída</td>
+                                        <td>R$ 00,00</td>
+                                        <td className={"terra-table-col-info"}>
+                                          { mode === 'view' &&
+                                            <TerraAlert type="pago">
+                                              dd/mm
+                                            </TerraAlert>
+                                          }
+                                          { mode === 'edit' &&
+                                              <Button className={"terra-button terra-icone terra-icone-red"}>
+                                                  <FontAwesomeIcon  icon={faTrashAlt} />
+                                              </Button>
+                                          }
                                         </td>
                                     </tr>
-                                  </React.Fragment>
-                                  }
-                              </tbody>
-                          </table>
-                      </Row>
-                      </Form>
-                    </CardBody>
-                  </Card>
-                </Col>
+                                      <tr>
+                                        <td>Saída</td>
+                                        <td>R$ 00,00</td>
+                                        <td className={"terra-table-col-info"}>
+                                          { mode === 'view' &&
+                                            <TerraAlert type="a-vencer">
+                                              dd/mm
+                                            </TerraAlert>
+                                          }
+                                          { mode === 'edit' &&
+                                              <Button className={"terra-button terra-icone terra-icone-red"}>
+                                                  <FontAwesomeIcon  icon={faTrashAlt} />
+                                              </Button>
+                                          }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saída</td>
+                                        <td>R$ 00,00</td>
+                                        <td className={"terra-table-col-info"}>
+                                          { mode === 'view' &&
+                                            <TerraAlert type="vencido">
+                                              dd/mm
+                                            </TerraAlert>
+                                          }
+                                          { mode === 'edit' &&
+                                              <Button className={"terra-button terra-icone terra-icone-red"}>
+                                                  <FontAwesomeIcon  icon={faTrashAlt} />
+                                              </Button>
+                                          }
+                                        </td>                             
+                                    </tr>
+                                    { mode === 'view' &&
+                                    <tr className={'terra-saldo'}>
+                                        <td>Saldo</td>
+                                        <td>R$ 00,00</td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    { mode === 'edit' && 
+                                    <React.Fragment>
+                                      <tr>
+                                          <td>
+                                            <Input type="text" size="10" name="text" value="Conta"/>
+                                          </td>
+                                          <td>
+                                            <Input type="text" size="5" name="text" value="R$"/>
+                                          </td>
+                                          <td>
+                                            <Input type="text" size="2" name="text" value="Data"/>
+                                          </td>
+                                      </tr>
+                                    </React.Fragment>
+                                    }
+                                </tbody>
+                            </table>
+                        </Row>
+                        </Form>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                ))}
             </div>
         );
     }

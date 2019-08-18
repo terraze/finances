@@ -6,7 +6,8 @@ import Datetime from '../utils/datetimeUtils.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-
+import Finance from '../models/finance.js';
+import FirebaseService from '../services/FirebaseService.js';
 
 
 class CardWeek extends React.Component {
@@ -14,10 +15,49 @@ class CardWeek extends React.Component {
       super();
 
       this.state = {
-          mode: "view"
+          mode: "view",
+          total: 0,
+          values: []
       };
 
+      this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadValues(this.props.week.start);
+    }
+
+    loadValues(week) {
+        FirebaseService.getTransactionsByWeek(
+            week,
+            (dataReceived) => {
+                let processedData = this.processData(dataReceived)
+                this.setState(
+                    {values: processedData.values, total: processedData.total}
+                )
+            }
+        );
+    }
+
+    processData(data) {
+        if(data.error){
+            alert("Error! Please look at console for more info")
+        }
+        let values = [];
+        let total = 0;
+        for (let item of data.items) {
+            values.push(item);
+            if(Finance.isInput(item)){
+	            total += Finance.getValue(item);
+	        } else {
+	        	total -= Finance.getValue(item);
+	        }
+        }
+        return {
+            values: values,
+            total: total
+        };
     }
 
 	toggleMode(){
@@ -37,6 +77,7 @@ class CardWeek extends React.Component {
     render() {
     	let mode = this.state.mode;
     	let week = this.props.week;
+    	let values = this.state.values;
 
         return (
         <Card color="link">
@@ -70,13 +111,19 @@ class CardWeek extends React.Component {
               </Col>
                 <table className={'table terra-table'}>
                     <tbody>
-                      <tr>
-                        <td>Entrada</td>
-                        <td>R$ 00,00</td>
+                      { values.length < 1 && 
+                      	<tr>
+                      		<td colSpan={3}>Nenhum valor</td>
+                      	</tr>
+                      }
+                      { values.map((item, i) => (
+                      	<tr key={i}>
+	                        <td>{values[i].name}</td>
+	                        <td>{Finance.format(Finance.getValue(values[i]))}</td>
                             <td className={"terra-table-col-info"}>
                               { mode === 'view' &&
-                                <TerraAlert type="recebido">
-                                  dd/mm
+                                <TerraAlert type={Finance.getStatus(values[i])}>
+                                  {Datetime.dm(Datetime.fromFirebase(values[i].date))}
                                 </TerraAlert>
                               }
                               { mode === 'edit' &&
@@ -86,58 +133,11 @@ class CardWeek extends React.Component {
                               }
                             </td>
                         </tr> 
-                        <tr>
-                            <td>Saída</td>
-                            <td>R$ 00,00</td>
-                            <td className={"terra-table-col-info"}>
-                              { mode === 'view' &&
-                                <TerraAlert type="pago">
-                                  dd/mm
-                                </TerraAlert>
-                              }
-                              { mode === 'edit' &&
-                                  <Button className={"terra-button terra-icone terra-icone-red"}>
-                                      <FontAwesomeIcon  icon={faTrashAlt} />
-                                  </Button>
-                              }
-                            </td>
-                        </tr>
-                          <tr>
-                            <td>Saída</td>
-                            <td>R$ 00,00</td>
-                            <td className={"terra-table-col-info"}>
-                              { mode === 'view' &&
-                                <TerraAlert type="a-vencer">
-                                  dd/mm
-                                </TerraAlert>
-                              }
-                              { mode === 'edit' &&
-                                  <Button className={"terra-button terra-icone terra-icone-red"}>
-                                      <FontAwesomeIcon  icon={faTrashAlt} />
-                                  </Button>
-                              }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Saída</td>
-                            <td>R$ 00,00</td>
-                            <td className={"terra-table-col-info"}>
-                              { mode === 'view' &&
-                                <TerraAlert type="vencido">
-                                  dd/mm
-                                </TerraAlert>
-                              }
-                              { mode === 'edit' &&
-                                  <Button className={"terra-button terra-icone terra-icone-red"}>
-                                      <FontAwesomeIcon  icon={faTrashAlt} />
-                                  </Button>
-                              }
-                            </td>                             
-                        </tr>
+                      ))}
                         { mode === 'view' &&
                         <tr className={'terra-saldo'}>
                             <td>Saldo</td>
-                            <td>R$ 00,00</td>
+                            <td>{Finance.format(this.state.total)}</td>
                             <td></td>
                         </tr>
                         }

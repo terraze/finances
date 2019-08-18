@@ -1,3 +1,5 @@
+import Datetime from '../utils/datetimeUtils.js';
+
 class Finance  {
 
 	static dolarPerHour() {
@@ -14,6 +16,24 @@ class Finance  {
     	}
 
     	return item.value;
+    }
+
+    static getStatus(item){
+        if(Finance.isInput(item)){
+            if(item.status){
+                return 'recebido';
+            }
+            return 'a-receber';
+        } else {
+            if(item.status){
+                return 'pago';
+            }
+            let convertedDate = Datetime.fromFirebase(item.date);
+            if(Datetime.isExpired(convertedDate)){
+                return 'vencido';
+            }
+            return 'a-vencer';
+        }
     }
 
     static format(value) {

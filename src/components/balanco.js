@@ -54,7 +54,7 @@ class Balanco extends React.Component {
                     <br/>
                 </Col>
                 { weeks.map((item, i) => (
-                  <Col  key={i} lg="6">
+                  <Col key={i} lg="6">
                     <CardWeek week={weeks[i]}>
                     </CardWeek>
                     <br/>

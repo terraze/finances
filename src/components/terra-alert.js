@@ -6,9 +6,10 @@ class TerraAlert extends React.Component {
         let text = '';
         let content = this.props.children;
         if (this.props.type === 'pago'){
-        	text = 'Pago em ';
+            content = '';
+        	text = 'Pago';            
         } else if (this.props.type === 'a-vencer'){
-        	text = 'Vence em ';
+        	text = 'Pagar até ';
         } else if (this.props.type === 'vencido'){
         	content = '';
         	text = 'Vencido';

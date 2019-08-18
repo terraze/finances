@@ -48,6 +48,10 @@ export default class FirebaseService {
             console.error('is_entrance is missing', item);
             return false;
         }
+        if(item.status === undefined) {
+            console.error('status is missing', item);
+            return false;
+        }
         if(item.date === undefined) {
             console.error('date is missing', item);
             return false;

@@ -94,6 +94,15 @@ class Datetime  {
     static firebaseFormat(date) {
         return date.toDate();
     }
+
+    static fromFirebase(firebaseDate) {
+        return moment.unix(firebaseDate.seconds);
+    }
+
+    static isExpired(date) {
+        let today = moment();
+        return date.isBefore(today);
+    }
 };
 
 export default Datetime;

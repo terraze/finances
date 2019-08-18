@@ -6,17 +6,21 @@ class TerraAlert extends React.Component {
         let text = '';
         let content = this.props.children;
         if (this.props.type === 'pago'){
-            content = '';
-        	text = 'Pago';            
+            text = 'Pago em ';            
         } else if (this.props.type === 'a-vencer'){
         	text = 'Pagar até ';
         } else if (this.props.type === 'vencido'){
-        	content = '';
-        	text = 'Vencido';
+        	text = 'Vencido em ';
         } else if (this.props.type === 'recebido'){
-        	content = '';
-        	text = 'Recebido';
+        	text = 'Recebido em ';
+        } else if (this.props.type === 'previsto'){
+            content = '';
+            text = 'Estimado';
+        } else if (this.props.type === 'a-receber'){
+            text = 'Previsto para ';
         }
+
+        
         return (
         <Alert className={"terra-alert terra-"+this.props.type}>
         	{text}

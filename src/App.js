@@ -6,7 +6,7 @@ import Resumo from './components/resumo.js'
 import Balanco from './components/balanco.js'
 import Configuracao from './components/configuracao.js'
 import Footer from './components/footer.js'
-
+import Saldo from './components/saldo.js'
 import { Container } from 'reactstrap';
 import FirebaseService from './services/FirebaseService.js';
 
@@ -36,6 +36,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/" exact={true} component={Resumo} />
                         <Route path="/balanco" component={Balanco} />
+                        <Route path="/saldo" component={Saldo} />
                         <Route path="/configuracao" component={Configuracao} />
                     </Switch>
                     </Container>

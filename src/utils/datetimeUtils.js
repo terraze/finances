@@ -80,15 +80,19 @@ class Datetime  {
     }
 
     static dm(date) {
-    	return date.format('DD/MM')
+    	return date.format('DD/MM');
     }
 
     static dmy(date) {
-    	return date.format('DD/MM/YYYY')
+    	return date.format('DD/MM/YYYY');
     }
 
     static weekNumber(date) {
-    	return date.format('WW')
+    	return date.format('WW');
+    }
+
+    static firebaseFormat(date) {
+        return date.toDate();
     }
 };
 

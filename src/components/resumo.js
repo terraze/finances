@@ -3,33 +3,71 @@ import { Row, Col , Alert, Button} from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
+import Finance from '../models/finance.js';
+import FirebaseService from '../services/FirebaseService.js';
 
 class Resumo extends React.Component {
     constructor() {
       super();
 
       this.state = {
-          date: Datetime.currentDate()
-
+          date: Datetime.currentDate(),
+          values: {
+            input: 0,
+            output: 0,
+            total: 0
+          }
       }
 
       this.prevWeek = this.prevWeek.bind(this);
       this.nextWeek = this.nextWeek.bind(this);
+      this.loadValues = this.loadValues.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadValues(this.state.date);
+    }
+
+    loadValues(week) {
+        FirebaseService.getTransactionsByWeek(
+            week,
+            (dataReceived) => {
+                let processedData = this.processData(dataReceived)
+                this.setState(
+                    {date: week, values: processedData}
+                )
+            }
+        );
+    }
+
+    processData(data) {        
+        let input = 0;
+        let output = 0;
+        for (let item of data) {
+            if(Finance.isInput(item)){
+                input += Finance.getValue(item)
+            } else {
+                output += Finance.getValue(item)
+            }              
+        }
+        return {
+            input: input,
+            output: output,
+            total: (input-output),
+        };
     }
 
     prevWeek() {
-      this.setState({
-          date: Datetime.prevWeek(this.state.date)
-      });
+      let newWeek = Datetime.prevWeek(this.state.date);
+      this.loadValues(newWeek);
     }
 
     nextWeek() {
-      this.setState({
-          date: Datetime.nextWeek(this.state.date)
-      });
+      let newWeek = Datetime.nextWeek(this.state.date);      
+      this.loadValues(newWeek);
     }
 
-    render() {
+    render() {        
         let week = Datetime.week(this.state.date);
         return (
             <div className={"row terra-body"}>
@@ -57,10 +95,10 @@ class Resumo extends React.Component {
                     <Alert className={"terra-home terra-recebido"}>
                         <Row>
                             <Col>
-                                <strong>Salário</strong>
+                                <strong>Entradas</strong>
                             </Col>
                             <Col>
-                                <span> R$ 00,00</span>
+                                <span>{Finance.format(this.state.values.input)}</span>
                             </Col>
                         </Row>
                     </Alert>
@@ -70,7 +108,7 @@ class Resumo extends React.Component {
                                 <strong>Despesas</strong>
                             </Col>
                             <Col>
-                                <span> R$ 00,00</span>
+                                <span>{Finance.format(this.state.values.output)}</span>
                             </Col>
                         </Row>
                     </Alert>
@@ -80,7 +118,7 @@ class Resumo extends React.Component {
                                 <strong>Saldo</strong>
                             </Col>
                             <Col>
-                                <span> R$ 00,00</span>
+                                <span>{Finance.format(this.state.values.total)}</span>
                             </Col>
                         </Row>
                     </Alert>

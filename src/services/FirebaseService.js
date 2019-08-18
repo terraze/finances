@@ -1,4 +1,5 @@
 import {firebaseDatabase} from '../utils/firebaseUtils'
+import Datetime from '../utils/datetimeUtils.js';
 
 export default class FirebaseService {
     static getDataList = (nodePath, callback, size = 10) => {
@@ -19,5 +20,20 @@ export default class FirebaseService {
         ref.set(objToSubmit);
         return id;
     };
+
+    static getTransactionsByWeek = (weekStart, callback) => {
+        let week = Datetime.week(weekStart);
+        let items = [];
+        firebaseDatabase.collection('transactions')
+            .where('date', '>=', Datetime.firebaseFormat(week.start))
+            .where('date', '<=', Datetime.firebaseFormat(week.end))
+            .get()
+            .then(docs => {
+            docs.forEach(doc => {
+                items.push(doc.data());
+            });
+            callback(items);
+        });
+    }
 
 }

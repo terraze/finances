@@ -79,18 +79,18 @@ class Resumo extends React.Component {
         let week = Datetime.week(this.state.date);
         return (
             <div className={"row terra-body"}>
-                <Col lg={{size:10, offset:4}}>
+                <Col lg="11" className={"terra-center"}>
                     <Row>
-                        <Col lg="1">
+                        <Col lg="5" className={"terra-right"}>
                             <Button onClick={this.prevWeek} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowLeft} />
                             </Button>
                         </Col>
-                        <Col lg="3">
+                        <Col lg="3" className={"terra-center"}>
                             <h1>Semana {week.number}</h1>
                             <h4>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h4>
                         </Col>
-                        <Col lg="2">
+                        <Col lg="4" className={"terra-left"}>
                             <Button onClick={this.nextWeek} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowRight} />
                             </Button>

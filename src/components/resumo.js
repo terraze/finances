@@ -95,7 +95,7 @@ class Resumo extends React.Component {
                     <br/>
                 </Col>
                 <Col lg={{size:4, offset:4}}>
-                    <Alert className={"terra-home terra-recebido"}>
+                    <Alert className={"terra-home terra-pago"}>
                         <Row>
                             <Col>
                                 <strong>Entradas</strong>
@@ -115,13 +115,35 @@ class Resumo extends React.Component {
                             </Col>
                         </Row>
                     </Alert>
-                    <Alert className={"terra-home terra-pago"}>
+                    <Alert className={"terra-home terra-a-vencer"}>
+                        <Row>
+                            <Col>
+                                <strong>Despesas</strong>
+                            </Col>
+                            <Col>
+                                <span>R$ 00,00</span>
+                            </Col>
+                        </Row>
+                    </Alert>
+                    <Alert className={"terra-home terra-recebido"}>
                         <Row>
                             <Col>
                                 <strong>Saldo</strong>
                             </Col>
                             <Col>
                                 <span>{Finance.format(this.state.values.total)}</span>
+                            </Col>
+                        </Row>
+                    </Alert>
+                    <br/>
+                    <br/>
+                    <Alert className={"terra-home terra-estimado"}>
+                        <Row>
+                            <Col>
+                                <strong>Saldo em Conta</strong>
+                            </Col>
+                            <Col>
+                                <span>R$ 00,00</span>
                             </Col>
                         </Row>
                     </Alert>

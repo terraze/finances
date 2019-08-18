@@ -19,7 +19,7 @@ class Saldo extends React.Component {
                         <Row>
                             <Col lg="9">
                                 <h2>Conta-Corrente</h2>
-                                <p></p>
+                                <p>NuBank Zé</p>
                             </Col>
                             <Col lg="3"className={"terra-right"}>
                                 <Button className={"terra-button terra-icone terra-icone-black"}>

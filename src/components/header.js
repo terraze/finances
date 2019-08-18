@@ -14,7 +14,7 @@ class Header extends React.Component {
                         </NavItem>
                         <NavItem>
                             <NavLink className="nav-link" to="/balanco" activeClassName="active">
-                              Balanço
+                              Extrato
                             </NavLink>
                         </NavItem>
                         <NavItem>

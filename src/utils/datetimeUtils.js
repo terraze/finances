@@ -41,6 +41,25 @@ class Datetime  {
     	return previousDay;
     }
 
+    static week(date){
+        let weekStart = moment(date).startOf('week');
+        weekStart.day(3);
+        return {
+            number: Datetime.weekNumber(weekStart),
+            start: weekStart,
+            end: moment(weekStart).add(6, 'd')
+        }
+    }
+
+    static prevWeek(date) {
+        return moment(date).subtract(1, 'W');
+    }
+
+    static nextWeek(date) {
+        Datetime.weekList(moment(date).add(1, 'W'));
+        return moment(date).add(1, 'W');
+    }
+
     static weekList(date) {    	
     	let weekList = [];
     	let weekStart = Datetime.monthStart(date);
@@ -50,7 +69,7 @@ class Datetime  {
     		let weekEnd = moment(weekStart).add(6, 'd');    		
     		if(weekMonth === monthStart){
     			weekList.push({
-    				number: Datetime.week(weekStart),
+    				number: Datetime.weekNumber(weekStart),
     				start: moment(weekStart),
     				end: weekEnd
     			})
@@ -68,7 +87,7 @@ class Datetime  {
     	return date.format('DD/MM/YYYY')
     }
 
-    static week(date) {
+    static weekNumber(date) {
     	return date.format('WW')
     }
 };

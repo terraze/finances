@@ -2,7 +2,6 @@ import React  from 'react';
 import { Row, Col , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
 import CardWeek from './card.js';
 

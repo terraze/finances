@@ -9,7 +9,7 @@ class Finance  {
     }
 
     static getValue(item){
-    	if(Finance.isInput && item.dolar != undefined && item.worked_hours != undefined){
+    	if(Finance.isInput && item.dolar !== undefined && item.worked_hours !== undefined){
     		return item.dolar * item.worked_hours * Finance.dolarPerHour();
     	}
 

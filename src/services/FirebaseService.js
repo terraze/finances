@@ -29,11 +29,46 @@ export default class FirebaseService {
             .where('date', '<=', Datetime.firebaseFormat(week.end))
             .get()
             .then(docs => {
-            docs.forEach(doc => {
-                items.push(doc.data());
+                let error = false;
+                docs.forEach(doc => {
+                    let data = doc.data()
+                    if(FirebaseService.validateTransaction(data)){
+                        items.push(data);
+                    } else {
+                        error = true;
+                    }
+                });
+                
+                callback({error: error, items: items});
             });
-            callback(items);
-        });
+    }
+
+    static validateTransaction(item){
+        if(item.is_entrance === undefined) {
+            console.error('is_entrance is missing', item);
+            return false;
+        }
+        if(item.date === undefined) {
+            console.error('date is missing', item);
+            return false;
+        }
+        if(item.name === undefined) {
+            console.error('name is missing', item);
+            return false;
+        }
+        if(item.is_entrance && item.dolar === undefined) {
+            console.error('dolar is missing', item);
+            return false;
+        }
+        if(item.is_entrance && item.worked_hours === undefined) {
+            console.error('worked_hours is missing', item);
+            return false;
+        }
+        if(!item.is_entrance && item.value === undefined) {
+            console.error('value is missing', item);
+            return false;
+        }        
+        return true;
     }
 
 }

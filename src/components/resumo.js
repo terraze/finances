@@ -40,10 +40,13 @@ class Resumo extends React.Component {
         );
     }
 
-    processData(data) {        
+    processData(data) {
+        if(data.error){
+            alert("Error! Please look at console for more info")
+        }
         let input = 0;
         let output = 0;
-        for (let item of data) {
+        for (let item of data.items) {
             if(Finance.isInput(item)){
                 input += Finance.getValue(item)
             } else {

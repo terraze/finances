@@ -28,6 +28,12 @@ class CardWeek extends React.Component {
         this.loadValues(this.props.week.start);
     }
 
+    componentDidUpdate(prevProps, prevStates) {
+    	if(prevProps.week.number !== this.props.week.number){
+    		this.loadValues(this.props.week.start);
+    	}
+    }
+
     loadValues(week) {
         FirebaseService.getTransactionsByWeek(
             week,

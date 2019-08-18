@@ -10,6 +10,10 @@ class Finance  {
         return item.is_entrance;
     }
 
+    static isPaid(item) {
+	    return item.status;
+    }
+
     static getValue(item){
     	if(Finance.isInput && item.dolar !== undefined && item.worked_hours !== undefined){
     		return item.dolar * item.worked_hours * Finance.dolarPerHour();

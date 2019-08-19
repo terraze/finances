@@ -43,6 +43,10 @@ class Finance  {
     static format(value) {
     	return value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
     }
+
+    static dolar(value) {
+        return value.toLocaleString('pt-br',{style: 'currency', currency: 'USD', minimumFractionDigits: 2});
+    }
 };
 
 export default Finance;

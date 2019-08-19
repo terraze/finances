@@ -18,6 +18,11 @@ export default class Relatorios extends React.Component {
                 weekly: [],
                 biweekly: [],
                 monthly: []
+            },
+            entrances: {
+                weekly: [],
+                biweekly: [],
+                monthly: []
             }
         };
     }
@@ -27,6 +32,13 @@ export default class Relatorios extends React.Component {
             (dataReceived) => {
                 this.setState(
                     {bills: this.proccessData(dataReceived)}
+                )
+            }
+        );
+        FirebaseService.getEntrances(
+            (dataReceived) => {
+                this.setState(
+                    {entrances: this.proccessData(dataReceived)}
                 )
             }
         );
@@ -63,6 +75,7 @@ export default class Relatorios extends React.Component {
 
   render() {
     let bills = this.state.bills;
+    let entrances = this.state.entrances;
     return (
       <div className={"terra-body"}>
         <Nav tabs>
@@ -121,14 +134,16 @@ export default class Relatorios extends React.Component {
                               <Col>
                                   <table className={'table terra-table'}>
                                       <tbody>
-                                          <tr>
-                                            <td>Q</td>
-                                            <td>Salário</td>
-                                            <td>40h</td>
-                                            <td>3,69</td>
-                                            <td>R$ 4.657,20</td>
-                                            <td>Semanalmente</td>
-                                          </tr>
+                                          { entrances.weekly.map((item, i) => (
+                                              <tr key={i}>
+                                                  <td>{entrances.weekly[i].week_day}</td>
+                                                  <td>{entrances.weekly[i].name}</td>
+                                                  <td>{entrances.weekly[i].worked_hours}h</td>
+                                                  <td>{Finance.dolar(entrances.weekly[i].dolar)}</td>
+                                                  <td>{Finance.format(Finance.getValue(entrances.weekly[i]))}</td>
+                                                  <td>Semanalmente</td>
+                                              </tr>
+                                          ))}
                                       </tbody>
                                   </table>
                               </Col>
@@ -219,29 +234,14 @@ export default class Relatorios extends React.Component {
                             <Col>
                                 <table className={'table terra-table'}>
                                     <tbody>
-                                        { bills.monthly.map((item, i) => {
-                                            let frequency = '';
-                                            switch (bills.monthly[i].frequency) {
-                                                case 'weekly':
-                                                    frequency = 'Semanalmente';
-                                                    break;
-                                                case 'biweekly':
-                                                    frequency = 'Quinzenalmente';
-                                                    break;
-                                                case 'monthly':
-                                                    frequency = 'Mensalmente';
-                                                    break;
-                                            }
-                                            return (
-                                                <tr key={i}>
-                                                    <td>{bills.monthly[i].day}</td>
-                                                    <td>{bills.monthly[i].bill}</td>
-                                                    <td>{Finance.format(bills.monthly[i].value)}</td>
-                                                    <td>{frequency}</td>
-                                                </tr>
-                                            )
-
-                                        })}
+                                        { bills.monthly.map((item, i) => (
+                                            <tr key={i}>
+                                                <td>{bills.monthly[i].day}</td>
+                                                <td>{bills.monthly[i].bill}</td>
+                                                <td>{Finance.format(bills.monthly[i].value)}</td>
+                                                <td>Mensalmente</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </Col>

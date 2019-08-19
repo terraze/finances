@@ -49,6 +49,19 @@ export default class FirebaseService {
             });
     }
 
+    static getEntrances = (callback) => {
+        let items = [];
+        firebaseDatabase.collection('entrances')
+            .get()
+            .then(docs => {
+                docs.forEach(doc => {
+                    items.push(doc.data());
+                });
+
+                callback(items);
+            });
+    }
+
     static getTransactionsByWeek = (weekStart, callback) => {
         let week = Datetime.week(weekStart);
         let items = [];

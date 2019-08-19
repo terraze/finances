@@ -37,6 +37,11 @@ h4 {
   text-align: center;
 }
 
+h5 {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
 .terra-dark .nav-link {
   color: black !important;
 }

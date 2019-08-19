@@ -27,7 +27,20 @@ export default class FirebaseService {
             .orderBy('sort')
             .get()
             .then(docs => {
-                let error = false;
+                docs.forEach(doc => {
+                    items.push(doc.data());
+                });
+
+                callback(items);
+            });
+    }
+
+    static getBills = (callback) => {
+        let items = [];
+        firebaseDatabase.collection('bills')
+            .orderBy('day')
+            .get()
+            .then(docs => {
                 docs.forEach(doc => {
                     items.push(doc.data());
                 });

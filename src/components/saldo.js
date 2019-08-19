@@ -49,7 +49,7 @@ class Saldo extends React.Component {
                             <Row>
                                 <Col lg="9">
                                     <h2>{accounts[i].title}</h2>
-                                    <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={80} height={80}></img>
+                                    <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={80} height={80} alt={''}></img>
                                     <p>{accounts[i].name}</p>
                                 </Col>
                                 <Col lg="3"className={"terra-right"}>

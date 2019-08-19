@@ -9,7 +9,6 @@ import Footer from './components/footer.js'
 import Saldo from './components/saldo.js'
 import Relatorios from './components/teste.js'
 import { Container } from 'reactstrap';
-import FirebaseService from './services/FirebaseService.js';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
@@ -17,16 +16,6 @@ class App extends React.Component {
     state = {
         data: []
     };
-
-
-    componentDidMount() {
-        /*
-        FirebaseService.getDataList(
-            'bills',
-            (dataReceived) => this.setState({data: dataReceived})
-        );
-        */
-    }
 
     render(){
         return (

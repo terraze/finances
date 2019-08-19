@@ -1,29 +1,68 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
-import { Form, FormGroup, Label, Input, FormText, CardBody } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Row, Col } from 'reactstrap';
+import { Input, CardBody } from 'reactstrap';
 import classnames from 'classnames';
+import FirebaseService from "../services/FirebaseService";
+import Finance from '../models/finance.js';
 
 export default class Relatorios extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      activeTab: '1'
-    };
-  }
-
-  toggle(tab) {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            activeTab: '1',
+            bills: {
+                weekly: [],
+                biweekly: [],
+                monthly: []
+            }
+        };
     }
-  }
+
+    componentDidMount() {
+        FirebaseService.getBills(
+            (dataReceived) => {
+                this.setState(
+                    {bills: this.proccessData(dataReceived)}
+                )
+            }
+        );
+    }
+
+    proccessData(data) {
+        let weekly = [];
+        let biweekly = [];
+        let monthly = [];
+        for(let item of data){
+            if(item.frequency === 'weekly'){
+                weekly.push(item);
+            } else if(item.frequency === 'biweekly'){
+                biweekly.push(item);
+            } else if(item.frequency === 'monthly'){
+                monthly.push(item);
+            }
+        }
+
+        return {
+            weekly: weekly,
+            biweekly: biweekly,
+            monthly: monthly
+        };
+    }
+
+    toggle(tab) {
+        if (this.state.activeTab !== tab) {
+            this.setState({
+                activeTab: tab
+            });
+        }
+    }
+
   render() {
+    let bills = this.state.bills;
     return (
       <div className={"terra-body"}>
         <Nav tabs>
@@ -180,24 +219,29 @@ export default class Relatorios extends React.Component {
                             <Col>
                                 <table className={'table terra-table'}>
                                     <tbody>
-                                        <tr>
-                                          <td>1</td>
-                                          <td>Condomínio</td>
-                                          <td>R$ 759,35</td>
-                                          <td>Mensalmente</td>
-                                        </tr>
-                                        <tr>
-                                          <td>5</td>
-                                          <td>Cao Cidadao</td>
-                                          <td>R$ 408,00</td>
-                                          <td>Mensalmente</td>
-                                        </tr>
-                                        <tr>
-                                          <td>Q</td>
-                                          <td>Cartões Pessoais</td>
-                                          <td>R$ 900,00</td>
-                                          <td>Semanalmente</td>
-                                        </tr>
+                                        { bills.monthly.map((item, i) => {
+                                            let frequency = '';
+                                            switch (bills.monthly[i].frequency) {
+                                                case 'weekly':
+                                                    frequency = 'Semanalmente';
+                                                    break;
+                                                case 'biweekly':
+                                                    frequency = 'Quinzenalmente';
+                                                    break;
+                                                case 'monthly':
+                                                    frequency = 'Mensalmente';
+                                                    break;
+                                            }
+                                            return (
+                                                <tr key={i}>
+                                                    <td>{bills.monthly[i].day}</td>
+                                                    <td>{bills.monthly[i].bill}</td>
+                                                    <td>{Finance.format(bills.monthly[i].value)}</td>
+                                                    <td>{frequency}</td>
+                                                </tr>
+                                            )
+
+                                        })}
                                     </tbody>
                                 </table>
                             </Col>

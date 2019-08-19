@@ -15,6 +15,7 @@ class Resumo extends React.Component {
           values: {
             input: 0,
             output: 0,
+            pending: 0,
             total: 0
           }
       }
@@ -46,17 +47,21 @@ class Resumo extends React.Component {
         }
         let input = 0;
         let output = 0;
+        let pending = 0;
         for (let item of data.items) {
             if(Finance.isInput(item)){
                 input += Finance.getValue(item)
-            } else {
+            } else if(Finance.isPaid(item)) {
                 output += Finance.getValue(item)
+            } else {
+                pending += Finance.getValue(item)
             }              
         }
         return {
             input: input,
             output: output,
-            total: (input-output),
+            pending: pending,
+            total: (input-(output+pending)),
         };
     }
 
@@ -108,7 +113,7 @@ class Resumo extends React.Component {
                     <Alert className={"terra-home terra-vencido"}>
                         <Row>
                             <Col>
-                                <strong>Despesas</strong>
+                                <strong>Pago</strong>
                             </Col>
                             <Col>
                                 <span>{Finance.format(this.state.values.output)}</span>
@@ -118,10 +123,10 @@ class Resumo extends React.Component {
                     <Alert className={"terra-home terra-a-vencer"}>
                         <Row>
                             <Col>
-                                <strong>Despesas</strong>
+                                <strong>A pagar</strong>
                             </Col>
                             <Col>
-                                <span>R$ 00,00</span>
+                                <span>{Finance.format(this.state.values.pending)}</span>
                             </Col>
                         </Row>
                     </Alert>

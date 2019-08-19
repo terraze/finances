@@ -21,6 +21,21 @@ export default class FirebaseService {
         return id;
     };
 
+    static getAccounts = (callback) => {
+        let items = [];
+        firebaseDatabase.collection('accounts')
+            .orderBy('sort')
+            .get()
+            .then(docs => {
+                let error = false;
+                docs.forEach(doc => {
+                    items.push(doc.data());
+                });
+
+                callback(items);
+            });
+    }
+
     static getTransactionsByWeek = (weekStart, callback) => {
         let week = Datetime.week(weekStart);
         let items = [];

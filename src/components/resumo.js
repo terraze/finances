@@ -17,7 +17,8 @@ class Resumo extends React.Component {
             output: 0,
             pending: 0,
             total: 0
-          }
+          },
+          accounts_total: 0
       }
 
       this.prevWeek = this.prevWeek.bind(this);
@@ -33,12 +34,19 @@ class Resumo extends React.Component {
         FirebaseService.getTransactionsByWeek(
             week,
             (dataReceived) => {
-                let processedData = this.processData(dataReceived)
+                let processedData = this.processData(dataReceived);
                 this.setState(
                     {date: week, values: processedData}
                 )
             }
         );
+        FirebaseService.getAccounts(            
+            (dataReceived) => {
+                let processedData = this.processAccountsData(dataReceived);
+                this.setState(
+                    {accounts_total: processedData}
+                )
+        });
     }
 
     processData(data) {
@@ -63,6 +71,14 @@ class Resumo extends React.Component {
             pending: pending,
             total: (input-(output+pending)),
         };
+    }
+
+    processAccountsData(data) {
+        let total = 0;
+        for (let item of data) {
+            total += item.total
+        }
+        return total;
     }
 
     prevWeek() {
@@ -148,7 +164,7 @@ class Resumo extends React.Component {
                                 <strong>Saldo em Conta</strong>
                             </Col>
                             <Col>
-                                <span>R$ 00,00</span>
+                                <span>{Finance.format(this.state.accounts_total)}</span>
                             </Col>
                         </Row>
                     </Alert>

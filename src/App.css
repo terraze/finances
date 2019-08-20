@@ -169,6 +169,17 @@ h6 {
   border: 0px;
 }
 
+.terra-dropdown {
+  background-color: #bec1c4;
+  border: 0px;
+  color: black;
+}
+
+.terra-dropdown:hover {
+  background-color: #bec1c4;
+  border: 0px;
+  color: black;
+}
 
 .terra-icone-black {
   color: black;

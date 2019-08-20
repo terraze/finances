@@ -3,6 +3,7 @@ import { Row, Col , Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import CardWeek from './card.js';
 import FirebaseService from '../services/FirebaseService.js';
 import Finance from "../models/finance";
@@ -12,9 +13,12 @@ class Extrato extends React.Component {
     constructor() {
       super();
 
+      this.toggleAccount = this.toggleAccount.bind(this);
+
       this.state = {
           date: Datetime.currentDate(),
-          accounts: []
+          accounts: [],
+          dropdownOpen: false
       };
 
       this.prevMonth = this.prevMonth.bind(this);
@@ -50,6 +54,12 @@ class Extrato extends React.Component {
         console.log(this.state);
     }
 
+    toggleAccount() {
+      this.setState({
+        dropdownOpen: !this.state.dropdownOpen
+      });
+    }
+
     render() {
       let accounts = this.state.accounts;
       let weeks = Datetime.weekList(this.state.date);
@@ -65,21 +75,26 @@ class Extrato extends React.Component {
               <Col className={"terra-center"} lg="4">
                 <h1>{Datetime.monthName(this.state.date)} de {Datetime.year(this.state.date)}</h1>
               </Col>
-              <Col className={"terra-left"}>
+              <Col className={"terra-left"} lg="1">
                 <Button onClick={this.nextMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                   <FontAwesomeIcon  icon={faArrowRight} />
                 </Button>
               </Col>
-                { accounts.map((item, i) => (
-                  <Button className={"terra-button-background terra-icone-background"} >
-                    <h6  key={i}>
-                      <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={40} height={40} alt={''}></img>
-                      <br/>
-                      <br/>
-                      {accounts[i].title}
-                    </h6>
-                    </Button>
-                ))}
+              <Col className={"terra-right"} lg="3">
+                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}  >
+                  <DropdownToggle caret className={"terra-dropdown terra-icone-background"}>
+                   <img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30} alt={''}></img> Nome do onClick
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    { accounts.map((item, i) => (
+                      <DropdownItem>
+                        <p>
+                        <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={30} height={30} alt={''}></img> {accounts[i].title}</p>
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </ButtonDropdown>
+              </Col>           
             </Row>
             <br/>
           </Col>

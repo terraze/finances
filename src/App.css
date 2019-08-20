@@ -223,3 +223,16 @@ h6 {
   left: 55%;
   transform: translateX(-50%);
 }
+
+.terra-form-hour {
+  width: 100px;
+}
+
+.terra-form-dolar {
+  width: 120px;
+}
+
+.terra-form-dropdown {
+  width: 160px;
+}
+

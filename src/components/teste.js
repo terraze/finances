@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, Row, Col } from 'reactstrap';
 import { Input, CardBody } from 'reactstrap';
 import classnames from 'classnames';
@@ -116,7 +117,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="1">
             <Row>
-              <Col lg="8">
+              <Col lg="10">
                   <br/>
                   <br/>
                   <Card color="link" >
@@ -131,7 +132,7 @@ export default class Relatorios extends React.Component {
                               </Col>
                           </Row>
                           <Row>
-                              <Col>
+                              <Col lg="12" className={"terra-right"}>
                                   <table className={'table terra-table'}>
                                       <tbody>
                                           { entrances.weekly.map((item, i) => (
@@ -142,6 +143,7 @@ export default class Relatorios extends React.Component {
                                                   <td>{Finance.dolar(entrances.weekly[i].dolar)}</td>
                                                   <td>{Finance.format(Finance.getValue(entrances.weekly[i]))}</td>
                                                   <td>Semanalmente</td>
+                                                  <td><img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30} alt={''}></img> Conta Corrente</td>
                                               </tr>
                                           ))}
                                       </tbody>
@@ -159,7 +161,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="2">
             <Row>
-              <Col lg="8">
+              <Col lg="10">
                   <br/>
                   <br/>
                   <Card color="link" >
@@ -178,7 +180,7 @@ export default class Relatorios extends React.Component {
                             </Col>
                           </Row>
                           <Row>
-                              <Col>
+                              <Col lg="12">
                                   <table className={'table terra-table'}>
                                       <tbody>
                                           <tr>
@@ -192,16 +194,27 @@ export default class Relatorios extends React.Component {
                                               </Input>
                                             </td>
                                             <td><Input placeholder="Salário Semanal" /></td>
-                                            <td><Input placeholder="40h" /></td>
-                                            <td><Input placeholder="R$ 3,88" /></td>
-                                            <td>
+                                            <td className={"terra-form-hour"} ><Input placeholder="40h" /></td>
+                                            <td className={"terra-form-dolar"} ><Input placeholder="R$ 3,88" /></td>
+                                            <td  className={"terra-form-dropdown"} >
                                               <Input type="select" bsSize="sm">
                                                 <option>semanalmente</option>
                                                 <option>quinzenalmente</option>
                                                 <option>mensalmente</option>
                                               </Input>
                                             </td>
-
+                                            <td className={"terra-form-cem"}>
+                                              <Input type="select" bsSize="sm">
+                                                <option>Conta-Corrente</option>
+                                                <option>Poupança</option>
+                                                <option>Investimento</option>
+                                              </Input>
+                                            </td>
+                                            <td>
+                                              <Button className={"terra-button terra-icone terra-icone-red"}>
+                                                <FontAwesomeIcon  icon={faTrashAlt} />
+                                              </Button>
+                                            </td>
                                           </tr>
                                       </tbody>
                                   </table>
@@ -218,7 +231,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="3">
             <Row>
-            <Col lg="8">
+            <Col lg="10">
                 <br/>
                 <br/>
                 <Card color="link" >
@@ -231,7 +244,7 @@ export default class Relatorios extends React.Component {
                           </Col>                        
                         </Row>
                         <Row>
-                            <Col>
+                            <Col lg="12" className={"terra-right"}>
                                 <table className={'table terra-table'}>
                                     <tbody>
                                         { bills.monthly.map((item, i) => (
@@ -240,6 +253,7 @@ export default class Relatorios extends React.Component {
                                                 <td>{bills.monthly[i].bill}</td>
                                                 <td>{Finance.format(bills.monthly[i].value)}</td>
                                                 <td>Mensalmente</td>
+                                                <td><img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30} alt={''}></img> Conta Corrente</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -256,7 +270,7 @@ export default class Relatorios extends React.Component {
           </TabPane>
           <TabPane tabId="4">
             <Row>
-            <Col lg="8">
+            <Col lg="10">
                 <br/>
                 <br/>
                 <Card color="link" >
@@ -302,6 +316,18 @@ export default class Relatorios extends React.Component {
                                               <option>semanalmente</option>
                                             </Input>
                                           </td>
+                                          <td className={"terra-form-dropdown"}>
+                                            <Input type="select" bsSize="sm">
+                                              <option>Conta-Corrente</option>
+                                              <option>Poupança</option>
+                                              <option>Investimento</option>
+                                            </Input>
+                                          </td>
+                                          <td>
+                                            <Button className={"terra-button terra-icone terra-icone-red"}>
+                                              <FontAwesomeIcon  icon={faTrashAlt} />
+                                            </Button>
+                                          </td>
                                           </tr>
                                           <tr>
                                           <td>
@@ -322,7 +348,17 @@ export default class Relatorios extends React.Component {
                                               <option>mensalmente</option>
                                             </Input>
                                           </td>
-                                          <td>                                          
+                                          <td className={"terra-form-dropdown"}>
+                                            <Input type="select" bsSize="sm">
+                                              <option>Conta-Corrente</option>
+                                              <option>Poupança</option>
+                                              <option>Investimento</option>
+                                            </Input>
+                                          </td>
+                                          <td>
+                                            <Button className={"terra-button terra-icone terra-icone-red"}>
+                                              <FontAwesomeIcon  icon={faTrashAlt} />
+                                            </Button>
                                           </td>
                                         </tr>
                                     </tbody>

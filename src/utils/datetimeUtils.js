@@ -3,7 +3,12 @@ import 'moment/locale/pt-br';
 
 class Datetime  {
     static currentDate() {
-    	return moment().locale('pt-br');
+    	let today = moment().locale('pt-br');
+        let weekDay = today.format('e');
+        if(weekDay < 3){
+            today.subtract(1, 'w');
+        }
+        return today;
     }
 
     static prevMonth(date) {

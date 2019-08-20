@@ -85,6 +85,7 @@ class Saldo extends React.Component {
                             </Row>
                         </CardBody>
                     </Card>
+                    <br/>
                 </Col>
             ))}
             </div>

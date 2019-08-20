@@ -13,7 +13,7 @@ class Header extends React.Component {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/balanco" activeClassName="active">
+                            <NavLink className="nav-link" to="/extrato" activeClassName="active">
                               Extrato
                             </NavLink>
                         </NavItem>
@@ -23,7 +23,7 @@ class Header extends React.Component {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/relatorios" activeClassName="active">
+                            <NavLink className="nav-link" to="/teste" activeClassName="active">
                               Relatórios
                             </NavLink>
                         </NavItem>

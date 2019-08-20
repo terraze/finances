@@ -117,7 +117,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="1">
             <Row>
-              <Col lg="10">
+              <Col lg="9">
                   <br/>
                   <br/>
                   <Card color="link" >
@@ -161,7 +161,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="2">
             <Row>
-              <Col lg="10">
+              <Col lg="9">
                   <br/>
                   <br/>
                   <Card color="link" >
@@ -193,17 +193,17 @@ export default class Relatorios extends React.Component {
                                                 <option>S</option>
                                               </Input>
                                             </td>
-                                            <td><Input placeholder="Salário Semanal" /></td>
+                                            <td className={"terra-form-name"} ><Input placeholder="Salário Semanal" /></td>
                                             <td className={"terra-form-hour"} ><Input placeholder="40h" /></td>
                                             <td className={"terra-form-dolar"} ><Input placeholder="R$ 3,88" /></td>
-                                            <td  className={"terra-form-dropdown"} >
+                                            <td  className={"terra-form-frequency"} >
                                               <Input type="select" bsSize="sm">
                                                 <option>semanalmente</option>
                                                 <option>quinzenalmente</option>
                                                 <option>mensalmente</option>
                                               </Input>
                                             </td>
-                                            <td className={"terra-form-cem"}>
+                                            <td className={"terra-form-sccount"}>
                                               <Input type="select" bsSize="sm">
                                                 <option>Conta-Corrente</option>
                                                 <option>Poupança</option>
@@ -231,7 +231,7 @@ export default class Relatorios extends React.Component {
 
           <TabPane tabId="3">
             <Row>
-            <Col lg="10">
+            <Col lg="9">
                 <br/>
                 <br/>
                 <Card color="link" >
@@ -250,8 +250,8 @@ export default class Relatorios extends React.Component {
                                         { bills.monthly.map((item, i) => (
                                             <tr key={i}>
                                                 <td>{bills.monthly[i].day}</td>
-                                                <td>{bills.monthly[i].bill}</td>
-                                                <td>{Finance.format(bills.monthly[i].value)}</td>
+                                                <td className={"terra-left"}>{bills.monthly[i].bill}</td>
+                                                <td className={"terra-left"}>{Finance.format(bills.monthly[i].value)}</td>
                                                 <td>Mensalmente</td>
                                                 <td><img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30} alt={''}></img> Conta Corrente</td>
                                             </tr>
@@ -270,7 +270,7 @@ export default class Relatorios extends React.Component {
           </TabPane>
           <TabPane tabId="4">
             <Row>
-            <Col lg="10">
+            <Col lg="9">
                 <br/>
                 <br/>
                 <Card color="link" >
@@ -307,16 +307,16 @@ export default class Relatorios extends React.Component {
                                               <option>10</option>
                                             </Input>
                                           </td>
-                                          <td><Input placeholder="Condomínio" /></td>
-                                          <td><Input placeholder="R$ 759,35" /></td>
-                                          <td>
+                                          <td className={"terra-form-name"}><Input placeholder="Condomínio" /></td>
+                                          <td className={"terra-form-value"} ><Input placeholder="R$ 759,35" /></td>
+                                          <td  className={"terra-form-frequency"}>
                                             <Input type="select" bsSize="sm">
                                               <option>mensalmente</option>
                                               <option>quinzenalmente</option>
                                               <option>semanalmente</option>
                                             </Input>
                                           </td>
-                                          <td className={"terra-form-dropdown"}>
+                                          <td className={"terra-form-account"}>
                                             <Input type="select" bsSize="sm">
                                               <option>Conta-Corrente</option>
                                               <option>Poupança</option>
@@ -339,16 +339,16 @@ export default class Relatorios extends React.Component {
                                               <option>S</option>
                                             </Input>
                                           </td>
-                                          <td><Input placeholder="Cartões Semanais" /></td>
-                                          <td><Input placeholder="R$ 90,00" /></td>
-                                          <td>
+                                          <td className={"terra-form-name"}><Input placeholder="Cartões Semanais" /></td>
+                                          <td className={"terra-form-value"} ><Input placeholder="R$ 90,00" /></td>
+                                          <td className={"terra-form-frequency"}>
                                             <Input type="select" bsSize="sm">
                                               <option>semanalmente</option>
                                               <option>quinzenalmente</option>
                                               <option>mensalmente</option>
                                             </Input>
                                           </td>
-                                          <td className={"terra-form-dropdown"}>
+                                          <td className={"terra-form-account"}>
                                             <Input type="select" bsSize="sm">
                                               <option>Conta-Corrente</option>
                                               <option>Poupança</option>

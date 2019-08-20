@@ -225,14 +225,26 @@ h6 {
 }
 
 .terra-form-hour {
-  width: 100px;
+  width: 78px;
 }
 
 .terra-form-dolar {
-  width: 120px;
+  width: 106px;
 }
 
-.terra-form-dropdown {
-  width: 160px;
+.terra-form-frequency {
+  width: 153px;
+}
+
+.terra-form-account {
+  width: 167px;
+}
+
+.terra-form-value {
+  width: 150px;
+}
+
+.terra-form-name {
+  width: 150px;
 }
 

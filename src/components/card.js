@@ -20,6 +20,8 @@ class CardWeek extends React.Component {
           values: []
       };
 
+      this.test = React.createRef();
+
       this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
     }
@@ -122,24 +124,29 @@ class CardWeek extends React.Component {
                       		<td colSpan={3}>Nenhum valor</td>
                       	</tr>
                       }
-                      { values.map((item, i) => (
-                      	<tr key={i}>
-	                        <td>{values[i].name}</td>
-	                        <td>{Finance.format(Finance.getValue(values[i]))}</td>
-                            <td className={"terra-table-col-info"}>
-                              { mode === 'view' &&
+                      { values.map( (item, i) => {
+                          if(mode === 'view'){ return (
+                            <tr key={i}>
+                              <td>{values[i].name}</td>
+                              <td>{Finance.format(Finance.getValue(values[i]))}</td>
+                              <td className={"terra-table-col-info"}>
                                 <TerraAlert type={Finance.getStatus(values[i])}>
                                   {Datetime.dm(Datetime.fromFirebase(values[i].date))}
                                 </TerraAlert>
-                              }
-                              { mode === 'edit' &&
-                                  <Button className={"terra-button terra-icone terra-icone-red"}>
-                                      <FontAwesomeIcon  icon={faTrashAlt} />
-                                  </Button>
-                              }
-                            </td>
-                        </tr> 
-                      ))}
+                              </td>
+                            </tr>
+                          )} else return (
+                            <tr key={i}>
+                              <td className={"terra-extract-name"}><Input placeholder={'Nome'} innerRef={this.test}></Input></td>
+                              <td className={"terra-extract-value"}><Input placeholder={Finance.format(Finance.getValue(values[i]))}/></td>
+                              <td>
+                                <Button className={"terra-button terra-icone terra-icone-red"}>
+                                  <FontAwesomeIcon  icon={faTrashAlt} />
+                                </Button>
+                              </td>
+                            </tr>
+                          )
+                        })}
                         { mode === 'view' &&
                         <tr className={'terra-saldo'}>
                             <td>Saldo</td>
@@ -149,17 +156,7 @@ class CardWeek extends React.Component {
                         }
                         { mode === 'edit' && 
                         <React.Fragment>
-                          <tr>
-                              <td>
-                                <Input type="text" size="10" name="text" value="Conta"/>
-                              </td>
-                              <td>
-                                <Input type="text" size="5" name="text" value="R$"/>
-                              </td>
-                              <td>
-                                <Input type="text" size="2" name="text" value="Data"/>
-                              </td>
-                          </tr>
+
                         </React.Fragment>
                         }
                     </tbody>

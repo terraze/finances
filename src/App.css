@@ -248,3 +248,11 @@ h6 {
   width: 150px;
 }
 
+
+.terra-extract-name input {
+  width: 160px !important;
+}
+
+.terra-extract-value input {
+  width: 120px !important;
+}

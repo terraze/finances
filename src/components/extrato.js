@@ -18,11 +18,13 @@ class Extrato extends React.Component {
       this.state = {
           date: Datetime.currentDate(),
           accounts: [],
-          dropdownOpen: false
+          dropdownOpen: false,
+          currentAccount : 0
       };
 
       this.prevMonth = this.prevMonth.bind(this);
       this.nextMonth = this.nextMonth.bind(this);
+      this.selectAccount = this.selectAccount.bind(this);
     }
 
     prevMonth() {
@@ -45,8 +47,8 @@ class Extrato extends React.Component {
         FirebaseService.getAccounts(
             (dataReceived) => {
             this.setState(
-                {accounts: dataReceived}
-            )
+            {accounts: dataReceived}
+            );
         });
     }
 
@@ -55,13 +57,20 @@ class Extrato extends React.Component {
     }
 
     toggleAccount() {
-      this.setState({
-        dropdownOpen: !this.state.dropdownOpen
-      });
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        });
+    }
+
+    selectAccount(event) {
+        this.setState({
+            currentAccount: parseInt(event.target.id)
+        });
     }
 
     render() {
       let accounts = this.state.accounts;
+      let currentAccount = this.state.currentAccount;
       let weeks = Datetime.weekList(this.state.date);
       return (
         <div className={"row terra-body"}>
@@ -81,27 +90,33 @@ class Extrato extends React.Component {
                 </Button>
               </Col>
               <Col className={"terra-right"} lg="3">
-                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}  >
-                  <DropdownToggle caret className={"terra-dropdown terra-icone-background"}>
-                   <img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30} alt={''}></img> Nome do onClick
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    { accounts.map((item, i) => (
-                      <DropdownItem>
-                        <p>
-                        <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={30} height={30} alt={''}></img> {accounts[i].title}</p>
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </ButtonDropdown>
+                  {accounts.length > 0 &&
+                  <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}>
+                      <DropdownToggle caret className={"terra-dropdown terra-icone-background"}>
+                          <img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30}alt={''}></img>
+                          {accounts[currentAccount].title}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                          {accounts.map((item, i) => (
+                              <DropdownItem key={i} onClick={this.selectAccount}>
+                                  <div id={i}>
+                                      <img src={require('../assets/images/bank_icons/' + accounts[i].bank + '.png')}width={30} height={30} alt={''}></img>
+                                      {accounts[i].title}
+                                  </div>
+                              </DropdownItem>
+                          ))}
+                      </DropdownMenu>
+                  </ButtonDropdown>
+                  }
               </Col>           
             </Row>
             <br/>
           </Col>
           { weeks.map((item, i) => (
           <Col key={i} lg="6">
-            <CardWeek week={weeks[i]}>
-            </CardWeek>
+              {accounts.length > 0 &&
+              <CardWeek week={weeks[i]} account={accounts[currentAccount].id}></CardWeek>
+              }
           <br/>
         </Col>
         ))}

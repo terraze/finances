@@ -27,18 +27,19 @@ class CardWeek extends React.Component {
     }
 
     componentDidMount() {
-        this.loadValues(this.props.week.start);
+        this.loadValues(this.props.week.start, this.props.account);
     }
 
     componentDidUpdate(prevProps, prevStates) {
-    	if(prevProps.week.number !== this.props.week.number){
-    		this.loadValues(this.props.week.start);
+    	if((prevProps.week.number !== this.props.week.number) || (prevProps.account !== this.props.account)){
+    		this.loadValues(this.props.week.start, this.props.account);
     	}
     }
 
-    loadValues(week) {
+    loadValues(week, account) {
         FirebaseService.getTransactionsByWeek(
             week,
+            account,
             (dataReceived) => {
                 let processedData = this.processData(dataReceived)
                 this.setState(
@@ -121,7 +122,9 @@ class CardWeek extends React.Component {
                     <tbody>
                       { values.length < 1 && 
                       	<tr>
-                      		<td colSpan={3}>Nenhum valor</td>
+                      		<td><br/>Nenhum valor</td>
+                      		<td></td>
+                      		<td></td>
                       	</tr>
                       }
                       { values.map( (item, i) => {
@@ -147,7 +150,7 @@ class CardWeek extends React.Component {
                             </tr>
                           )
                         })}
-                        { mode === 'view' &&
+                        { mode === 'view' && values.length > 0 &&
                         <tr className={'terra-saldo'}>
                             <td>Saldo</td>
                             <td>{Finance.format(this.state.total)}</td>

@@ -28,7 +28,9 @@ export default class FirebaseService {
             .get()
             .then(docs => {
                 docs.forEach(doc => {
-                    items.push(doc.data());
+                    let item = doc.data();
+                    item.id = doc.id;
+                    items.push(item);
                 });
 
                 callback(items);
@@ -62,12 +64,15 @@ export default class FirebaseService {
             });
     }
 
-    static getTransactionsByWeek = (weekStart, callback) => {
+    static getTransactionsByWeek = (weekStart, accountId, callback) => {
         let week = Datetime.week(weekStart);
         let items = [];
+        let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
+
         firebaseDatabase.collection('transactions')
             .where('date', '>=', Datetime.firebaseFormat(week.start))
             .where('date', '<=', Datetime.firebaseFormat(week.end))
+            .where('account', '==', accountReference)
             .get()
             .then(docs => {
                 let error = false;

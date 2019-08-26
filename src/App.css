@@ -256,3 +256,7 @@ h6 {
 .terra-extract-value input {
   width: 120px !important;
 }
+
+.terra-loading {
+  margin: 40px;
+}

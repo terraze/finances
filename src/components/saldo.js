@@ -48,9 +48,9 @@ class Saldo extends React.Component {
                         <CardBody>
                             <Row>
                                 <Col lg="9">
-                                            <h2>
-                                                {accounts[i].title} <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={40} height={40} alt={''}></img>
-                                            </h2>
+                                    <h2>
+                                        {accounts[i].title} <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={40} height={40} alt={''}></img>
+                                    </h2>
                                 </Col>
                                 <Col className="terra-right">
                                     <Button className={"terra-button terra-icone terra-icone-black"}>

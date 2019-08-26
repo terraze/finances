@@ -1,26 +1,8 @@
 import {firebaseDatabase} from '../utils/firebaseUtils'
 import Datetime from '../utils/datetimeUtils.js';
+import Finance from '../models/finance.js';
 
 export default class FirebaseService {
-    static getDataList = (nodePath, callback, size = 10) => {
-        let items = [];
-        firebaseDatabase.collection(nodePath)
-            .orderBy("day").get()
-            .then(docs => {
-            docs.forEach(doc => {
-                items.push(doc.data());
-            });
-            callback(items);
-        });
-    };
-
-    static pushData = (node, objToSubmit) => {
-        const ref = firebaseDatabase.ref(node).push();
-        const id = firebaseDatabase.ref(node).push().key;
-        ref.set(objToSubmit);
-        return id;
-    };
-
     static getAccounts = (callback) => {
         let items = [];
         firebaseDatabase.collection('accounts')
@@ -35,7 +17,7 @@ export default class FirebaseService {
 
                 callback(items);
             });
-    }
+    };
 
     static getBills = (callback) => {
         let items = [];
@@ -49,7 +31,7 @@ export default class FirebaseService {
 
                 callback(items);
             });
-    }
+    };
 
     static getEntrances = (callback) => {
         let items = [];
@@ -62,7 +44,7 @@ export default class FirebaseService {
 
                 callback(items);
             });
-    }
+    };
 
     static getTransactionsByWeek = (weekStart, accountId, callback) => {
         let week = Datetime.week(weekStart);
@@ -77,9 +59,11 @@ export default class FirebaseService {
             .then(docs => {
                 let error = false;
                 docs.forEach(doc => {
-                    let data = doc.data()
+                    let data = doc.data();
                     if(FirebaseService.validateTransaction(data)){
-                        items.push(data);
+                        let item = doc.data();
+                        item.id = doc.id;
+                        items.push(item);
                     } else {
                         error = true;
                     }
@@ -87,7 +71,7 @@ export default class FirebaseService {
                 
                 callback({error: error, items: items});
             });
-    }
+    };
 
     static validateTransaction(item){
         if(item.is_entrance === undefined) {
@@ -119,6 +103,26 @@ export default class FirebaseService {
             return false;
         }        
         return true;
+    };
+
+    static saveTransactions(list, callback) {
+        let batch = firebaseDatabase.batch();
+        for(let item of list){
+            let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
+            if(Finance.isInput(item)){
+
+            } else {
+                batch.update(itemRef, {
+                    name: item.name,
+                    value: item.value
+                });
+            }
+        }
+
+
+        batch.commit().then(function () {
+            callback();
+        });
     }
 
 }

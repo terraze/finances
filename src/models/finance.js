@@ -1,3 +1,4 @@
+import React from "react";
 import Datetime from '../utils/datetimeUtils.js';
 
 class Finance  {
@@ -46,6 +47,51 @@ class Finance  {
 
     static dolar(value) {
         return value.toLocaleString('pt-br',{style: 'currency', currency: 'USD', minimumFractionDigits: 2});
+    }
+
+    static getBillsForWeek(week, account, bills, transactions) {
+        let weekStart = Datetime.weekStartDay(week);
+        let weekEnd = Datetime.weekEndDay(week);
+        let weekBills = [];
+        for(let item of bills) {            
+            item.include = true;
+            if(item.day >= weekStart && item.day <= weekEnd) {
+                for(let transaction of transactions){
+                    if(item.bill === transaction.name){
+                        item.include = false;
+                        break;
+                    }
+                }
+            } else {
+                item.include = false;
+            }
+            if(item.include){
+                let transaction = Finance.newTransaction(null);
+                transaction.is_fixed = true;
+                transaction.name = item.bill;
+                transaction.value = item.value;
+                transaction.date = Datetime.firebaseFormat(Datetime.currentDate());
+                weekBills.push(transaction);
+            }
+        }
+        return weekBills;
+    }
+
+    static newTransaction(account) {
+        return {
+            account: account,
+            date: null,
+            formField: {
+              name: React.createRef(),
+              value: React.createRef()
+            },
+            id: '',
+            is_entrance: null,
+            name: '',
+            status: false,
+            value: 0,
+            is_fixed: false
+      }
     }
 };
 

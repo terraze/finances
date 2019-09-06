@@ -41,12 +41,17 @@ class CardWeek extends React.Component {
             week,
             account,
             (dataReceived) => {
+                let bills = Finance.getBillsForWeek(week, account, this.props.bills, dataReceived.items);
+                for(let item of bills){
+                  dataReceived.items.push(item);
+                }
                 let processedData = this.processData(dataReceived);
                 for(let item of processedData.values){
                     item.formField = {}
                     item.formField.name = React.createRef();
                     item.formField.value = React.createRef();
-                }
+                }                
+
                 this.setState(
                     {
                         values: processedData.values,

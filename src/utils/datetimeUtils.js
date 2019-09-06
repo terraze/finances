@@ -84,6 +84,10 @@ class Datetime  {
     	return weekList;
     }
 
+    static d(date) {
+        return date.format('D');
+    }
+
     static dm(date) {
     	return date.format('DD/MM');
     }
@@ -108,6 +112,18 @@ class Datetime  {
         let today = moment();
         return date.isBefore(today);
     }
+
+    static weekStartDay(date){
+        let weekDay = moment(date).startOf('week');
+        weekDay.day(3);
+        return weekDay.format('D');
+    }
+
+    static weekEndDay(date){
+        let weekDay = moment(date).startOf('week');
+        weekDay.day(9);
+        return weekDay.format('D');
+    }    
 };
 
 export default Datetime;

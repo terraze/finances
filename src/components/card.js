@@ -27,6 +27,7 @@ class CardWeek extends React.Component {
       this.toggleMode = this.toggleMode.bind(this);
       this.handleDatePicker = this.handleDatePicker.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.addTransaction = this.addTransaction.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +38,6 @@ class CardWeek extends React.Component {
     	if((prevProps.week.number !== this.props.week.number) || (prevProps.account !== this.props.account)){
     		this.loadValues(this.props.week.start, this.props.account);
     	}
-    	console.log(this.state);
     }
 
     loadValues(week, account) {
@@ -75,7 +75,7 @@ class CardWeek extends React.Component {
         let total = 0;
         for (let item of data.items) {
             values.push(item);
-            if(Finance.isInput(item)){
+            if(Finance.isInput(item)) {
 	            total += Finance.getValue(item);
 	        } else {
 	        	total -= Finance.getValue(item);
@@ -87,7 +87,7 @@ class CardWeek extends React.Component {
         };
     }
 
-	toggleMode(){
+	toggleMode() {
 	  let mode = this.state.mode
 
 	  if(mode === 'view'){
@@ -101,7 +101,7 @@ class CardWeek extends React.Component {
 	  });
 	}
 
-	handleSubmit(){
+	handleSubmit() {
         this.setState({loading: true})
         let newValues = this.state.values;
         for(let item of newValues){
@@ -124,6 +124,37 @@ class CardWeek extends React.Component {
         let newDates = this.state.tempDates;
         newDates[item].date = value;
         this.setState({tempDates: newDates});
+    }
+
+    addTransaction() {
+      let emptyTransaction = {
+        account: this.props.account,
+        date: null,
+        formField: {
+          name: React.createRef(),
+          value: React.createRef()
+        },
+        id: '',
+        is_entrance: null,
+        name: '',
+        status: false,
+        value: 0,
+      };
+
+      let values = this.state.values;
+      values.push(emptyTransaction);
+      this.setState({
+        values: values
+      })
+    }
+
+    removeTransaction(key) {
+      // TODO fix issue on removing!!
+      let updatedValues = this.state.values;
+      updatedValues.splice(key,1);
+      this.setState({
+        values: updatedValues
+      })
     }
 
     render() {
@@ -150,7 +181,8 @@ class CardWeek extends React.Component {
                             }
                             {mode === 'edit' &&
                             <>
-                                <Button className={"terra-button terra-icone terra-icone-blue"}>
+                                <Button className={"terra-button terra-icone terra-icone-blue"}
+                                        onClick={this.addTransaction}>
                                     <FontAwesomeIcon icon={faPlus}/>
                                 </Button>
                                 <Button className={"terra-button terra-icone terra-icone-green"}
@@ -207,7 +239,8 @@ class CardWeek extends React.Component {
 
                                         </td>
                                         <td>
-                                            <Button className={"terra-button terra-icone terra-icone-red"}>
+                                            <Button className={"terra-button terra-icone terra-icone-red"}
+                                              onClick={() => this.removeTransaction(i)}>
                                                 <FontAwesomeIcon icon={faTrashAlt}/>
                                             </Button>
                                         </td>

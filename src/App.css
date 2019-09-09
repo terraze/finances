@@ -250,13 +250,18 @@ h6 {
 
 
 .terra-extract-name input {
-  width: 160px !important;
+  width: 140px !important;
 }
 
 .terra-extract-value input {
-  width: 120px !important;
+  width: 90px !important;
+}
+
+
+.terra-extract-date input {
+  width: 145px !important;
 }
 
 .terra-loading {
-  margin: 40px;
+  margin: 60px;
 }

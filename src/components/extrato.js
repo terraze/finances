@@ -93,24 +93,25 @@ class Extrato extends React.Component {
               <Col className={"terra-center"} lg="4">
                 <h1>{Datetime.monthName(this.state.date)} de {Datetime.year(this.state.date)}</h1>
               </Col>
-              <Col className={"terra-left"} lg="1">
+              <Col className={"terra-left"} lg="0">
                 <Button onClick={this.nextMonth} className={"terra-button-background terra-icone-background terra-icone-black"}>
                   <FontAwesomeIcon  icon={faArrowRight} />
                 </Button>
               </Col>
-              <Col className={"terra-right"} lg="3">
+            </Row>
+            <Row>
+              <Col className={"terra-center"} >
+                  <br/>
                   {accounts.length > 0 &&
-                  <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}>
+                  <ButtonDropdown className={"terra-center"} isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}>
                       <DropdownToggle caret className={"terra-dropdown terra-icone-background"}>
-                          <img src={require('..//assets/images/bank_icons/nubank.png')} width={30} height={30}alt={''}></img>
-                          {accounts[currentAccount].title}
+                            <img src={require('..//assets/images/bank_icons/' + accounts[currentAccount].bank + '.png')} width={25} height={25}alt={''}></img> {accounts[currentAccount].title}
                       </DropdownToggle>
-                      <DropdownMenu>
+                      <DropdownMenu >
                           {accounts.map((item, i) => (
                               <DropdownItem key={i} onClick={this.selectAccount}>
                                   <div id={i}>
-                                      <img src={require('../assets/images/bank_icons/' + accounts[i].bank + '.png')}width={30} height={30} alt={''}></img>
-                                      {accounts[i].title}
+                                      <img src={require('../assets/images/bank_icons/' + accounts[i].bank + '.png')}width={25} height={25} alt={''}></img> {accounts[i].title}
                                   </div>
                               </DropdownItem>
                           ))}

@@ -186,6 +186,12 @@ class CardWeek extends React.Component {
                                                                                      defaultValue={Finance.getValue(values[i])}
                                                                                      innerRef={values[i].formField.value}/>
                                         </td>
+                                        <td className={"terra-extract-date"}><Input type="date"
+                                                                                    name="date"
+                                                                                    id="exampleDate"
+                                                                                    placeholder="date placeholder"/>
+
+                                        </td>
                                         <td>
                                             <Button className={"terra-button terra-icone terra-icone-red"}>
                                                 <FontAwesomeIcon icon={faTrashAlt}/>

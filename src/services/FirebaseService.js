@@ -68,6 +68,7 @@ export default class FirebaseService {
                     if(FirebaseService.validateTransaction(data)){
                         let item = doc.data();
                         item.id = doc.id;
+                        item.is_fixed = false;
                         items.push(item);
                     } else {
                         error = true;

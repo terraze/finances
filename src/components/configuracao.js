@@ -1,4 +1,5 @@
 import React  from 'react';
+import Sidebar  from './sidebar.js'
 
 
 class Configuracao extends React.Component {
@@ -15,6 +16,7 @@ class Configuracao extends React.Component {
             <li>Saídas fixas semanais</li>
             <li>Saídas fixas mensais</li>
           </ul>
+          <Sidebar/>
         </div>
       )
     }

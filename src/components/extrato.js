@@ -18,6 +18,7 @@ class Extrato extends React.Component {
       this.state = {
           date: Datetime.currentDate(),
           accounts: [],
+          bills: [],
           dropdownOpen: false,
           currentAccount : 0
       };
@@ -44,16 +45,24 @@ class Extrato extends React.Component {
     }
 
     loadValues() {
+        FirebaseService.getBills(
+            (dataReceived) => {
+              this.setState(
+                {bills: dataReceived}
+              );
+          }
+        );
         FirebaseService.getAccounts(
             (dataReceived) => {
-            this.setState(
-            {accounts: dataReceived}
-            );
-        });
+              this.setState(
+                {accounts: dataReceived}
+              );
+          }
+        );        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     toggleAccount() {
@@ -115,7 +124,7 @@ class Extrato extends React.Component {
           { weeks.map((item, i) => (
           <Col key={i} lg="6">
               {accounts.length > 0 &&
-              <CardWeek week={weeks[i]} account={accounts[currentAccount].id}></CardWeek>
+              <CardWeek week={weeks[i]} account={accounts[currentAccount].id} bills={this.state.bills}></CardWeek>
               }
           <br/>
         </Col>

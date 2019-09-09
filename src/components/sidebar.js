@@ -3,8 +3,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button, Row, Col } from 'reactstrap';
 import moment from 'moment'
+import FirebaseService from '../services/FirebaseService.js';
 
 class Sidebar extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+          bills: []
+      };
+
+      this.loadValues = this.loadValues.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadValues();
+    }
+
+    loadValues() {
+        FirebaseService.getBills(
+            (dataReceived) => {                
+                this.setState(
+                    {
+                        bills: dataReceived
+                    }
+                )
+            }
+        );
+    }
+
     editBills() {
         alert("to implement, sorry, come back later");
     }
@@ -26,7 +53,7 @@ class Sidebar extends React.Component {
     }
 
     render() {
-        const bills = this.props.data;
+        const bills = this.state.bills;
         const currentDay = moment().format('D');
         return (
             <div>

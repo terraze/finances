@@ -106,7 +106,7 @@ class CardWeek extends React.Component {
         let newValues = this.state.values;
         for(let item of newValues){
             if(Finance.isInput(item)){
-
+                // TODO
             } else {
                 item.name = item.formField.name.current.value;
                 item.value = item.formField.value.current.value;
@@ -170,7 +170,6 @@ class CardWeek extends React.Component {
                     <Row>
                         <Col lg="6">
                             <h2>Semana {week.number}</h2>
-
                             <h3>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h3>
                         </Col>
                         <Col className={" terra-right"}>
@@ -239,10 +238,12 @@ class CardWeek extends React.Component {
 
                                         </td>
                                         <td>
+                                            {!values[i].is_fixed &&
                                             <Button className={"terra-button terra-icone terra-icone-red"}
-                                              onClick={() => this.removeTransaction(i)}>
+                                                    onClick={() => this.removeTransaction(i)}>
                                                 <FontAwesomeIcon icon={faTrashAlt}/>
                                             </Button>
+                                            }
                                         </td>
                                     </tr>
                                 )

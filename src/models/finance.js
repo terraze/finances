@@ -53,9 +53,15 @@ class Finance  {
         let weekStart = Datetime.weekStartDay(week);
         let weekEnd = Datetime.weekEndDay(week);
         let weekBills = [];
-        for(let item of bills) {            
+        for(let item of bills) {
             item.include = true;
-            if(item.day >= weekStart && item.day <= weekEnd) {
+            let condition = item.day >= weekStart && item.day <= weekEnd;
+            let isNextMonth = false;
+            if(weekStart > weekEnd){
+                condition = item.day >= weekStart || item.day <= weekEnd;
+                isNextMonth = true;
+            }
+            if(condition) {
                 for(let transaction of transactions){
                     if(item.bill === transaction.name){
                         item.include = false;
@@ -70,7 +76,14 @@ class Finance  {
                 transaction.is_fixed = true;
                 transaction.name = item.bill;
                 transaction.value = item.value;
-                transaction.date = Datetime.firebaseFormat(Datetime.currentDate());
+                let bill_date = Datetime.date(
+                    item.day
+                    + "-"
+                    + (Datetime.month(week) + (isNextMonth ? 1 : 0))
+                    +"-"
+                    + Datetime.year(week)
+                );
+                transaction.date = Datetime.firebaseUnixFormat(bill_date);
                 weekBills.push(transaction);
             }
         }

@@ -2,6 +2,10 @@ import moment from 'moment';
 import 'moment/locale/pt-br';
 
 class Datetime  {
+    static date(date_string) {
+        return moment(date_string, "DD-MM-YYYY");
+    }
+
     static currentDate() {
     	let today = moment().locale('pt-br');
         let weekDay = today.format('e');
@@ -20,12 +24,16 @@ class Datetime  {
     	return moment(date).add(1, 'M');
     }
 
+    static month(date) {
+        return parseInt(date.format("MM"));
+    }
+
     static monthName(date) {
     	return date.format('MMMM');
     }
 
     static year(date) {
-    	return date.format('YYYY');
+    	return parseInt(date.format('YYYY'));
     }
 
     static monthStart(date) {
@@ -104,6 +112,10 @@ class Datetime  {
         return date.toDate();
     }
 
+    static firebaseUnixFormat(date) {
+        return { nanoseconds: 0, seconds: moment(date).unix()};
+    }
+
     static fromFirebase(firebaseDate) {
         return moment.unix(firebaseDate.seconds);
     }
@@ -116,13 +128,13 @@ class Datetime  {
     static weekStartDay(date){
         let weekDay = moment(date).startOf('week');
         weekDay.day(3);
-        return weekDay.format('D');
+        return parseInt(weekDay.format('D'));
     }
 
     static weekEndDay(date){
         let weekDay = moment(date).startOf('week');
         weekDay.day(9);
-        return weekDay.format('D');
+        return parseInt(weekDay.format('D'));
     }    
 };
 

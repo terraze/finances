@@ -49,12 +49,17 @@ export default class FirebaseService {
     static getTransactionsByWeek = (weekStart, accountId, callback) => {
         let week = Datetime.week(weekStart);
         let items = [];
-        let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
 
-        firebaseDatabase.collection('transactions')
+        let query = firebaseDatabase.collection('transactions')
             .where('date', '>=', Datetime.firebaseFormat(week.start))
-            .where('date', '<=', Datetime.firebaseFormat(week.end))
-            .where('account', '==', accountReference)
+            .where('date', '<=', Datetime.firebaseFormat(week.end));
+
+        if(accountId){
+            let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
+            query = query.where('account', '==', accountReference);
+        }
+
+        query
             .get()
             .then(docs => {
                 let error = false;

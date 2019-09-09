@@ -33,6 +33,7 @@ class Resumo extends React.Component {
     loadValues(week) {
         FirebaseService.getTransactionsByWeek(
             week,
+            false,
             (dataReceived) => {
                 let processedData = this.processData(dataReceived);
                 this.setState(

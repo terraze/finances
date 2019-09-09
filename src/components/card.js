@@ -8,6 +8,7 @@ import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-ic
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import Finance from '../models/finance.js';
 import FirebaseService from '../services/FirebaseService.js';
+import { DateTimePicker } from 'react-widgets'
 
 
 class CardWeek extends React.Component {
@@ -18,11 +19,13 @@ class CardWeek extends React.Component {
           mode: "view",
           total: 0,
           values: [],
-          loading: true
+          loading: true,
+          tempDates: []
       };
 
       this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
+      this.handleDatePicker = this.handleDatePicker.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -34,6 +37,7 @@ class CardWeek extends React.Component {
     	if((prevProps.week.number !== this.props.week.number) || (prevProps.account !== this.props.account)){
     		this.loadValues(this.props.week.start, this.props.account);
     	}
+    	console.log(this.state);
     }
 
     loadValues(week, account) {
@@ -108,12 +112,18 @@ class CardWeek extends React.Component {
                 item.value = item.formField.value.current.value;
             }
         }
-        // TODO push to firebase, setState on callback, unlock screen, toggleMode, recalculate total.
+        return;
         FirebaseService.saveTransactions(newValues, () => {
             this.setState({values: newValues});
             this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();
         })
+    }
+
+    handleDatePicker(value, item) {
+        let newDates = this.state.tempDates;
+        newDates[item].date = value;
+        this.setState({tempDates: newDates});
     }
 
     render() {
@@ -139,7 +149,7 @@ class CardWeek extends React.Component {
                             </Button>
                             }
                             {mode === 'edit' &&
-                            <React.Fragment>
+                            <>
                                 <Button className={"terra-button terra-icone terra-icone-blue"}>
                                     <FontAwesomeIcon icon={faPlus}/>
                                 </Button>
@@ -151,7 +161,7 @@ class CardWeek extends React.Component {
                                         className={"terra-button terra-icone terra-icone-red"}>
                                     <FontAwesomeIcon icon={faTimes}/>
                                 </Button>
-                            </React.Fragment>
+                            </>
                             }
                         </Col>
                         <table className={'table terra-table'}>
@@ -178,13 +188,17 @@ class CardWeek extends React.Component {
                                     )
                                 } else return (
                                     <tr key={i}>
-                                        <td className={"terra-extract-name"}><Input placeholder={'Nome'}
-                                                                                    defaultValue={values[i].name}
-                                                                                    innerRef={values[i].formField.name}/>
+                                        <td className={"terra-extract-name"}>
+                                            <Input placeholder={'Nome'}
+                                                   defaultValue={values[i].name}
+                                                   innerRef={values[i].formField.name}/>
                                         </td>
-                                        <td className={"terra-extract-value"}><Input placeholder={'Valor'}
-                                                                                     defaultValue={Finance.getValue(values[i])}
-                                                                                     innerRef={values[i].formField.value}/>
+                                        <td className={"terra-extract-value"}>
+                                            <Input placeholder={'Valor'} defaultValue={Finance.getValue(values[i])} innerRef={values[i].formField.value}/>
+                                            {/*<DateTimePicker placeholder={'Data de pagamento'}
+                                                            defaultValue={null}
+                                                            time={false}
+                                                            onChange={(value) => this.handleDatePicker(value, i)}/>*/}
                                         </td>
                                         <td className={"terra-extract-date"}><Input type="date"
                                                                                     name="date"
@@ -208,9 +222,9 @@ class CardWeek extends React.Component {
                             </tr>
                             }
                             {mode === 'edit' &&
-                            <React.Fragment>
+                            <>
 
-                            </React.Fragment>
+                            </>
                             }
                             </tbody>
                         </table>
@@ -220,6 +234,7 @@ class CardWeek extends React.Component {
             }
             {this.state.loading &&
                 <>
+                    {/* Para testar o Spinner, mude para loading para true no setState da função loadValues*/}
                     <Spinner animation="border" variant="success" className={'terra-loading'}/>
                     <p>Carregando...</p>
                 </>

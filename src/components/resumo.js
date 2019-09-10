@@ -18,6 +18,7 @@ class Resumo extends React.Component {
             pending: 0,
             total: 0
           },
+          bills: [],
           accounts_total: 0
       }
 
@@ -31,14 +32,25 @@ class Resumo extends React.Component {
     }
 
     loadValues(week) {
-        FirebaseService.getTransactionsByWeek(
-            week,
-            false,
+        FirebaseService.getBills(
             (dataReceived) => {
-                let processedData = this.processData(dataReceived);
                 this.setState(
-                    {date: week, values: processedData}
-                )
+                    {bills: dataReceived}
+                );
+                FirebaseService.getTransactionsByWeek(
+                    week,
+                    false,
+                    (dataReceived) => {
+                        let bills = Finance.getBillsForWeek(week, null, this.state.bills, dataReceived.items);
+                        for(let item of bills){
+                            dataReceived.items.push(item);
+                        }
+                        let processedData = this.processData(dataReceived);
+                        this.setState(
+                            {date: week, values: processedData}
+                        )
+                    }
+                );
             }
         );
         FirebaseService.getAccounts(            

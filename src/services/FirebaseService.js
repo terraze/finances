@@ -19,9 +19,16 @@ export default class FirebaseService {
             });
     };
 
-    static getBills = (callback) => {
+    static getBills = (accountId, callback) => {
         let items = [];
-        firebaseDatabase.collection('bills')
+        let query = firebaseDatabase.collection('bills')
+
+        if(accountId !== undefined && accountId){
+            let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
+            query = query.where('account', '==', accountReference);
+        }
+
+        query
             .orderBy('day')
             .get()
             .then(docs => {

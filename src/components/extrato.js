@@ -46,6 +46,7 @@ class Extrato extends React.Component {
 
     loadValues() {
         FirebaseService.getBills(
+          this.state.currentAccount,
             (dataReceived) => {
               this.setState(
                 {bills: dataReceived}
@@ -75,6 +76,7 @@ class Extrato extends React.Component {
         this.setState({
             currentAccount: parseInt(event.target.id)
         });
+        this.loadValues();
     }
 
     render() {

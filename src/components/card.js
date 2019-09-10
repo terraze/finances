@@ -17,13 +17,12 @@ class CardWeek extends React.Component {
           mode: "view",
           total: 0,
           values: [],
-          loading: true,
-          tempDates: []
+          loading: true
       };
 
       this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
-      this.handleDatePicker = this.handleDatePicker.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.addTransaction = this.addTransaction.bind(this);
     }
@@ -49,10 +48,11 @@ class CardWeek extends React.Component {
                 }
                 let processedData = this.processData(dataReceived);
                 for(let item of processedData.values){
-                    item.formField = {}
+                    item.formField = {};
                     item.formField.name = React.createRef();
                     item.formField.value = React.createRef();
-                }                
+                    item.formField.paid_date = React.createRef();
+                }
 
                 this.setState(
                     {
@@ -108,9 +108,9 @@ class CardWeek extends React.Component {
             } else {
                 item.name = item.formField.name.current.value;
                 item.value = item.formField.value.current.value;
+                item.paid_date = item.formField.paid_date.current.value;
             }
         }
-        return;
         FirebaseService.saveTransactions(newValues, () => {
             this.setState({values: newValues});
             this.loadValues(this.props.week.start, this.props.account);
@@ -118,26 +118,26 @@ class CardWeek extends React.Component {
         })
     }
 
-    handleDatePicker(value, item) {
-        let newDates = this.state.tempDates;
-        newDates[item].date = value;
-        this.setState({tempDates: newDates});
+    handleNameChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].name = value;
+        this.setState({values: currentValues});
+    }
+
+    handleValueChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].value = value.replace(/,/g, ".");
+        this.setState({values: currentValues});
+    }
+
+    handleDateChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].paid_date = Datetime.fromDatepicker(value);
+        this.setState({values: currentValues});
     }
 
     addTransaction() {
-      let emptyTransaction = {
-        account: this.props.account,
-        date: null,
-        formField: {
-          name: React.createRef(),
-          value: React.createRef()
-        },
-        id: '',
-        is_entrance: null,
-        name: '',
-        status: false,
-        value: 0,
-      };
+      let emptyTransaction = Finance.newTransaction(this.props.account);
 
       let values = this.state.values;
       values.push(emptyTransaction);
@@ -210,7 +210,7 @@ class CardWeek extends React.Component {
                                             <td>{Finance.format(Finance.getValue(values[i]))}</td>
                                             <td className={"terra-table-col-info"}>
                                                 <TerraAlert type={Finance.getStatus(values[i])}>
-                                                    {Datetime.dm(Datetime.fromFirebase(values[i].date))}
+                                                    {values[i].status ? Datetime.dm(Datetime.fromFirebase(values[i].paid_date)) : Datetime.dm(Datetime.fromFirebase(values[i].date))}
                                                 </TerraAlert>
                                             </td>
                                         </tr>
@@ -219,22 +219,29 @@ class CardWeek extends React.Component {
                                     <tr key={i}>
                                         <td className={"terra-extract-name"}>
                                             <Input placeholder={'Nome'}
-                                                   defaultValue={values[i].name}
-                                                   innerRef={values[i].formField.name}/>
+                                                   value={values[i].name}
+                                                   innerRef={values[i].formField.name}
+                                                   onChange={(e) => this.handleNameChange(e.target.value, i)}
+                                            />
                                         </td>
                                         <td className={"terra-extract-value"}>
-                                            <Input placeholder={'Valor'} defaultValue={Finance.getValue(values[i])} innerRef={values[i].formField.value}/>
+                                            <Input placeholder={'Valor'}
+                                                   value={Finance.getValue(values[i])}
+                                                   innerRef={values[i].formField.value}
+                                                   onChange={(e) => this.handleValueChange(e.target.value, i)}
+                                            />
                                         </td>
                                         <td className={"terra-extract-date"}>
                                             <Input type="date"
-                                                name="date"
-                                                placeholder="Pago em"/>
-
+                                                   value={values[i].paid_date != null ? Datetime.toDatePicker(values[i].paid_date) : ''}
+                                                   placeholder="Pago em"
+                                                   innerRef={values[i].formField.paid_date}
+                                                   onChange={(e) => this.handleDateChange(e.target.value, i)}
+                                            />
                                         </td>
                                         <td>
                                             {!values[i].is_fixed &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"}
-                                                    onClick={() => this.removeTransaction(i)}>
+                                            <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
                                                 <FontAwesomeIcon icon={faTrashAlt}/>
                                             </Button>
                                             }

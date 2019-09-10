@@ -104,6 +104,17 @@ class Datetime  {
     	return date.format('DD/MM/YYYY');
     }
 
+    static toDatePicker(date) {
+        if(date === null || date === undefined){
+            return '';
+        }
+    	return Datetime.fromFirebase(date).format('YYYY-MM-DD');
+    }
+
+    static fromDatepicker(date) {
+        return Datetime.firebaseUnixFormat(moment(date));
+    }
+
     static weekNumber(date) {
     	return date.format('WW');
     }

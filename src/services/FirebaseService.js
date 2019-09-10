@@ -69,6 +69,9 @@ export default class FirebaseService {
                         let item = doc.data();
                         item.id = doc.id;
                         item.is_fixed = false;
+                        if(item.paid_date === undefined){
+                            item.paid_date = null;
+                        }
                         item.value = parseFloat(item.value);
                         items.push(item);
                     } else {
@@ -93,6 +96,10 @@ export default class FirebaseService {
             console.error('date is missing', item);
             return false;
         }
+        if(item.paid_date === undefined) {
+            console.error('paid date is missing', item);
+            return false;
+        }
         if(item.name === undefined) {
             console.error('name is missing', item);
             return false;
@@ -115,17 +122,22 @@ export default class FirebaseService {
     static saveTransactions(list, callback) {
         let batch = firebaseDatabase.batch();
         for(let item of list){
+            if(item.id === ''){
+                continue;
+            }
             let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
             if(Finance.isInput(item)){
 
             } else {
+                item.paid_date = Datetime.firebaseUnixFormat(item.paid_date);
                 batch.update(itemRef, {
                     name: item.name,
-                    value: item.value
+                    value: item.value,
+                    paid_date: item.paid_date,
+                    status: item.paid_date.seconds > 0
                 });
             }
         }
-
 
         batch.commit().then(function () {
             callback();

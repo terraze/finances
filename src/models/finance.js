@@ -15,7 +15,7 @@ class Finance  {
 	    return item.status;
     }
 
-    static getValue(item){
+    static getValue(item) {
     	if(Finance.isInput && item.dolar !== undefined && item.worked_hours !== undefined){
     		return item.dolar * item.worked_hours * Finance.dolarPerHour();
     	}
@@ -94,9 +94,11 @@ class Finance  {
         return {
             account: account,
             date: null,
+            paid_date: null,
             formField: {
-              name: React.createRef(),
-              value: React.createRef()
+                name: React.createRef(),
+                value: React.createRef(),
+                paid_date: React.createRef()
             },
             id: '',
             is_entrance: null,

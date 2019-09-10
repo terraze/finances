@@ -30,6 +30,7 @@ export default class Relatorios extends React.Component {
 
     componentDidMount() {
         FirebaseService.getBills(
+            null,
             (dataReceived) => {
                 this.setState(
                     {bills: this.proccessData(dataReceived)}

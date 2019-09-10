@@ -22,6 +22,7 @@ class Sidebar extends React.Component {
 
     loadValues() {
         FirebaseService.getBills(
+            null,
             (dataReceived) => {                
                 this.setState(
                     {

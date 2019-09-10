@@ -33,6 +33,7 @@ class Resumo extends React.Component {
 
     loadValues(week) {
         FirebaseService.getBills(
+            null,
             (dataReceived) => {
                 this.setState(
                     {bills: dataReceived}

@@ -262,9 +262,12 @@ class CardWeek extends React.Component {
             }
             {this.state.loading &&
                 <>
-                    {/* Para testar o Spinner, mude para loading para true no setState da função loadValues*/}
-                    <Spinner animation="border" variant="success" className={'terra-loading'}/>
-                    <p>Carregando...</p>
+                    <Row>
+                        <Col className={"terra-center"}>
+                            <Spinner animation="border" variant="success" className={'terra-loading'}/>
+                            <p>Carregando...</p>
+                        </Col>
+                    </Row>
                 </>
             }
         </Card>

@@ -8,8 +8,6 @@ import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-ic
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import Finance from '../models/finance.js';
 import FirebaseService from '../services/FirebaseService.js';
-import { DateTimePicker } from 'react-widgets'
-
 
 class CardWeek extends React.Component {
     constructor() {
@@ -226,15 +224,11 @@ class CardWeek extends React.Component {
                                         </td>
                                         <td className={"terra-extract-value"}>
                                             <Input placeholder={'Valor'} defaultValue={Finance.getValue(values[i])} innerRef={values[i].formField.value}/>
-                                            {/*<DateTimePicker placeholder={'Data de pagamento'}
-                                                            defaultValue={null}
-                                                            time={false}
-                                                            onChange={(value) => this.handleDatePicker(value, i)}/>*/}
                                         </td>
-                                        <td className={"terra-extract-date"}><Input type="date"
-                                                                                    name="date"
-                                                                                    id="exampleDate"
-                                                                                    placeholder="date placeholder"/>
+                                        <td className={"terra-extract-date"}>
+                                            <Input type="date"
+                                                name="date"
+                                                placeholder="Pago em"/>
 
                                         </td>
                                         <td>

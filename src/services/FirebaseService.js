@@ -69,6 +69,7 @@ export default class FirebaseService {
                         let item = doc.data();
                         item.id = doc.id;
                         item.is_fixed = false;
+                        item.value = parseFloat(item.value);
                         items.push(item);
                     } else {
                         error = true;

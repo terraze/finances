@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './App.css';
-import 'react-widgets/dist/css/react-widgets.css';
 
 import Header from './components/header.js'
 import Resumo from './components/resumo.js'
@@ -15,10 +14,8 @@ import { Container } from 'reactstrap';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Moment from 'moment'
-import momentLocalizer from 'react-widgets-moment';
 
 Moment.locale('pt-br');
-momentLocalizer();
 
 class App extends React.Component {
     state = {

@@ -59,7 +59,10 @@ class Finance  {
             let isNextMonth = false;
             if(weekStart > weekEnd){
                 condition = item.day >= weekStart || item.day <= weekEnd;
-                isNextMonth = true;
+                if(item.day < 10){
+                  isNextMonth = true;  
+                }
+                
             }
             if(condition) {
                 for(let transaction of transactions){

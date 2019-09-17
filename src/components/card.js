@@ -1,5 +1,16 @@
 import React from "react";
-import { Row, Col , Card, CardBody, Button, Spinner } from 'reactstrap';
+import {
+    Row,
+    Col,
+    Card,
+    CardBody,
+    Button,
+    Spinner,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    ButtonDropdown
+} from 'reactstrap';
 import { Form, Input } from 'reactstrap';
 import TerraAlert  from './terra-alert.js'
 import Datetime from '../utils/datetimeUtils.js';
@@ -217,35 +228,53 @@ class CardWeek extends React.Component {
                                     )
                                 } else return (
                                     <tr key={i}>
-                                        <td className={"terra-extract-name"}>
-                                            <Input placeholder={'Nome'}
-                                                   value={values[i].name}
-                                                   innerRef={values[i].formField.name}
-                                                   onChange={(e) => this.handleNameChange(e.target.value, i)}
-                                            />
-                                        </td>
-                                        <td className={"terra-extract-value"}>
-                                            <Input placeholder={'Valor'}
-                                                   value={Finance.getValue(values[i])}
-                                                   innerRef={values[i].formField.value}
-                                                   onChange={(e) => this.handleValueChange(e.target.value, i)}
-                                            />
-                                        </td>
-                                        <td className={"terra-extract-date"}>
-                                            <Input type="date"
-                                                   value={values[i].paid_date != null ? Datetime.toDatePicker(values[i].paid_date) : ''}
-                                                   placeholder="Pago em"
-                                                   innerRef={values[i].formField.paid_date}
-                                                   onChange={(e) => this.handleDateChange(e.target.value, i)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {!values[i].is_fixed &&
-                                            <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
-                                                <FontAwesomeIcon icon={faTrashAlt}/>
-                                            </Button>
-                                            }
-                                        </td>
+                                        {!values[i].is_fixed && values[i].id === '' &&
+                                        <div>
+                                            <ButtonDropdown className={"terra-center"}>
+                                                <DropdownToggle caret
+                                                                className={"terra-dropdown terra-icone-background"}>
+                                                    A Receber
+                                                </DropdownToggle>
+                                                <DropdownMenu>
+                                                    <DropdownItem>A Receber</DropdownItem>
+                                                    <DropdownItem>Recebido</DropdownItem>
+                                                    <DropdownItem>A Pagar</DropdownItem>
+                                                    <DropdownItem>Pago</DropdownItem>
+                                                </DropdownMenu>
+                                            </ButtonDropdown>
+                                        </div>
+                                        }
+                                        <div>
+                                            <td className={"terra-extract-name"}>
+                                                <Input placeholder={'Nome'}
+                                                       value={values[i].name}
+                                                       innerRef={values[i].formField.name}
+                                                       onChange={(e) => this.handleNameChange(e.target.value, i)}
+                                                />
+                                            </td>
+                                            <td className={"terra-extract-value"}>
+                                                <Input placeholder={'Valor'}
+                                                       value={Finance.getValue(values[i])}
+                                                       innerRef={values[i].formField.value}
+                                                       onChange={(e) => this.handleValueChange(e.target.value, i)}
+                                                />
+                                            </td>
+                                            <td className={"terra-extract-date"}>
+                                                <Input type="date"
+                                                       value={values[i].paid_date != null ? Datetime.toDatePicker(values[i].paid_date) : ''}
+                                                       placeholder="Pago em"
+                                                       innerRef={values[i].formField.paid_date}
+                                                       onChange={(e) => this.handleDateChange(e.target.value, i)}
+                                                />
+                                            </td>
+                                            <td>
+                                                {!values[i].is_fixed &&
+                                                <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
+                                                    <FontAwesomeIcon icon={faTrashAlt}/>
+                                                </Button>
+                                                }
+                                            </td>
+                                        </div>
                                     </tr>
                                 )
                             })}

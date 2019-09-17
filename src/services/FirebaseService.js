@@ -139,7 +139,7 @@ export default class FirebaseService {
                 item.status = false;
             }
             
-            if(item.is_fixed){
+            if(item.is_fixed || item.id === ''){
                 if(Finance.isInput(item)){
 
                 } else {   

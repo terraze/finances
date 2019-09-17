@@ -126,24 +126,50 @@ export default class FirebaseService {
         return true;
     };
 
-    static saveTransactions(list, callback) {
+    static saveTransactions(account, list, callback) {
+        let accountReference = firebaseDatabase.collection('accounts').doc(account);
         let batch = firebaseDatabase.batch();
+        let pushRef = firebaseDatabase.collection("transactions");
         for(let item of list){
-            if(item.id === ''){
-                continue;
-            }
-            let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
-            if(Finance.isInput(item)){
-
+            if(item.paid_date.length > 0){
+                item.paid_date = Datetime.toFirebase(Datetime.firebaseUnixFormat(item.paid_date));
+                item.status = true;
             } else {
-                item.paid_date = Datetime.firebaseUnixFormat(item.paid_date);
-                batch.update(itemRef, {
-                    name: item.name,
-                    value: item.value,
-                    paid_date: item.paid_date,
-                    status: item.paid_date.seconds > 0
-                });
+                item.paid_date = null;
+                item.status = false;
             }
+            
+            if(item.is_fixed){
+                if(Finance.isInput(item)){
+
+                } else {   
+                    pushRef.add({
+                        account: accountReference,
+                        name: item.name,
+                        value: parseFloat(item.value),
+                        paid_date: item.paid_date,
+                        status: item.status,
+                        is_entrance: false,
+                        date: Datetime.toFirebase(item.date)
+                    });
+                }
+            } else {
+                if(Finance.isInput(item)){
+
+                } else {   
+                    let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
+                    batch.update(itemRef, {
+                        name: item.name,
+                        value: item.value,
+                        paid_date: item.paid_date,
+                        is_entrance: false,
+                        date: Datetime.toFirebase(item.date),
+                        status: item.status
+                    });
+                }
+            }
+
+            
         }
 
         batch.commit().then(function () {

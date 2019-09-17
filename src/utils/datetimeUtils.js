@@ -1,4 +1,5 @@
 import moment from 'moment';
+import firebase from 'firebase';
 import 'moment/locale/pt-br';
 
 class Datetime  {
@@ -146,7 +147,11 @@ class Datetime  {
         let weekDay = moment(date).startOf('week');
         weekDay.day(9);
         return parseInt(weekDay.format('D'));
-    }    
+    }
+
+    static toFirebase(date){
+        return new firebase.firestore.Timestamp(date.seconds, date.nanoseconds);
+    }
 };
 
 export default Datetime;

@@ -37,6 +37,9 @@ class Finance  {
             if(Datetime.isExpired(convertedDate)){
                 return 'vencido';
             }
+            if(item.is_fixed){
+                return 'estimado';
+            }
             return 'a-vencer';
         }
     }

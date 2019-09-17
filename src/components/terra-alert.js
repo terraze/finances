@@ -13,9 +13,8 @@ class TerraAlert extends React.Component {
         	text = 'Vencido em ';
         } else if (this.props.type === 'recebido'){
         	text = 'Recebido em ';
-        } else if (this.props.type === 'previsto'){
-            content = '';
-            text = 'Estimado';
+        } else if (this.props.type === 'estimado'){
+            text = 'Estimado para ';
         } else if (this.props.type === 'a-receber'){
             text = 'Previsto para ';
         }

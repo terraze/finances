@@ -6,7 +6,6 @@ import Datetime from '../utils/datetimeUtils.js';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import CardWeek from './card.js';
 import FirebaseService from '../services/FirebaseService.js';
-import Finance from "../models/finance";
 
 
 class Extrato extends React.Component {
@@ -20,7 +19,7 @@ class Extrato extends React.Component {
           accounts: [],
           bills: [],
           dropdownOpen: false,
-          currentAccount : 0
+          currentAccount : -1
       };
 
       this.prevMonth = this.prevMonth.bind(this);
@@ -41,22 +40,25 @@ class Extrato extends React.Component {
     }
 
     componentDidMount() {
-        this.loadValues();
+        FirebaseService.getAccounts(
+              (dataReceived) => {
+                this.setState(
+                  {accounts: dataReceived}
+                );
+                this.loadValues(0);
+            }
+          );
     }
 
-    loadValues() {
+    loadValues(currentAccount) {
         FirebaseService.getBills(
-          this.state.currentAccount,
+          this.state.accounts[currentAccount].id,
             (dataReceived) => {
               this.setState(
-                {bills: dataReceived}
-              );
-          }
-        );
-        FirebaseService.getAccounts(
-            (dataReceived) => {
-              this.setState(
-                {accounts: dataReceived}
+                {
+                  bills: dataReceived,
+                  currentAccount: currentAccount
+                }
               );
           }
         );        
@@ -73,16 +75,20 @@ class Extrato extends React.Component {
     }
 
     selectAccount(event) {
-        this.setState({
-            currentAccount: parseInt(event.target.id)
-        });
-        this.loadValues();
+        let currentAccount = parseInt(event.target.id) 
+        if(!isNaN(currentAccount)){
+          this.setState({
+            currentAccount: currentAccount
+          });
+          this.loadValues(currentAccount);
+        }
     }
 
     render() {
       let accounts = this.state.accounts;
       let currentAccount = this.state.currentAccount;
       let weeks = Datetime.weekList(this.state.date);
+
       return (
         <div className={"row terra-body"}>
           <Col lg='12' className={"terra-center"}>
@@ -104,7 +110,7 @@ class Extrato extends React.Component {
             <Row>
               <Col className={"terra-center"} >
                   <br/>
-                  {accounts.length > 0 &&
+                  {accounts.length > 0 && currentAccount >= 0 &&
                   <ButtonDropdown className={"terra-center"} isOpen={this.state.dropdownOpen} toggle={this.toggleAccount}>
                       <DropdownToggle caret className={"terra-dropdown terra-icone-background"}>
                             <img src={require('..//assets/images/bank_icons/' + accounts[currentAccount].bank + '.png')} width={25} height={25}alt={''}></img> {accounts[currentAccount].title}
@@ -126,7 +132,7 @@ class Extrato extends React.Component {
           </Col>
           { weeks.map((item, i) => (
           <Col key={i} lg="6">
-              {accounts.length > 0 &&
+              {accounts.length > 0 && currentAccount >= 0 &&
               <CardWeek week={weeks[i]} account={accounts[currentAccount].id} bills={this.state.bills}></CardWeek>
               }
           <br/>

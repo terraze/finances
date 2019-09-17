@@ -111,7 +111,7 @@ class CardWeek extends React.Component {
                 item.paid_date = item.formField.paid_date.current.value;
             }
         }
-        FirebaseService.saveTransactions(newValues, () => {
+        FirebaseService.saveTransactions(this.props.account, newValues, () => {
             this.setState({values: newValues});
             this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();

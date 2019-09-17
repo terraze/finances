@@ -23,7 +23,7 @@ export default class FirebaseService {
         let items = [];
         let query = firebaseDatabase.collection('bills')
 
-        if(accountId !== undefined && accountId !== null && accountId !== '' && accountId !== 0){
+        if(accountId !== undefined && accountId !== null && accountId.length > 0){
             let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
             query = query.where('account', '==', accountReference);
         }

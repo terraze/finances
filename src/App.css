@@ -78,11 +78,20 @@ h6 {
   text-align: left;
 }
 
-
 .terra-center {
   text-align: center;
 }
 
+.terra-radio input {
+  text-align: left;
+  margin-left: 12px !important;
+}
+
+.terra-space {
+  text-align: left;
+  margin-left: 283px !important;
+  margin-top: -22px;
+}
 
 
 .terra-home {

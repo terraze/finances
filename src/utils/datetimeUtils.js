@@ -109,6 +109,9 @@ class Datetime  {
         if(date === null || date === undefined){
             return '';
         }
+        if(typeof date === 'string'){
+            return date;
+        }
     	return Datetime.fromFirebase(date).format('YYYY-MM-DD');
     }
 

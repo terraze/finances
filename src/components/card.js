@@ -123,6 +123,11 @@ class CardWeek extends React.Component {
                 item.name = item.formField.name.current.value;
                 item.value = item.formField.value.current.value;
                 item.date = item.formField.date.current.value;
+                if(item.name.length < 1 || item.value.length < 1 || item.date.length < 1){
+                    alert("Favor preencher todos os campos");
+                    this.setState({loading: false})
+                    return;
+                }
                 if(item.id === '') {
                     item.status = item.formField.status.current === null ? false : item.formField.status.current.checked;
                 }

@@ -9,7 +9,10 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    ButtonDropdown
+    ButtonDropdown,
+    FormGroup,
+    Label,
+    RadioGroup
 } from 'reactstrap';
 import { Form, Input } from 'reactstrap';
 import TerraAlert  from './terra-alert.js'
@@ -234,22 +237,6 @@ class CardWeek extends React.Component {
                                     )
                                 } else return (
                                     <tr key={i}>
-                                        {!values[i].is_fixed && values[i].id === '' &&
-                                        <div>
-                                            <ButtonDropdown className={"terra-center"}>
-                                                <DropdownToggle caret
-                                                                className={"terra-dropdown terra-icone-background"}>
-                                                    A Receber
-                                                </DropdownToggle>
-                                                <DropdownMenu>
-                                                    <DropdownItem>A Receber</DropdownItem>
-                                                    <DropdownItem>Recebido</DropdownItem>
-                                                    <DropdownItem>A Pagar</DropdownItem>
-                                                    <DropdownItem>Pago</DropdownItem>
-                                                </DropdownMenu>
-                                            </ButtonDropdown>
-                                        </div>
-                                        }
                                         <div>
                                             <td className={"terra-extract-name"}>
                                                 <Input placeholder={'Nome'}
@@ -281,6 +268,14 @@ class CardWeek extends React.Component {
                                                 }
                                             </td>
                                         </div>
+                                        {!values[i].is_fixed && values[i].id === '' &&
+                                            <div className={"terra-radio"}> 
+                                                <Input type="radio" name="is_entrance"/>{'Entrada '} <Input type="radio" name="is_entrance" />{'Saída  '}  
+                                                <div className={"terra-space"}>
+                                                    <Input type="checkbox" name="paid_date"/>{'Pago'} 
+                                                </div>
+                                            </div>
+                                        }
                                     </tr>
                                 )
                             })}

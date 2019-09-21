@@ -35,6 +35,7 @@ class CardWeek extends React.Component {
       this.toggleMode = this.toggleMode.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleCancel = this.handleCancel.bind(this);
       this.addTransaction = this.addTransaction.bind(this);
     }
 
@@ -129,6 +130,11 @@ class CardWeek extends React.Component {
         })
     }
 
+    handleCancel() {
+        this.loadValues(this.props.week.start, this.props.account);
+        this.setState({mode: 'view'})
+    }
+
     handleNameChange(value, item) {
         let currentValues = this.state.values;
         currentValues[item].name = value;
@@ -197,7 +203,7 @@ class CardWeek extends React.Component {
                                         onClick={this.handleSubmit}>
                                     <FontAwesomeIcon icon={faCheck}/>
                                 </Button>
-                                <Button onClick={this.toggleMode}
+                                <Button onClick={this.handleCancel}
                                         className={"terra-button terra-icone terra-icone-red"}>
                                     <FontAwesomeIcon icon={faTimes}/>
                                 </Button>

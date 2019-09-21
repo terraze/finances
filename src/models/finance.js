@@ -106,7 +106,8 @@ class Finance  {
             formField: {
                 name: React.createRef(),
                 value: React.createRef(),
-                date: React.createRef()
+                date: React.createRef(),
+                status: React.createRef()
             },
             id: '',
             is_entrance: null,

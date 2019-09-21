@@ -61,6 +61,7 @@ class CardWeek extends React.Component {
                     item.formField.name = React.createRef();
                     item.formField.value = React.createRef();
                     item.formField.date = React.createRef();
+                    item.formField.status = React.createRef();
                 }
 
                 this.setState(
@@ -122,6 +123,9 @@ class CardWeek extends React.Component {
                 item.name = item.formField.name.current.value;
                 item.value = item.formField.value.current.value;
                 item.date = item.formField.date.current.value;
+                if(item.id === '') {
+                    item.status = item.formField.status.current === null ? false : item.formField.status.current.checked;
+                }
             }
         }
         FirebaseService.saveTransactions(this.props.account, newValues, () => {
@@ -150,6 +154,12 @@ class CardWeek extends React.Component {
     handleDateChange(value, item) {
         let currentValues = this.state.values;
         currentValues[item].date = Datetime.fromDatepicker(value);
+        this.setState({values: currentValues});
+    }
+
+    handleStatusChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].status = value;
         this.setState({values: currentValues});
     }
 
@@ -271,9 +281,14 @@ class CardWeek extends React.Component {
                                         </div>
                                         {!values[i].is_fixed && values[i].id === '' &&
                                             <div className={"terra-radio"}> 
-                                                <Input type="radio" name="is_entrance"/>{'Entrada '} <Input type="radio" name="is_entrance" />{'Saída  '}  
+                                                <Input type="radio" name="is_entrance"/>{'Entrada '} <Input type="radio" name="is_entrance" />{'Saída  '}
+
                                                 <div className={"terra-space"}>
-                                                    <Input type="checkbox" name="paid_date"/>{'Pago'} 
+                                                    <Input type="checkbox"
+                                                           name="status"
+                                                           innerRef={values[i].formField.status}
+                                                           onChange={(e) => this.handleStatusChange(e.target.checked, i)}
+                                                    />{'Pago'}
                                                 </div>
                                             </div>
                                         }

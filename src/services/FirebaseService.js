@@ -126,10 +126,6 @@ export default class FirebaseService {
         return true;
     };
 
-    static removeTransaction(id, callback) {
-      callback();
-    };
-
     static saveTransactions(account, list, callback) {
         let accountReference = firebaseDatabase.collection('accounts').doc(account);
         let batch = firebaseDatabase.batch();
@@ -150,7 +146,6 @@ export default class FirebaseService {
                 if(Finance.isInput(item)){
 
                 } else {
-                    console.log(item);
                     pushRef.add({
                         account: accountReference,
                         name: item.name,

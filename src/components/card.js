@@ -6,12 +6,6 @@ import {
     CardBody,
     Button,
     Spinner,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    ButtonDropdown,
-    FormGroup,
-    Label,
     RadioGroup
 } from 'reactstrap';
 import { Form, Input } from 'reactstrap';
@@ -66,14 +60,15 @@ class CardWeek extends React.Component {
                     item.formField = {};
                     item.formField.name = React.createRef();
                     item.formField.value = React.createRef();
-                    item.formField.paid_date = React.createRef();
+                    item.formField.date = React.createRef();
                 }
 
                 this.setState(
                     {
                         values: processedData.values,
                         total: processedData.total,
-                        loading: false
+                        loading: false,
+                        mode: 'view'
                     }
                 )
             }
@@ -118,12 +113,15 @@ class CardWeek extends React.Component {
         this.setState({loading: true})
         let newValues = this.state.values;
         for(let item of newValues){
+            if(item.delete !== undefined && item.delete){
+                continue;
+            }
             if(Finance.isInput(item)){
                 // TODO
             } else {
                 item.name = item.formField.name.current.value;
                 item.value = item.formField.value.current.value;
-                item.paid_date = item.formField.paid_date.current.value;
+                item.date = item.formField.date.current.value;
             }
         }
         FirebaseService.saveTransactions(this.props.account, newValues, () => {
@@ -135,7 +133,6 @@ class CardWeek extends React.Component {
 
     handleCancel() {
         this.loadValues(this.props.week.start, this.props.account);
-        this.setState({mode: 'view'})
     }
 
     handleNameChange(value, item) {
@@ -152,7 +149,7 @@ class CardWeek extends React.Component {
 
     handleDateChange(value, item) {
         let currentValues = this.state.values;
-        currentValues[item].paid_date = Datetime.fromDatepicker(value);
+        currentValues[item].date = Datetime.fromDatepicker(value);
         this.setState({values: currentValues});
     }
 
@@ -167,18 +164,22 @@ class CardWeek extends React.Component {
     }
 
     removeTransaction(key) {
-      // TODO fix issue on removing!!
-      let updatedValues = this.state.values;
-      updatedValues.splice(key,1);
+      let values = this.state.values;
+      values[key].delete = true;
       this.setState({
-        values: updatedValues
+        values: values
       })
     }
 
     render() {
     	let mode = this.state.mode;
     	let week = this.props.week;
-    	let values = this.state.values;
+    	let values = [];
+    	for(let item of this.state.values){
+    	    if(item.delete === undefined || !item.delete){
+    	        values.push(item);
+            }
+        }
 
         return (
         <Card color="link">
@@ -254,9 +255,9 @@ class CardWeek extends React.Component {
                                             </td>
                                             <td className={"terra-extract-date"}>
                                                 <Input type="date"
-                                                       value={values[i].paid_date != null ? Datetime.toDatePicker(values[i].paid_date) : ''}
+                                                       value={values[i].date != null ? Datetime.toDatePicker(values[i].date) : ''}
                                                        placeholder="Pago em"
-                                                       innerRef={values[i].formField.paid_date}
+                                                       innerRef={values[i].formField.date}
                                                        onChange={(e) => this.handleDateChange(e.target.value, i)}
                                                 />
                                             </td>

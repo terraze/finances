@@ -33,9 +33,11 @@ class Finance  {
             if(item.status){
                 return 'pago';
             }
-            let convertedDate = Datetime.fromFirebase(item.date);
-            if(Datetime.isExpired(convertedDate)){
-                return 'vencido';
+            if(item.date !== null) {
+                let convertedDate = Datetime.fromFirebase(item.date);
+                if (Datetime.isExpired(convertedDate)) {
+                    return 'vencido';
+                }
             }
             if(item.is_fixed){
                 return 'estimado';
@@ -104,7 +106,7 @@ class Finance  {
             formField: {
                 name: React.createRef(),
                 value: React.createRef(),
-                paid_date: React.createRef()
+                date: React.createRef()
             },
             id: '',
             is_entrance: null,

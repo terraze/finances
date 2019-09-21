@@ -126,23 +126,31 @@ export default class FirebaseService {
         return true;
     };
 
+    static removeTransaction(id, callback) {
+      callback();
+    };
+
     static saveTransactions(account, list, callback) {
         let accountReference = firebaseDatabase.collection('accounts').doc(account);
         let batch = firebaseDatabase.batch();
         let pushRef = firebaseDatabase.collection("transactions");
         for(let item of list){
-            if(item.paid_date.length > 0){
-                item.paid_date = Datetime.toFirebase(Datetime.firebaseUnixFormat(item.paid_date));
-                item.status = true;
-            } else {
-                item.paid_date = null;
-                item.status = false;
+            if(item.delete !== undefined && item.delete){
+                pushRef.doc(item.id).delete();
+                continue;
+            }
+            if(item.date.length > 0){
+                item.date = Datetime.toFirebase(Datetime.firebaseUnixFormat(item.date));
+            }
+            if(item.status){
+                item.paid_date = item.date;
             }
             
             if(item.is_fixed || item.id === ''){
                 if(Finance.isInput(item)){
 
-                } else {   
+                } else {
+                    console.log(item);
                     pushRef.add({
                         account: accountReference,
                         name: item.name,

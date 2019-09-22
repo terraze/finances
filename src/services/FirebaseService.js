@@ -111,14 +111,6 @@ export default class FirebaseService {
             console.error('name is missing', item);
             return false;
         }
-        if(item.is_entrance && item.dolar === undefined) {
-            console.error('dolar is missing', item);
-            return false;
-        }
-        if(item.is_entrance && item.worked_hours === undefined) {
-            console.error('worked_hours is missing', item);
-            return false;
-        }
         if(!item.is_entrance && item.value === undefined) {
             console.error('value is missing', item);
             return false;
@@ -143,22 +135,18 @@ export default class FirebaseService {
             }
             
             if(item.is_fixed || item.id === ''){
-                if(Finance.isInput(item)){
-
-                } else {
-                    pushRef.add({
-                        account: accountReference,
-                        name: item.name,
-                        value: parseFloat(item.value),
-                        paid_date: item.paid_date,
-                        status: item.status,
-                        is_entrance: false,
-                        date: Datetime.toFirebase(item.date)
-                    });
-                }
+                pushRef.add({
+                    account: accountReference,
+                    name: item.name,
+                    value: parseFloat(item.value),
+                    paid_date: item.paid_date,
+                    status: item.status,
+                    is_entrance: item.is_entrance,
+                    date: Datetime.toFirebase(item.date)
+                });
             } else {
                 if(Finance.isInput(item)){
-
+                    //console.log(item);
                 } else {   
                     let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
                     batch.update(itemRef, {

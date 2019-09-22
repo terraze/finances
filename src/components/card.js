@@ -117,20 +117,14 @@ class CardWeek extends React.Component {
             if(item.delete !== undefined && item.delete){
                 continue;
             }
-            if(Finance.isInput(item)){
-                // TODO
-            } else {
-                item.name = item.formField.name.current.value;
-                item.value = item.formField.value.current.value;
-                item.date = item.formField.date.current.value;
-                if(item.name.length < 1 || item.value.length < 1 || item.date.length < 1){
-                    alert("Favor preencher todos os campos");
-                    this.setState({loading: false})
-                    return;
-                }
-                if(item.id === '') {
-                    item.status = item.formField.status.current === null ? false : item.formField.status.current.checked;
-                }
+
+            if(item.name.length < 1 || item.value.length < 1 || item.date.length < 1){
+                alert("Favor preencher todos os campos");
+                this.setState({loading: false})
+                return;
+            }
+            if(item.id === '') {
+                item.status = item.formField.status.current === null ? false : item.formField.status.current.checked;
             }
         }
         FirebaseService.saveTransactions(this.props.account, newValues, () => {
@@ -165,6 +159,19 @@ class CardWeek extends React.Component {
     handleStatusChange(value, item) {
         let currentValues = this.state.values;
         currentValues[item].status = value;
+        this.setState({values: currentValues});
+    }
+
+    handleIsEntranceChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].is_entrance = true;
+        this.setState({values: currentValues});
+    }
+
+
+    handleIsNotEntranceChange(value, item) {
+        let currentValues = this.state.values;
+        currentValues[item].is_entrance = false;
         this.setState({values: currentValues});
     }
 
@@ -286,7 +293,17 @@ class CardWeek extends React.Component {
                                         </div>
                                         {!values[i].is_fixed && values[i].id === '' &&
                                             <div className={"terra-radio"}> 
-                                                <Input type="radio" name="is_entrance"/>{'Entrada '} <Input type="radio" name="is_entrance" />{'Saída  '}
+                                                <Input type="radio"
+                                                       name="is_entrance"
+                                                       checked={Finance.isInput(values[i])}
+                                                       onChange={(e) => this.handleIsEntranceChange(e.target.checked, i)}
+                                                />{'Entrada '}
+
+                                                <Input type="radio"
+                                                       name="is_entrance"
+                                                       checked={!Finance.isInput(values[i])}
+                                                       onChange={(e) => this.handleIsNotEntranceChange(e.target.checked, i)}
+                                                />{'Saída  '}
 
                                                 <div className={"terra-space"}>
                                                     <Input type="checkbox"

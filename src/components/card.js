@@ -6,16 +6,22 @@ import {
     CardBody,
     Button,
     Spinner,
-    RadioGroup
+    RadioGroup,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
 } from 'reactstrap';
 import { Form, Input } from 'reactstrap';
 import TerraAlert  from './terra-alert.js'
 import Datetime from '../utils/datetimeUtils.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faPlus, faCheck, faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import Finance from '../models/finance.js';
 import FirebaseService from '../services/FirebaseService.js';
+import TransactionEditForm from './transaction-edit.js';
+
 
 class CardWeek extends React.Component {
     constructor() {
@@ -25,12 +31,13 @@ class CardWeek extends React.Component {
           mode: "view",
           total: 0,
           values: [],
-          loading: true
+          loading: true,
+          modal: false
       };
 
       this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
-      this.handleDateChange = this.handleDateChange.bind(this);
+      this.toggleModal = this.toggleModal.bind(this);      
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleCancel = this.handleCancel.bind(this);
       this.addTransaction = this.addTransaction.bind(this);
@@ -96,6 +103,12 @@ class CardWeek extends React.Component {
         };
     }
 
+    toggleModal() {
+        this.setState({
+          modal: !this.state.modal
+        });
+    }
+
 	toggleMode() {
 	  let mode = this.state.mode
 
@@ -138,43 +151,6 @@ class CardWeek extends React.Component {
         this.loadValues(this.props.week.start, this.props.account);
     }
 
-    handleNameChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].name = value;
-        this.setState({values: currentValues});
-    }
-
-    handleValueChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].value = value.replace(/,/g, ".");
-        this.setState({values: currentValues});
-    }
-
-    handleDateChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].date = Datetime.fromDatepicker(value);
-        this.setState({values: currentValues});
-    }
-
-    handleStatusChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].status = value;
-        this.setState({values: currentValues});
-    }
-
-    handleIsEntranceChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].is_entrance = true;
-        this.setState({values: currentValues});
-    }
-
-
-    handleIsNotEntranceChange(value, item) {
-        let currentValues = this.state.values;
-        currentValues[item].is_entrance = false;
-        this.setState({values: currentValues});
-    }
-
     addTransaction() {
       let emptyTransaction = Finance.newTransaction(this.props.account);
 
@@ -204,149 +180,108 @@ class CardWeek extends React.Component {
         }
 
         return (
-        <Card color="link">
-            {!this.state.loading &&
-            <CardBody>
-                <Form inline>
-                    <Row>
-                        <Col lg="6">
-                            <h2>Semana {week.number}</h2>
-                            <h3>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h3>
-                        </Col>
-                        <Col className={" terra-right"}>
-                            {mode === 'view' &&
-                            <Button onClick={this.toggleMode} className={"terra-button terra-icone terra-icone-black"}>
-                                <FontAwesomeIcon icon={faEdit}/>
-                            </Button>
-                            }
-                            {mode === 'edit' &&
-                            <>
-                                <Button className={"terra-button terra-icone terra-icone-blue"}
-                                        onClick={this.addTransaction}>
-                                    <FontAwesomeIcon icon={faPlus}/>
-                                </Button>
-                                <Button className={"terra-button terra-icone terra-icone-green"}
-                                        onClick={this.handleSubmit}>
-                                    <FontAwesomeIcon icon={faCheck}/>
-                                </Button>
-                                <Button onClick={this.handleCancel}
-                                        className={"terra-button terra-icone terra-icone-red"}>
-                                    <FontAwesomeIcon icon={faTimes}/>
-                                </Button>
-                            </>
-                            }
-                        </Col>
-                        <table className={'table terra-table'}>
-                            <tbody>
-                            {values.length < 1 &&
-                            <tr>
-                                <td><br/>Nenhum valor</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            }
-                            {values.map((item, i) => {
-                                if (mode === 'view') {
-                                    return (
-                                        <tr key={i}>
-                                            <td>{values[i].name}</td>
-                                            <td>{Finance.format(Finance.getValue(values[i]))}</td>
-                                            <td className={"terra-table-col-info"}>
-                                                <TerraAlert type={Finance.getStatus(values[i])}>
-                                                    {values[i].status ? Datetime.dm(Datetime.fromFirebase(values[i].paid_date)) : Datetime.dm(Datetime.fromFirebase(values[i].date))}
-                                                </TerraAlert>
-                                            </td>
-                                        </tr>
-                                    )
-                                } else return (
-                                    <tr key={i}>
-                                        <div>
-                                            <td className={"terra-extract-name"}>
-                                                <Input placeholder={'Nome'}
-                                                       value={values[i].name}
-                                                       innerRef={values[i].formField.name}
-                                                       onChange={(e) => this.handleNameChange(e.target.value, i)}
-                                                />
-                                            </td>
-                                            <td className={"terra-extract-value"}>
-                                                <Input placeholder={'Valor'}
-                                                       value={Finance.getValue(values[i])}
-                                                       innerRef={values[i].formField.value}
-                                                       onChange={(e) => this.handleValueChange(e.target.value, i)}
-                                                />
-                                            </td>
-                                            <td className={"terra-extract-date"}>
-                                                <Input type="date"
-                                                       value={values[i].date != null ? Datetime.toDatePicker(values[i].date) : ''}
-                                                       placeholder="Pago em"
-                                                       innerRef={values[i].formField.date}
-                                                       onChange={(e) => this.handleDateChange(e.target.value, i)}
-                                                />
-                                            </td>
-                                            <td>
-                                                {!values[i].is_fixed &&
-                                                <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
-                                                    <FontAwesomeIcon icon={faTrashAlt}/>
-                                                </Button>
-                                                }
-                                            </td>
-                                        </div>
-                                        {!values[i].is_fixed && values[i].id === '' &&
-                                            <div className={"terra-radio"}> 
-                                                <Input type="radio"
-                                                       name="is_entrance"
-                                                       checked={Finance.isInput(values[i])}
-                                                       onChange={(e) => this.handleIsEntranceChange(e.target.checked, i)}
-                                                />{'Entrada '}
-
-                                                <Input type="radio"
-                                                       name="is_entrance"
-                                                       checked={!Finance.isInput(values[i])}
-                                                       onChange={(e) => this.handleIsNotEntranceChange(e.target.checked, i)}
-                                                />{'Saída  '}
-
-                                                <div className={"terra-space"}>
-                                                    <Input type="checkbox"
-                                                           name="status"
-                                                           innerRef={values[i].formField.status}
-                                                           onChange={(e) => this.handleStatusChange(e.target.checked, i)}
-                                                    />{'Pago'}
-                                                </div>
-                                            </div>
-                                        }
+            <>
+                <Card color="link">
+                    {!this.state.loading &&
+                    <CardBody>
+                        <Form inline>
+                            <Row>
+                                <Col lg="6">
+                                    <h2>Semana {week.number}</h2>
+                                    <h3>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h3>
+                                </Col>
+                                <Col className={" terra-right"}>                            
+                                    {mode === 'view' &&
+                                    <>
+                                        <Button className={"terra-button terra-icone terra-icone-black"}
+                                                onClick={this.toggleModal}>
+                                            <FontAwesomeIcon icon={faPlus}/>
+                                        </Button>
+                                        <Button onClick={this.toggleMode} className={"terra-button terra-icone terra-icone-black"}>
+                                            <FontAwesomeIcon icon={faEdit}/>
+                                        </Button>
+                                    </>
+                                    }                            
+                                    {mode === 'edit' &&
+                                    <>                                
+                                        <Button className={"terra-button terra-icone terra-icone-green"}
+                                                onClick={this.handleSubmit}>
+                                            <FontAwesomeIcon icon={faCheck}/>
+                                        </Button>
+                                        <Button onClick={this.handleCancel}
+                                                className={"terra-button terra-icone terra-icone-red"}>
+                                            <FontAwesomeIcon icon={faTimes}/>
+                                        </Button>
+                                    </>
+                                    }
+                                </Col>
+                                <table className={'table terra-table'}>
+                                    <tbody>
+                                    {values.length < 1 &&
+                                    <tr>
+                                        <td><br/>Nenhum valor</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                )
-                            })}
-                            {mode === 'view' && values.length > 0 &&
-                            <tr className={'terra-saldo'}>
-                                <td>Saldo</td>
-                                <td>{Finance.format(this.state.total)}</td>
-                                <td></td>
-                            </tr>
-                            }
-                            {mode === 'edit' &&
-                            <>
-
-                            </>
-                            }
-                            </tbody>
-                        </table>
-                    </Row>
-                </Form>
-            </CardBody>
-            }
-            {this.state.loading &&
-                <>
-                    <Row>
-                        <Col className={"terra-center"}>
-                            <Spinner animation="border" variant="success" className={'terra-loading'}/>
-                            <p>Carregando...</p>
-                        </Col>
-                    </Row>
-                </>
-            }
-        </Card>
-        )
+                                    }
+                                    {values.map((item, i) => {
+                                        return (
+                                            <tr key={i}>
+                                                <td>{values[i].name}</td>
+                                                <td>{Finance.format(Finance.getValue(values[i]))}</td>
+                                                <td className={"terra-table-col-info"}>
+                                                    <TerraAlert type={Finance.getStatus(values[i])}>
+                                                        {values[i].status ? Datetime.dm(Datetime.fromFirebase(values[i].paid_date)) : Datetime.dm(Datetime.fromFirebase(values[i].date))}
+                                                    </TerraAlert>
+                                                </td>
+                                                {mode === 'edit' &&
+                                                    <td>
+                                                    {!values[i].is_fixed &&
+                                                        <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
+                                                            <FontAwesomeIcon icon={faTrashAlt}/>
+                                                        </Button>
+                                                    }
+                                                    </td>
+                                                }
+                                            </tr>
+                                        )
+                                    })}
+                                    {mode === 'view' && values.length > 0 &&
+                                    <tr className={'terra-saldo'}>
+                                        <td>Saldo</td>
+                                        <td>{Finance.format(this.state.total)}</td>
+                                        <td></td>
+                                    </tr>
+                                    }                           
+                                    </tbody>
+                                </table>
+                            </Row>
+                        </Form>
+                    </CardBody>
+                    }
+                    {this.state.loading &&
+                        <>
+                            <Row>
+                                <Col className={"terra-center"}>
+                                    <Spinner animation="border" variant="success" className={'terra-loading'}/>
+                                    <p>Carregando...</p>
+                                </Col>
+                            </Row>
+                        </>
+                    }
+                </Card>
+                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={'terra-modal'}>
+                  <ModalHeader toggle={this.toggleModal}><h2>Transação</h2></ModalHeader>
+                  <ModalBody>
+                    <TransactionEditForm>
+                    </TransactionEditForm>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="info" onClick={this.toggleModal}>Salvar</Button>{' '}
+                  </ModalFooter>
+                </Modal>                
+            </>
+        )        
     }
 }
 

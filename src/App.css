@@ -82,17 +82,18 @@ h6 {
   text-align: center;
 }
 
-.terra-radio input {
-  text-align: left;
-  margin-left: 12px !important;
+.terra-radio {
+  margin-left: 40px !important;
 }
 
-.terra-space {
-  text-align: left;
-  margin-left: 283px !important;
-  margin-top: -22px;
+.terra-check {
+  margin-top: -10px;
+  margin-left: 55px !important;
 }
 
+.terra-margin-top {
+  margin-top: 20px;
+}
 
 .terra-home {
   font-size: 18px;
@@ -258,20 +259,48 @@ h6 {
 }
 
 
-.terra-extract-name input {
-  width: 140px !important;
+.terra-extract-name input,  .terra-extract-name label{
+  width: 180px !important;
+  margin-left: 20px;
 }
 
-.terra-extract-value input {
-  width: 90px !important;
+.terra-extract-value input,  .terra-extract-value label{
+  width: 120px !important;
 }
 
 
-.terra-extract-date input {
+.terra-extract-date input,  .terra-extract-date label{
   width: 145px !important;
+  margin-left: 20px;
+
 }
+
+.terra-extract-paid-date input,  .terra-extract-paid-date label{
+  width: 145px !important;
+  margin-left: 0px;
+
+}
+
+
+.terra-extract-dolar input,  .terra-extract-dolar label{
+  width: 120px !important;
+  margin-left: 0px;
+
+}
+
+
+.terra-extract-worked-hours input,  .terra-extract-worked-hours label{
+  width: 140px !important;
+  margin-left: 20px;
+
+}
+
 
 .terra-loading {
   margin: 40px;
   color: black;
+}
+
+.terra-modal {
+  margin-top: 20px;
 }

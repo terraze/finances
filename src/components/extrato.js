@@ -133,7 +133,7 @@ class Extrato extends React.Component {
           { weeks.map((item, i) => (
           <Col key={i} lg="6">
               {accounts.length > 0 && currentAccount >= 0 &&
-              <CardWeek week={weeks[i]} account={accounts[currentAccount].id} bills={this.state.bills}></CardWeek>
+              <CardWeek week={weeks[i]} account={accounts[currentAccount].id} bills={this.state.bills} accounts={this.state.accounts}></CardWeek>
               }
           <br/>
         </Col>

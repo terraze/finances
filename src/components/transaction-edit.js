@@ -2,34 +2,31 @@ import React from 'react';
 import {
     Row,
     Col,
-    Card,
-    Button,
-    RadioGroup,
     Input,
-    Label,
-    FormGroup,
+    Label, Button
 } from 'reactstrap';
 import Datetime from '../utils/datetimeUtils.js';
-
+import Finance from '../models/finance.js';
 
 class TransactionEditForm extends React.Component {
 
     constructor() {
       super();
+      this.state = Finance.newTransaction();
 
-      this.state = {
-          name: 'Nome',
-          value: 1222.55,
-          date: '12/11/1993',
-          is_entrance: false,
-          is_salary: false,
-          status: false,
-          paid_date: null,
-          account: null,
-          worked_hours: 0,
-          dolar: 3.60
-      };
+      this.handleNameChange = this.handleNameChange.bind(this);
+      this.handleValueChange = this.handleValueChange.bind(this);
+      this.handleWorkedHoursChange = this.handleWorkedHoursChange.bind(this);
+      this.handleDolarChange = this.handleDolarChange.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
+      this.handlePaidDateChange = this.handlePaidDateChange.bind(this);
+      this.handleIsEntranceChange = this.handleIsEntranceChange.bind(this);
+      this.handleIsNotEntranceChange = this.handleIsNotEntranceChange.bind(this);
+      this.handleIsSalaryChange = this.handleIsSalaryChange.bind(this);
+    }
 
+    componentDidMount() {
+        this.setState(Finance.loadTransaction(this.props.transaction));
     }
 
     handleNameChange(value) {
@@ -53,20 +50,22 @@ class TransactionEditForm extends React.Component {
     }
 
     handlePaidDateChange(value) {
-        this.setState({paid_date: Datetime.fromDatepicker(value)});
-    }
-
-    handleStatusChange(value) {
-        this.setState({status: value});
+        this.setState({
+            paid_date: Datetime.fromDatepicker(value),
+            status: value.length > 0
+        });
     }
 
     handleIsEntranceChange(value) {
         this.setState({is_entrance: true});
     }
 
-
     handleIsNotEntranceChange(value) {
         this.setState({is_entrance: false});
+    }
+
+    handleIsSalaryChange(value) {
+        this.setState({is_salary: value});
     }
 
       render() {
@@ -79,32 +78,40 @@ class TransactionEditForm extends React.Component {
                             <Col className={"terra-radio"} >
                                 <Input type="radio"
                                        name="is_entrance"
+                                       checked={Finance.isInput(this.state)}
+                                       onChange={(e) => this.handleIsEntranceChange(e.target.checked)}
                                 />
                                 <Label for="is_entrance">Entrada</Label>
                             </Col>
-                            <Col className={"terra-check"} >
+                            {this.state.is_entrance &&
+                            <Col className={"terra-check"}>
                                 <Input type="checkbox"
-                                    name="is_salary"
+                                       name="is_salary"
+                                       checked={Finance.isSalary(this.state)}
+                                       onChange={(e) => this.handleIsSalaryChange(e.target.checked)}
                                 />
-                                <Label for="is_salary">Salário</Label>                    
+                                <Label for="is_salary">Salário</Label>
                             </Col>
+                            }
                         </Row>
                     </Col>
                     <Col lg="2"  className={"terra-radio"} >
                         <Input type="radio"
                                name="is_entrance"
+                               checked={!Finance.isInput(this.state)}
+                               onChange={(e) => this.handleIsNotEntranceChange(e.target.checked)}
                         />
                         <Label for="is_entrance">Saída</Label>
                     </Col>
                     <Col lg="4">
                         <Label for="account">Conta</Label>
-                        <Input 
-                            type="select" 
+                        <Input
+                            type="select"
                             bsSize="sm"
                             name="account">
-                            <option>Conta-Corrente</option>
-                            <option>Poupança</option>
-                            <option>Investimento</option>
+                            {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
+                                <option key={i}>{this.props.accounts[i].title}</option>
+                            ))}
                         </Input>
                     </Col>
                 </Row>
@@ -125,38 +132,43 @@ class TransactionEditForm extends React.Component {
                                value={this.state.value}
                                onChange={(e) => this.handleValueChange(e.target.value)}
                                name="value"
+                               readOnly={this.state.is_entrance && this.state.is_salary}
                         />
 
                     </Col>
                 </Row>
-                <br/>
-                <Row>
-                    <Col className={"terra-extract-worked-hours"}>
-                        <Label for="worked-hours">Horas Trabalhadas</Label>
-                            <Input 
-                               value={this.state.worked_hours}
-                               onChange={(e) => this.handleWorkedHoursChange(e.target.value)}
-                               name="worked-hours"
-                        />
+                {this.state.is_entrance && this.state.is_salary &&
+                <>
+                    <br/>
+                    <Row>
+                        <Col className={"terra-extract-worked-hours"}>
+                            <Label for="worked-hours">Horas Trabalhadas</Label>
+                            <Input
+                                value={this.state.worked_hours}
+                                onChange={(e) => this.handleWorkedHoursChange(e.target.value)}
+                                name="worked-hours"
+                            />
 
-                    </Col>        
-                    <Col className={"terra-extract-dolar"}>
-                        <Label for="dolar">Dolar</Label>
-                        <Input 
-                               value={this.state.dolar}
-                               onChange={(e) => this.handleDolarChange(e.target.value)}
-                               name="dolar"
-                        />
+                        </Col>
+                        <Col className={"terra-extract-dolar"}>
+                            <Label for="dolar">Dolar</Label>
+                            <Input
+                                value={this.state.dolar}
+                                onChange={(e) => this.handleDolarChange(e.target.value)}
+                                name="dolar"
+                            />
 
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
+                </>
+                }
                 <br/>
                 <Row>        
                     <Col className={"terra-extract-date terra-margin-top"}>
                     <Label for="date">Data de Vencimento</Label>
                         <Input 
                                type="date"
-                               value={this.state.date}
+                               value={Datetime.toDatePicker(this.state.date)}
                                onChange={(e) => this.handleDateChange(e.target.value)}
                         />
 
@@ -165,7 +177,7 @@ class TransactionEditForm extends React.Component {
                     <Label for="paid_date">Data de Pagamento</Label>
                         <Input 
                                type="date"
-                               value={this.state.paid_date}
+                               value={Datetime.toDatePicker(this.state.paid_date)}
                                onChange={(e) => this.handlePaidDateChange(e.target.value)}
                         />
 
@@ -174,6 +186,7 @@ class TransactionEditForm extends React.Component {
                 <br/>
             </Col>
           </Row>
+
         );
       }
 }

@@ -11,13 +11,23 @@ class Finance  {
         return item.is_entrance;
     }
 
+    static isSalary(item) {
+	    if(Finance.isInput(item)){
+            if(item.is_salary !== undefined){
+                return item.is_salary;
+            }
+        }
+
+	    return false;
+    }
+
     static isPaid(item) {
 	    return item.status;
     }
 
     static getValue(item) {
     	if(Finance.isInput && item.dolar !== undefined && item.worked_hours !== undefined){
-    		return item.dolar * item.worked_hours * Finance.dolarPerHour();
+    		return Number.parseFloat((item.dolar * item.worked_hours * Finance.dolarPerHour()).toFixed(2));
     	}
 
     	return item.value;
@@ -98,17 +108,22 @@ class Finance  {
         return weekBills;
     }
 
+    static loadTransaction(transaction) {
+	    transaction.value = Finance.getValue(transaction);
+	    if(transaction.date == null){
+            transaction.date = '';
+        }
+        if(transaction.paid_date == null){
+            transaction.paid_date = '';
+        }
+	    return transaction;
+    }
+
     static newTransaction(account) {
         return {
             account: account,
             date: null,
             paid_date: null,
-            formField: {
-                name: React.createRef(),
-                value: React.createRef(),
-                date: React.createRef(),
-                status: React.createRef()
-            },
             id: '',
             is_entrance: null,
             name: '',

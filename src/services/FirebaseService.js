@@ -145,19 +145,22 @@ export default class FirebaseService {
                     date: Datetime.toFirebase(item.date)
                 });
             } else {
-                if(Finance.isInput(item)){
-                    //console.log(item);
-                } else {   
-                    let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
-                    batch.update(itemRef, {
-                        name: item.name,
-                        value: item.value,
-                        paid_date: item.paid_date,
-                        is_entrance: false,
-                        date: Datetime.toFirebase(item.date),
-                        status: item.status
-                    });
+                let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
+                let toUpdate = {
+                    name: item.name,
+                    value: item.value,
+                    paid_date: item.paid_date,
+                    is_entrance: item.is_entrance,
+                    date: Datetime.toFirebase(item.date),
+                    status: item.status,
+                    is_salary: false
+                };
+                if(Finance.isInput(item) && Finance.isSalary(item)){
+                    toUpdate.dolar = item.dolar;
+                    toUpdate.worked_hours = item.worked_hours;
+                    toUpdate.is_salary = true;
                 }
+                batch.update(itemRef, toUpdate);
             }
 
             

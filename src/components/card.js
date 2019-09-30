@@ -32,8 +32,11 @@ class CardWeek extends React.Component {
           total: 0,
           values: [],
           loading: true,
-          modal: false
+          modal: false,
+          edit: {}
       };
+
+      this.transactionFormReference = React.createRef();
 
       this.loadValues = this.loadValues.bind(this);
       this.toggleMode = this.toggleMode.bind(this);
@@ -41,6 +44,7 @@ class CardWeek extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleCancel = this.handleCancel.bind(this);
       this.addTransaction = this.addTransaction.bind(this);
+      this.saveTransaction = this.saveTransaction.bind(this);
     }
 
     componentDidMount() {
@@ -124,24 +128,14 @@ class CardWeek extends React.Component {
 	}
 
 	handleSubmit() {
-        this.setState({loading: true})
-        let newValues = this.state.values;
-        for(let item of newValues){
+        this.setState({loading: true});
+        let newValues = [];
+        for(let item of this.state.values){
             if(item.delete !== undefined && item.delete){
-                continue;
-            }
-
-            if(item.name.length < 1 || item.value.length < 1 || item.date.length < 1){
-                alert("Favor preencher todos os campos");
-                this.setState({loading: false})
-                return;
-            }
-            if(item.id === '') {
-                item.status = item.formField.status.current === null ? false : item.formField.status.current.checked;
+                newValues.push(item);
             }
         }
         FirebaseService.saveTransactions(this.props.account, newValues, () => {
-            this.setState({values: newValues});
             this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();
         })
@@ -152,13 +146,22 @@ class CardWeek extends React.Component {
     }
 
     addTransaction() {
-      let emptyTransaction = Finance.newTransaction(this.props.account);
+        this.setState({
+            edit: Finance.newTransaction(this.props.account),
+            modal: true
+        })
+    }
 
-      let values = this.state.values;
-      values.push(emptyTransaction);
-      this.setState({
-        values: values
-      })
+    editTransaction(i) {
+        let transaction = this.state.values[i];
+        transaction.account = this.props.account;
+        if(transaction.is_fixed){
+            //transaction.account = this.props.account;
+        }
+        this.setState({
+            edit: transaction,
+            modal: true
+        })
     }
 
     removeTransaction(key) {
@@ -167,6 +170,24 @@ class CardWeek extends React.Component {
       this.setState({
         values: values
       })
+    }
+
+    saveTransaction() {
+        this.setState({loading: true})
+        let formState = this.transactionFormReference.current.state;
+        if(formState.name.length < 1 || formState.value.length < 1 || formState.date.length < 1){
+            alert("Favor preencher todos os campos obrigatórios (Nome, Valor e Data de Vencimento");
+            this.setState({loading: false})
+            return;
+        }
+        if(formState.id === '') {
+
+        }
+        FirebaseService.saveTransactions(formState.account, [formState], () => {
+            this.setState({modal: false});
+            this.loadValues(this.props.week.start, this.props.account);
+            this.toggleMode();
+        })
     }
 
     render() {
@@ -194,7 +215,7 @@ class CardWeek extends React.Component {
                                     {mode === 'view' &&
                                     <>
                                         <Button className={"terra-button terra-icone terra-icone-black"}
-                                                onClick={this.toggleModal}>
+                                                onClick={this.addTransaction}>
                                             <FontAwesomeIcon icon={faPlus}/>
                                         </Button>
                                         <Button onClick={this.toggleMode} className={"terra-button terra-icone terra-icone-black"}>
@@ -236,6 +257,9 @@ class CardWeek extends React.Component {
                                                 </td>
                                                 {mode === 'edit' &&
                                                     <td>
+                                                        <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.editTransaction(i)}>
+                                                            <FontAwesomeIcon icon={faEdit}/>
+                                                        </Button>
                                                     {!values[i].is_fixed &&
                                                         <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
                                                             <FontAwesomeIcon icon={faTrashAlt}/>
@@ -271,14 +295,31 @@ class CardWeek extends React.Component {
                     }
                 </Card>
                 <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={'terra-modal'}>
-                  <ModalHeader toggle={this.toggleModal}><h2>Transação</h2></ModalHeader>
-                  <ModalBody>
-                    <TransactionEditForm>
-                    </TransactionEditForm>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button color="info" onClick={this.toggleModal}>Salvar</Button>{' '}
-                  </ModalFooter>
+                    {!this.state.loading &&
+                        <>
+                            <ModalHeader toggle={this.toggleModal}>
+                                <div>Transação</div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <TransactionEditForm transaction={this.state.edit} accounts={this.props.accounts} ref={this.transactionFormReference}>
+
+                                </TransactionEditForm>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="success" onClick={this.saveTransaction}>Salvar</Button>
+                            </ModalFooter>
+                        </>
+                    }
+                    {this.state.loading &&
+                    <>
+                        <Row>
+                            <Col className={"terra-center"}>
+                                <Spinner animation="border" variant="success" className={'terra-loading'}/>
+                                <p>Carregando...</p>
+                            </Col>
+                        </Row>
+                    </>
+                    }
                 </Modal>                
             </>
         )        

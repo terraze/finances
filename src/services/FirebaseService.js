@@ -147,6 +147,7 @@ export default class FirebaseService {
             } else {
                 let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
                 let toUpdate = {
+                    account: accountReference,
                     name: item.name,
                     value: item.value,
                     paid_date: item.paid_date,

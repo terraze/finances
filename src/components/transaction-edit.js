@@ -23,6 +23,7 @@ class TransactionEditForm extends React.Component {
       this.handleIsEntranceChange = this.handleIsEntranceChange.bind(this);
       this.handleIsNotEntranceChange = this.handleIsNotEntranceChange.bind(this);
       this.handleIsSalaryChange = this.handleIsSalaryChange.bind(this);
+      this.handleAccountChange = this.handleAccountChange.bind(this);
     }
 
     componentDidMount() {
@@ -68,6 +69,10 @@ class TransactionEditForm extends React.Component {
         this.setState({is_salary: value});
     }
 
+    handleAccountChange(value) {
+        this.setState({account: value});
+    }
+
       render() {
         return (
           <Row>
@@ -110,7 +115,7 @@ class TransactionEditForm extends React.Component {
                             bsSize="sm"
                             name="account">
                             {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
-                                <option key={i}>{this.props.accounts[i].title}</option>
+                                <option key={i} onClick={(e) => this.handleAccountChange(e.target.id)} id={this.props.accounts[i].id}>{this.props.accounts[i].title}</option>
                             ))}
                         </Input>
                     </Col>

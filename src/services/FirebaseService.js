@@ -134,7 +134,7 @@ export default class FirebaseService {
             }
             
             if(item.is_fixed || item.id === ''){
-                pushRef.add({
+                let toInsert = {
                     account: accountReference,
                     name: item.name,
                     value: parseFloat(item.value),
@@ -142,7 +142,13 @@ export default class FirebaseService {
                     status: item.status,
                     is_entrance: item.is_entrance,
                     date: Datetime.toFirebase(item.date)
-                });
+                }
+                if(Finance.isInput(item) && Finance.isSalary(item)){
+                    toInsert.dolar = item.dolar;
+                    toInsert.worked_hours = item.worked_hours;
+                    toInsert.is_salary = true;
+                }
+                pushRef.add(toInsert);
             } else {
                 let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
                 let toUpdate = {

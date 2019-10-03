@@ -140,6 +140,11 @@ class Datetime  {
         return today.diff(date, 'days') > 0;
     }
 
+    static expiresToday(date) {
+        let today = moment();
+        return today.diff(date, 'days') === 0;
+    }
+
     static weekStartDay(date){
         let weekDay = moment(date).startOf('week');
         weekDay.day(3);

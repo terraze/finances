@@ -48,6 +48,9 @@ class Finance  {
                 if (Datetime.isExpired(convertedDate)) {
                     return 'vencido';
                 }
+                if (Datetime.expiresToday(convertedDate)) {
+                    return 'vence-hoje';
+                }
             }
             if(item.is_fixed){
                 return 'estimado';

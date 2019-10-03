@@ -132,6 +132,63 @@ class Finance  {
             is_fixed: false
       }
     }
+
+    static sort(list){
+        list = Finance.sortByDate(list);
+        list = Finance.sortByPaidDate(list);
+        list = Finance.sortByStatus(list);
+	    list = Finance.sortByIsEntrance(list);
+        list = Finance.sortByIsSalary(list);
+	    return list;
+    }
+
+    static sortByIsEntrance(list){
+        return list.sort((function(a,b){
+            if(a.is_entrance === b.is_entrance){
+                return 0;
+            }
+            if(a.is_entrance){
+                return -1;
+            }
+            return 1;
+        }));
+    }
+
+    static sortByIsSalary(list){
+        return list.sort((function(a,b){
+            if(a.is_salary === b.is_salary){
+                return 0;
+            }
+            if(a.is_salary){
+                return -1;
+            }
+            return 1;
+        }));
+    }
+
+    static sortByStatus(list){
+        return list.sort((function(a,b){
+            if(a.status === b.status){
+                return 0;
+            }
+            if(a.status){
+                return -1;
+            }
+            return 1;
+        }));
+    }
+
+    static sortByPaidDate(list){
+        return list.sort((function(a,b){
+            return Datetime.sort(a.paid_date, b.paid_date);
+        }));
+    }
+
+    static sortByDate(list){
+        return list.sort((function(a,b){
+            return Datetime.sort(a.date, b.date);
+        }));
+    }
 };
 
 export default Finance;

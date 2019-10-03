@@ -158,6 +158,10 @@ class Datetime  {
         }
         return new firebase.firestore.Timestamp(date.seconds, date.nanoseconds);
     }
+
+    static sort(date1, date2){
+        return moment(date1).format('YYYYMMDD') - moment(date2).format('YYYYMMDD');
+    }
 };
 
 export default Datetime;

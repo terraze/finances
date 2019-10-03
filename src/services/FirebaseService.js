@@ -85,6 +85,8 @@ export default class FirebaseService {
                         error = true;
                     }
                 });
+
+                items = Finance.sort(items);
                 
                 callback({error: error, items: items});
             });

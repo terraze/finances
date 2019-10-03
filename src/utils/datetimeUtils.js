@@ -137,7 +137,7 @@ class Datetime  {
 
     static isExpired(date) {
         let today = moment();
-        return date.isBefore(today);
+        return today.diff(date, 'days') > 0;
     }
 
     static weekStartDay(date){

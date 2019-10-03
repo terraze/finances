@@ -50,7 +50,8 @@ class Resumo extends React.Component {
                         this.setState(
                             {date: week, values: processedData}
                         )
-                    }
+                    },
+                    'date'
                 );
             }
         );

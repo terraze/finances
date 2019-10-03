@@ -145,6 +145,10 @@ class Datetime  {
         return today.diff(date, 'days') === 0;
     }
 
+    static isBetween(date, start, end) {
+        return moment(date).isBetween(start,end,'days', true);
+    }
+
     static weekStartDay(date){
         let weekDay = moment(date).startOf('week');
         weekDay.day(3);

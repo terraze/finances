@@ -53,13 +53,13 @@ export default class FirebaseService {
             });
     };
 
-    static getTransactionsByWeek = (weekStart, accountId, callback) => {
+    static getTransactionsByWeek = (weekStart, accountId, callback, field) => {
         let week = Datetime.week(weekStart);
         let items = [];
 
         let query = firebaseDatabase.collection('transactions')
-            .where('date', '>=', Datetime.firebaseFormat(week.start))
-            .where('date', '<=', Datetime.firebaseFormat(week.end));
+            .where(field, '>=', Datetime.firebaseFormat(week.start))
+            .where(field, '<=', Datetime.firebaseFormat(week.end));
 
         if(accountId){
             let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
@@ -79,8 +79,16 @@ export default class FirebaseService {
                         if(item.paid_date === undefined){
                             item.paid_date = null;
                         }
+                        let include = true;
+                        if(item.paid_date){
+                            if(!Datetime.isBetween(Datetime.fromFirebase(item.paid_date), week.start, week.end)){
+                                include = false;
+                            }
+                        }
                         item.value = parseFloat(item.value);
-                        items.push(item);
+                        if(include){
+                            items.push(item);
+                        }
                     } else {
                         error = true;
                     }

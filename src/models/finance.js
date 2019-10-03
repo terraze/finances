@@ -125,7 +125,7 @@ class Finance  {
             date: null,
             paid_date: null,
             id: '',
-            is_entrance: null,
+            is_entrance: false,
             name: '',
             status: false,
             value: 0,

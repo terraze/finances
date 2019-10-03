@@ -130,16 +130,13 @@ export default class FirebaseService {
             if(item.date.length > 0){
                 item.date = Datetime.toFirebase(Datetime.firebaseUnixFormat(item.date));
             }
-            if(item.status){
-                item.paid_date = item.date;
-            }
             
             if(item.is_fixed || item.id === ''){
                 pushRef.add({
                     account: accountReference,
                     name: item.name,
                     value: parseFloat(item.value),
-                    paid_date: item.paid_date,
+                    paid_date: Datetime.toFirebase(item.paid_date),
                     status: item.status,
                     is_entrance: item.is_entrance,
                     date: Datetime.toFirebase(item.date)
@@ -150,7 +147,7 @@ export default class FirebaseService {
                     account: accountReference,
                     name: item.name,
                     value: item.value,
-                    paid_date: item.paid_date,
+                    paid_date: Datetime.toFirebase(item.paid_date),
                     is_entrance: item.is_entrance,
                     date: Datetime.toFirebase(item.date),
                     status: item.status,

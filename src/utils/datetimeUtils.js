@@ -153,6 +153,9 @@ class Datetime  {
     }
 
     static toFirebase(date){
+        if(!date){
+            return null;
+        }
         return new firebase.firestore.Timestamp(date.seconds, date.nanoseconds);
     }
 };

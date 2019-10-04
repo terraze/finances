@@ -278,14 +278,14 @@ class CardWeek extends React.Component {
                                                     </TerraAlert>
                                                 </td>
                                                 {mode === 'edit' &&
-                                                    <td>
-                                                        <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.editTransaction(i)}>
-                                                            <FontAwesomeIcon icon={faEdit}/>
-                                                        </Button>
-                                                    {!values[i].is_fixed &&
-                                                        <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
-                                                            <FontAwesomeIcon icon={faTrashAlt}/>
-                                                        </Button>
+                                                <td>
+                                                    <Button className={"terra-button terra-icone terra-icone-black"} onClick={() => this.editTransaction(i)}>
+                                                        <FontAwesomeIcon icon={faEdit}/>
+                                                    </Button>
+                                                {!values[i].is_fixed &&
+                                                    <Button className={"terra-button terra-icone terra-icone-red"} onClick={() => this.removeTransaction(i)}>
+                                                        <FontAwesomeIcon icon={faTrashAlt}/>
+                                                    </Button>
                                                     }
                                                     </td>
                                                 }
@@ -320,7 +320,7 @@ class CardWeek extends React.Component {
                     {!this.state.loading &&
                         <>
                             <ModalHeader toggle={this.toggleModal}>
-                                <div>Transação</div>
+                                <h2 className={"terra-center"} >Transação</h2>
                             </ModalHeader>
                             <ModalBody>
                                 <TransactionEditForm transaction={this.state.edit} accounts={this.props.accounts} ref={this.transactionFormReference}>

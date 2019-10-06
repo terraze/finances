@@ -309,3 +309,13 @@ h6 {
 .terra-modal {
   margin-top: 20px;
 }
+
+.terra-badge {
+  background-color: #e62e2e !important;
+  color: white;
+  margin-left: 5px;
+}
+
+.terra-card-config {
+  margin-left: 200px;
+}

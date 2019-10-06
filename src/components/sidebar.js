@@ -58,19 +58,8 @@ class Sidebar extends React.Component {
         const currentDay = moment().format('D');
         return (
             <div>
-                <Row>
-                    <Col xs="10">
-                        <h2>Despesas</h2>
-                    </Col>
-                    <Col xs="2">
-                        <Button onClick={this.editBills}>
-                            <FontAwesomeIcon  icon={faEdit} />
-                        </Button>
-
-                    </Col>
-                </Row>
                 <table className={'table'}>
-                    <thead className={'thead-dark'}>
+                    <thead className={'thead-light'}>
                         <tr>
                             <th>Dia</th>
                             <th>Conta</th>

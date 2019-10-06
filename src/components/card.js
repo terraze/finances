@@ -10,7 +10,8 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter
+    ModalFooter,
+    Badge
 } from 'reactstrap';
 import { Form, Input } from 'reactstrap';
 import TerraAlert  from './terra-alert.js'
@@ -270,7 +271,11 @@ class CardWeek extends React.Component {
                                     {values.map((item, i) => {
                                         return (
                                             <tr key={i}>
-                                                <td>{values[i].name}</td>
+                                                <td>{values[i].name} 
+                                                {values[i].is_fixed &&
+                                                    <Badge className={"terra-badge"}>E</Badge>
+                                                }
+                                                </td>
                                                 <td>{Finance.format(Finance.getValue(values[i]))}</td>
                                                 <td className={"terra-table-col-info"}>
                                                     <TerraAlert type={Finance.getStatus(values[i])}>

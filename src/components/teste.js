@@ -11,7 +11,7 @@ import { faEdit, faPlus, faCheck, faTimes } from "@fortawesome/free-solid-svg-ic
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { Input, CardBody } from 'reactstrap';
 import classnames from 'classnames';
-import FirebaseService from "../services/FirebaseService";
+import ApiService from "../services/ApiService";
 import Finance from '../models/finance.js';
 import Sidebar  from './sidebar.js'
 
@@ -29,7 +29,7 @@ export default class Relatorios extends React.Component {
     }
 
     loadValues() {
-        FirebaseService.getBills(
+        ApiService.getBills(
             null,
             (dataReceived) => {
 
@@ -75,7 +75,7 @@ export default class Relatorios extends React.Component {
                         { bills.map((key, i) => (
                             <tr key={i}>
                                 <td>{bills[i].day}</td>
-                                <td>{bills[i].bill}</td>
+                                <td>{bills[i].name}</td>
                                 <td>R$ {bills[i].value}</td>
                                 <td>{bills[i].frequency}</td>
                             </tr>

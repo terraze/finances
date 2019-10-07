@@ -74,7 +74,7 @@ class Datetime  {
         return moment(date).add(1, 'W');
     }
 
-    static weekList(date) {    	
+    static weekList(date) {
     	let weekList = [];
     	let weekStart = Datetime.monthStart(date);
     	let monthStart = weekStart.format("MM");
@@ -129,6 +129,10 @@ class Datetime  {
 
     static firebaseUnixFormat(date) {
         return { nanoseconds: 0, seconds: moment(date).unix()};
+    }
+
+    static fromDatabase(timestamp) {
+        return moment.unix(timestamp);
     }
 
     static fromFirebase(firebaseDate) {

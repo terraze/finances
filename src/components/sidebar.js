@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button, Row, Col } from 'reactstrap';
 import moment from 'moment'
-import FirebaseService from '../services/FirebaseService.js';
+import ApiService from '../services/ApiService.js';
 
 class Sidebar extends React.Component {
     constructor() {
@@ -21,7 +21,7 @@ class Sidebar extends React.Component {
     }
 
     loadValues() {
-        FirebaseService.getBills(
+        ApiService.getBills(
             null,
             (dataReceived) => {                
                 this.setState(
@@ -70,7 +70,7 @@ class Sidebar extends React.Component {
                     { bills.map((key, i) => (
                         <tr className={this.getRowClass(currentDay, bills[i].day)} key={i}>
                             <td>{bills[i].day}</td>
-                            <td>{bills[i].bill}</td>
+                            <td>{bills[i].name}</td>
                             <td>R$ {bills[i].value}</td>
                         </tr>
                     )) }

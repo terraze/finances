@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
 import Finance from '../models/finance.js';
-import FirebaseService from '../services/FirebaseService.js';
+import ApiService from '../services/ApiService.js';
 
 class Resumo extends React.Component {
     constructor() {
@@ -32,13 +32,13 @@ class Resumo extends React.Component {
     }
 
     loadValues(week) {
-        FirebaseService.getBills(
+        ApiService.getBills(
             null,
             (dataReceived) => {
                 this.setState(
                     {bills: dataReceived}
                 );
-                FirebaseService.getTransactionsByWeek(
+                ApiService.getTransactionsByWeek(
                     week,
                     false,
                     (dataReceived) => {
@@ -55,9 +55,10 @@ class Resumo extends React.Component {
                 );
             }
         );
-        FirebaseService.getAccounts(            
+        ApiService.getAccounts(
             (dataReceived) => {
                 let processedData = this.processAccountsData(dataReceived);
+                console.log(dataReceived);
                 this.setState(
                     {accounts_total: processedData}
                 )

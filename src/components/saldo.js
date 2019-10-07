@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExchangeAlt, faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
 import { Row, Col , Card, CardBody, Button } from 'reactstrap';
-import FirebaseService from '../services/FirebaseService.js';
+import ApiService from '../services/ApiService.js';
 import Finance from "../models/finance";
 
 class Saldo extends React.Component {
@@ -21,7 +21,7 @@ class Saldo extends React.Component {
     }
 
     loadValues() {
-        FirebaseService.getAccounts(
+        ApiService.getAccounts(
             (dataReceived) => {
             this.setState(
                 {accounts: dataReceived}

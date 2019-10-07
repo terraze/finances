@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCheck, faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import Finance from '../models/finance.js';
-import FirebaseService from '../services/FirebaseService.js';
+import ApiService from '../services/ApiService.js';
 import TransactionEditForm from './transaction-edit.js';
 
 
@@ -49,80 +49,47 @@ class CardWeek extends React.Component {
     }
 
     componentDidMount() {
-        this.loadValues(this.props.week.start, this.props.account);
+        this.loadValues();
     }
 
-    componentDidUpdate(prevProps, prevStates) {
-    	if((prevProps.week.number !== this.props.week.number) || (prevProps.account !== this.props.account)){
-    		this.loadValues(this.props.week.start, this.props.account);
-    	}
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if((prevProps.week.number !== this.props.week.number) || (prevProps.account !== this.props.account)){
+            this.loadValues();
+        }
     }
 
-    loadValues(week, account) {
-        FirebaseService.getTransactionsByWeek(
-            week,
-            account,
-            (dataReceivedDate) => {
-                FirebaseService.getTransactionsByWeek(
-                    week,
-                    account,
-                    (dataReceived) => {
-                        let itemsToMerge = [];
-                        for(let item of dataReceivedDate.items){
-                            let include = true;
-                            for(let item2 of dataReceived.items){
-                                if(item.id === item2.id){
-                                    include = false;
-                                    break;
-                                }
-                            }
-                            if(include){
-                                itemsToMerge.push(item);
-                            }
-                        }
-                        dataReceived.items.concat(itemsToMerge);
-                        let bills = Finance.getBillsForWeek(week, account, this.props.bills, dataReceived.items);
-                        for(let item of bills){
-                            dataReceived.items.push(item);
-                        }
-                        let processedData = this.processData(dataReceived);
-                        for(let item of processedData.values){
-                            item.formField = {};
-                            item.formField.name = React.createRef();
-                            item.formField.value = React.createRef();
-                            item.formField.date = React.createRef();
-                            item.formField.status = React.createRef();
-                        }
+    loadValues() {
+        let processedData = this.processData(this.props.transactions);
+        for(let item of processedData.values){
+            item.formField = {};
+            item.formField.name = React.createRef();
+            item.formField.value = React.createRef();
+            item.formField.date = React.createRef();
+            item.formField.status = React.createRef();
+        }
 
-                        this.setState(
-                            {
-                                values: processedData.values,
-                                total: processedData.total,
-                                loading: false,
-                                mode: 'view'
-                            }
-                        )
-                    },
-                    'paid_date'
-                );
-            },
-            'date'
-        );
+        this.setState(
+            {
+                values: processedData.values,
+                total: processedData.total,
+                loading: false,
+                mode: 'view'
+            }
+        )
     }
 
     processData(data) {
-        if(data.error){
-            alert("Error! Please look at console for more info")
-        }
         let values = [];
         let total = 0;
-        for (let item of data.items) {
-            values.push(item);
-            if(Finance.isInput(item)) {
-	            total += Finance.getValue(item);
-	        } else {
-	        	total -= Finance.getValue(item);
-	        }
+        for (let item of data) {
+            if(Datetime.isBetween(item.date, this.props.week.start, this.props.week.end)){
+                values.push(item);
+                if(Finance.isInput(item)) {
+                    total += Finance.getValue(item);
+                } else {
+                    total -= Finance.getValue(item);
+                }
+            }
         }
         return {
             values: values,
@@ -158,7 +125,7 @@ class CardWeek extends React.Component {
                 newValues.push(item);
             }
         }
-        FirebaseService.saveTransactions(this.props.account, newValues, () => {
+        ApiService.saveTransactions(this.props.account, newValues, () => {
             this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();
         })
@@ -206,7 +173,7 @@ class CardWeek extends React.Component {
         if(formState.id === '') {
 
         }
-        FirebaseService.saveTransactions(formState.account, [formState], () => {
+        ApiService.saveTransactions(formState.account, [formState], () => {
             this.setState({modal: false});
             this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();
@@ -279,7 +246,7 @@ class CardWeek extends React.Component {
                                                 <td>{Finance.format(Finance.getValue(values[i]))}</td>
                                                 <td className={"terra-table-col-info"}>
                                                     <TerraAlert type={Finance.getStatus(values[i])}>
-                                                        {values[i].status ? Datetime.dm(Datetime.fromFirebase(values[i].paid_date)) : Datetime.dm(Datetime.fromFirebase(values[i].date))}
+                                                        {values[i].status ? Datetime.dm(values[i].paid_date) : Datetime.dm(values[i].date)}
                                                     </TerraAlert>
                                                 </td>
                                                 {mode === 'edit' &&

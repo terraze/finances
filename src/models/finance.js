@@ -26,7 +26,7 @@ class Finance {
     }
 
     static getValue(item) {
-        if (Finance.isInput && item.dolar !== undefined && item.worked_hours !== undefined) {
+        if (Finance.isInput(item) && Finance.isSalary(item)) {
             return Number.parseFloat((item.dolar * item.worked_hours * Finance.dolarPerHour()).toFixed(2));
         }
 
@@ -44,7 +44,7 @@ class Finance {
                 return 'pago';
             }
             if (item.date !== null) {
-                let convertedDate = Datetime.fromFirebase(item.date);
+                let convertedDate = Datetime.fromDatabase(item.date);
                 if (Datetime.isExpired(convertedDate)) {
                     return 'vencido';
                 }
@@ -104,7 +104,7 @@ class Finance {
                     + "-"
                     + Datetime.year(week)
                 );
-                transaction.date = Datetime.firebaseUnixFormat(bill_date);
+                transaction.date = Datetime.toDatabase(bill_date);
                 weekBills.push(transaction);
             }
         }
@@ -134,63 +134,6 @@ class Finance {
             value: 0,
             is_fixed: false
         }
-    }
-
-    static sort(list) {
-        list = Finance.sortByDate(list);
-        list = Finance.sortByPaidDate(list);
-        list = Finance.sortByStatus(list);
-        list = Finance.sortByIsEntrance(list);
-        list = Finance.sortByIsSalary(list);
-        return list;
-    }
-
-    static sortByIsEntrance(list) {
-        return list.sort((function (a, b) {
-            if (a.is_entrance === b.is_entrance) {
-                return 0;
-            }
-            if (a.is_entrance) {
-                return -1;
-            }
-            return 1;
-        }));
-    }
-
-    static sortByIsSalary(list) {
-        return list.sort((function (a, b) {
-            if (a.is_salary === b.is_salary) {
-                return 0;
-            }
-            if (a.is_salary) {
-                return -1;
-            }
-            return 1;
-        }));
-    }
-
-    static sortByStatus(list) {
-        return list.sort((function (a, b) {
-            if (a.status === b.status) {
-                return 0;
-            }
-            if (a.status) {
-                return -1;
-            }
-            return 1;
-        }));
-    }
-
-    static sortByPaidDate(list) {
-        return list.sort((function (a, b) {
-            return Datetime.sort(a.paid_date, b.paid_date);
-        }));
-    }
-
-    static sortByDate(list) {
-        return list.sort((function (a, b) {
-            return Datetime.sort(a.date, b.date);
-        }));
     }
 };
 

@@ -25,8 +25,8 @@ import TransactionEditForm from './transaction-edit.js';
 
 
 class CardWeek extends React.Component {
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
 
       this.state = {
           mode: "view",
@@ -49,6 +49,8 @@ class CardWeek extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.account);
+        alert("a");
         this.loadValues();
     }
 
@@ -125,9 +127,11 @@ class CardWeek extends React.Component {
                 newValues.push(item);
             }
         }
-        ApiService.saveTransactions(this.props.account, newValues, () => {
-            this.loadValues(this.props.week.start, this.props.account);
+        ApiService.saveTransactions(newValues, () => {
             this.toggleMode();
+            console.log(this.props.account);
+            this.props.reload(this.props.account);
+            this.loadValues();
         })
     }
 
@@ -173,10 +177,12 @@ class CardWeek extends React.Component {
         if(formState.id === '') {
 
         }
-        ApiService.saveTransactions(formState.account, [formState], () => {
+        console.log(this.props.account);
+        ApiService.saveTransactions( [formState], () => {
             this.setState({modal: false});
-            this.loadValues(this.props.week.start, this.props.account);
             this.toggleMode();
+            this.props.reload(this.props.account);
+            this.loadValues();
         })
     }
 

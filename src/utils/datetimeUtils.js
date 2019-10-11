@@ -1,5 +1,4 @@
 import moment from 'moment';
-import firebase from 'firebase';
 import 'moment/locale/pt-br';
 
 class Datetime  {
@@ -106,37 +105,33 @@ class Datetime  {
     }
 
     static toDatePicker(date) {
-        if(date === null || date === undefined){
+        if(date === null || date === undefined || date === 0){
             return '';
         }
         if(typeof date === 'string'){
             return date;
         }
-    	return Datetime.fromFirebase(date).format('YYYY-MM-DD');
+
+        if(!Number.isInteger(date)){
+            return moment(date).format('YYYY-MM-DD');
+        }
+    	return Datetime.fromDatabase(date).format('YYYY-MM-DD');
     }
 
     static fromDatepicker(date) {
-        return Datetime.firebaseUnixFormat(moment(date));
+        return Datetime.toDatabase(moment(date));
     }
 
     static weekNumber(date) {
     	return date.format('WW');
     }
 
-    static firebaseFormat(date) {
-        return date.toDate();
-    }
-
-    static firebaseUnixFormat(date) {
-        return { nanoseconds: 0, seconds: moment(date).unix()};
-    }
-
     static fromDatabase(timestamp) {
         return moment.unix(timestamp);
     }
 
-    static fromFirebase(firebaseDate) {
-        return moment.unix(firebaseDate.seconds);
+    static toDatabase(date) {
+        return moment(date).unix();
     }
 
     static isExpired(date) {
@@ -163,13 +158,6 @@ class Datetime  {
         let weekDay = moment(date).startOf('week');
         weekDay.day(9);
         return parseInt(weekDay.format('D'));
-    }
-
-    static toFirebase(date){
-        if(!date){
-            return null;
-        }
-        return new firebase.firestore.Timestamp(date.seconds, date.nanoseconds);
     }
 
     static sort(date1, date2){

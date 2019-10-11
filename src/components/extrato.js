@@ -25,6 +25,7 @@ class Extrato extends React.Component {
         this.prevMonth = this.prevMonth.bind(this);
         this.nextMonth = this.nextMonth.bind(this);
         this.selectAccount = this.selectAccount.bind(this);
+        this.loadValues = this.loadValues.bind(this);
     }
 
     prevMonth() {
@@ -53,9 +54,12 @@ class Extrato extends React.Component {
     }
 
     loadValues(currentAccount) {
+        console.trace();
+        console.log(currentAccount);
         ApiService.getTransactionsByMonth(
-            this.state.date,
             this.state.accounts[currentAccount].id,
+            Datetime.monthStart(this.state.date),
+            Datetime.monthEnd(this.state.date),
             (dataReceived) => {
                 this.setState(
                     {
@@ -91,6 +95,8 @@ class Extrato extends React.Component {
         let accounts = this.state.accounts;
         let currentAccount = this.state.currentAccount;
         let weeks = Datetime.weekList(this.state.date);
+
+        console.log(currentAccount);
 
         return (
             <div className={"row terra-body"}>
@@ -143,8 +149,12 @@ class Extrato extends React.Component {
                 {weeks.map((item, i) => (
                     <Col key={i} lg="6">
                         {accounts.length > 0 && currentAccount >= 0 &&
-                        <CardWeek week={weeks[i]} account={accounts[currentAccount].id}
-                                  transactions={this.state.transactions} accounts={this.state.accounts}/>
+                        <CardWeek week={weeks[i]}
+                                  account={accounts[currentAccount].id}
+                                  accounts={this.state.accounts}
+                                  transactions={this.state.transactions}
+                                  reload={this.loadValues}
+                        />
                         }
                         <br/>
                     </Col>

@@ -37,8 +37,10 @@ export default class ApiService {
             )
     };
 
-    static getTransactionsByMonth = (monthStart, accountId, callback) => {
-        fetch(ApiService.path + "/transaction?month_start="+monthStart)
+    static getTransactionsByMonth = (accountId, startDate, endDate, callback) => {
+        startDate = Datetime.toDatabase(startDate);
+        endDate = Datetime.toDatabase(endDate);
+        fetch(ApiService.path + "/transaction?account="+accountId+"&startDate="+startDate+"&endDate="+endDate)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -46,6 +48,13 @@ export default class ApiService {
                         let items = [];
                         for(let item of result.data){
                             item.date = Datetime.fromDatabase(item.date);
+                            item.is_entrance = !!item.is_entrance;
+                            item.is_salary = !!item.is_salary;
+                            item.dolar = item.dollar;
+                            item.status = !!item.paid_date;
+                            if(item.status){
+                                item.paid_date = Datetime.fromDatabase(item.paid_date);
+                            };
                             items.push(item);
                         }
                         callback(items);
@@ -101,61 +110,24 @@ export default class ApiService {
             });*/
     };
 
-    static saveTransactions(account, list, callback) {
-        /*let accountReference = firebaseDatabase.collection('accounts').doc(account);
-        let batch = firebaseDatabase.batch();
-        let pushRef = firebaseDatabase.collection("transactions");
-        for(let item of list){
-            if(item.delete !== undefined && item.delete){
-                pushRef.doc(item.id).delete();
-                continue;
-            }
-            if(item.date.length > 0){
-                item.date = Datetime.toFirebase(Datetime.firebaseUnixFormat(item.date));
-            }
-            
-            if(item.is_fixed || item.id === ''){
-                let toInsert = {
-                    account: accountReference,
-                    name: item.name,
-                    value: parseFloat(item.value),
-                    paid_date: Datetime.toFirebase(item.paid_date),
-                    status: item.status,
-                    is_entrance: item.is_entrance,
-                    date: Datetime.toFirebase(item.date)
+    static saveTransactions(list, callback) {
+        fetch(ApiService.path + "/transaction", {
+            method: "POST",
+            body: JSON.stringify({data: list})
+        })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                console.log(result);
+                if (result.success) {
+                    callback();
                 }
-                if(Finance.isInput(item) && Finance.isSalary(item)){
-                    toInsert.dolar = item.dolar;
-                    toInsert.worked_hours = item.worked_hours;
-                    toInsert.is_salary = true;
-                }
-                pushRef.add(toInsert);
-            } else {
-                let itemRef = firebaseDatabase.collection("transactions").doc(item.id);
-                let toUpdate = {
-                    account: accountReference,
-                    name: item.name,
-                    value: item.value,
-                    paid_date: Datetime.toFirebase(item.paid_date),
-                    is_entrance: item.is_entrance,
-                    date: Datetime.toFirebase(item.date),
-                    status: item.status,
-                    is_salary: false
-                };
-                if(Finance.isInput(item) && Finance.isSalary(item)){
-                    toUpdate.dolar = item.dolar;
-                    toUpdate.worked_hours = item.worked_hours;
-                    toUpdate.is_salary = true;
-                }
-                batch.update(itemRef, toUpdate);
+            },
+            (error) => {
+                alert("Error at saveTransactions");
+                console.log("saveTransactions", error);
             }
-
-            
-        }
-
-        batch.commit().then(function () {
-            callback();
-        });*/
+        )
     }
 
 }

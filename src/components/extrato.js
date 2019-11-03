@@ -28,15 +28,15 @@ class Extrato extends React.Component {
         this.loadValues = this.loadValues.bind(this);
     }
 
-    prevMonth() {
-        this.setState({
+    async prevMonth() {
+        await this.setState({
             date: Datetime.prevMonth(this.state.date)
         });
         this.loadValues(this.state.currentAccount);
     }
 
-    nextMonth() {
-        this.setState({
+    async nextMonth() {
+        await this.setState({
             date: Datetime.nextMonth(this.state.date)
         });
         this.loadValues(this.state.currentAccount);
@@ -54,8 +54,6 @@ class Extrato extends React.Component {
     }
 
     loadValues(currentAccount) {
-        console.trace();
-        console.log(currentAccount);
         ApiService.getTransactionsByMonth(
             this.state.accounts[currentAccount].id,
             Datetime.monthStart(this.state.date),
@@ -69,10 +67,6 @@ class Extrato extends React.Component {
                 );
             }
         );
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        //console.log(this.state);
     }
 
     toggleAccount() {
@@ -95,8 +89,6 @@ class Extrato extends React.Component {
         let accounts = this.state.accounts;
         let currentAccount = this.state.currentAccount;
         let weeks = Datetime.weekList(this.state.date);
-
-        console.log(currentAccount);
 
         return (
             <div className={"row terra-body"}>
@@ -154,6 +146,7 @@ class Extrato extends React.Component {
                                   accounts={this.state.accounts}
                                   transactions={this.state.transactions}
                                   reload={this.loadValues}
+                                  date={this.state.date}
                         />
                         }
                         <br/>

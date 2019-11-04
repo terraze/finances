@@ -247,7 +247,7 @@ class CardWeek extends React.Component {
                                         return (
                                             <tr key={i}>
                                                 <td>{values[i].name}
-                                                    {values[i].is_fixed &&
+                                                    {!values[i].is_fixed &&
                                                     <Badge className={"terra-badge"}>E</Badge>
                                                     }
                                                 </td>

@@ -132,7 +132,7 @@ class CardWeek extends React.Component {
         }
         ApiService.saveTransactions(newValues, () => {
             this.toggleMode();
-            this.props.reload(this.props.account);
+            this.props.reload();
             this.loadValues();
         })
     }
@@ -182,7 +182,7 @@ class CardWeek extends React.Component {
         ApiService.saveTransactions([formState], () => {
             this.setState({modal: false});
             this.toggleMode();
-            this.props.reload(this.props.account);
+            this.props.reload();
             this.loadValues();
         })
     }

@@ -145,7 +145,7 @@ class Extrato extends React.Component {
                                   account={accounts[currentAccount].id}
                                   accounts={this.state.accounts}
                                   transactions={this.state.transactions}
-                                  reload={this.loadValues}
+                                  reload={() => this.loadValues(this.state.currentAccount)}
                                   date={this.state.date}
                         />
                         }

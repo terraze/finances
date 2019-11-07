@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
 import {ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import CardWeek from './card.js';
+import CardWeek from './cardweek.js';
 import ApiService from '../services/ApiService.js';
 
 

@@ -295,8 +295,8 @@ class CardWeek extends React.Component {
                                             <> 
                                                 <tr className={'terra-saldo'}>
                                                     <td>Total Entradas</td>
-                                                    <td>{Finance.format(this.state.total)}</td>
                                                     <td></td>
+                                                    <td>{Finance.format(this.state.total)}</td>
                                                 </tr>
                                                 <tr className={'terra-saldo'}>
                                                     <td>Total Saídas</td>
@@ -305,8 +305,8 @@ class CardWeek extends React.Component {
                                                 </tr>
                                                 <tr className={'terra-saldo'}>
                                                     <td>Total</td>
-                                                    <td>{Finance.format(this.state.total)}</td>
                                                     <td></td>
+                                                    <td>{Finance.format(this.state.total)}</td>
                                                 </tr>
                                             </>
                                         }

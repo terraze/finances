@@ -95,6 +95,14 @@ h6 {
   margin-top: 20px;
 }
 
+.terra-margin-right {
+  margin-right: 80px;
+}
+
+.terra-margin-left {
+  margin-left: 20px;
+}
+
 .terra-home {
   font-size: 18px;
   height: 18px;
@@ -162,26 +170,62 @@ h6 {
 
 .terra-icone: {
   background-color: white;
-  border: 0px;
+  border: none;
+  outline: none;
 }
 
 .terra-icone:hover {
   color: #736d6d;
   background-color: white;
   border-color: white;
-  border: 0px;
+  border: none;
+  outline: none;
+}
+
+.terra-icone:focus {
+  color: #736d6d;
+  background-color: white;
+  border-color: white;
+  border: none;
+  outline: none;
+}
+
+
+.terra-icone:active {
+  color: #736d6d;
+  background-color: white;
+  border-color: white;
+  border: none;
+  outline: none;
 }
 
 .terra-icone-background: {
   background-color: #f5f5f5;
-  border: 0px;
+  border: none;
+  outline: none;
 }
 
 .terra-icone-background:hover {
   color: #736d6d;
   background-color: #f5f5f5;
   border-color: white;
-  border: 0px;
+  border: none;
+  outline: none;
+}
+
+.terra-icone-background:focus {
+  color: #736d6d;
+  background-color: #f5f5f5;
+  border-color: white;
+  border: none;
+}
+
+
+.terra-icone-background:active {
+  color: #736d6d;
+  background-color: #f5f5f5;
+  border-color: white;
+  border: none;
 }
 
 .terra-dropdown {
@@ -196,6 +240,19 @@ h6 {
   color: black;
 }
 
+.terra-dropdown:focus {
+  background-color: #bec1c4;
+  border: none;
+  color: black;
+  outline: none;
+}
+
+.terra-dropdown:active {
+  background-color: #bec1c4;
+  border: none;
+  color: black;
+  outline: none;
+}
 .terra-icone-black {
   color: black;
 }
@@ -227,13 +284,22 @@ h6 {
   border: 0px;
 }
 
+.terra-button:active {
+  background-color: white;
+  border: 0px;
+}
+
 .terra-button-background {
   background-color: #f5f5f5;
   border: 0px;
 }
 
+.terra-button-right button {
+  margin-left: 85px;
+}
+
 .terra-navbar {
-  text-align: center;
+  text-align: center !important;
   position: absolute;
   left: 55%;
   transform: translateX(-50%);
@@ -241,6 +307,11 @@ h6 {
 
 .terra-form-hour {
   width: 78px;
+}
+
+.terra-button-right button {
+  align-content: left;
+  margin-left: 100px !important;
 }
 
 .terra-form-dolar {
@@ -319,3 +390,7 @@ h6 {
 .terra-card-config {
   margin-left: 200px;
 }
+
+.terra-login {
+  margin-top: 60px;
+} 

@@ -8,7 +8,7 @@ class Header extends React.Component {
                 <Navbar className={"terra-dark terra-background terra-navbar"} light expand="md" fixed="top">
                     <Nav pills className={"nav terra-dark"}>
                         <NavItem>
-                            <NavLink exact className="nav-link" to="/" activeClassName="active">
+                            <NavLink exact className="nav-link" to="/resumo" activeClassName="active">
                               Resumo
                             </NavLink>
                         </NavItem>
@@ -23,12 +23,12 @@ class Header extends React.Component {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/teste" activeClassName="active">
+                            <NavLink className="nav-link" to="/relatorios" activeClassName="active">
                               Relatórios
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink className="nav-link" to="/configuracao" activeClassName="active">
+                            <NavLink className="nav-link" to="/cadastro" activeClassName="active">
                               Configuração
                             </NavLink>
                         </NavItem>

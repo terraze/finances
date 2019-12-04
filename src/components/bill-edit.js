@@ -16,13 +16,10 @@ class BillEditForm extends React.Component {
 
       this.handleNameChange = this.handleNameChange.bind(this);
       this.handleValueChange = this.handleValueChange.bind(this);
-      this.handleWorkedHoursChange = this.handleWorkedHoursChange.bind(this);
-      this.handleDolarChange = this.handleDolarChange.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handlePaidDateChange = this.handlePaidDateChange.bind(this);
       this.handleIsEntranceChange = this.handleIsEntranceChange.bind(this);
       this.handleIsNotEntranceChange = this.handleIsNotEntranceChange.bind(this);
-      this.handleIsSalaryChange = this.handleIsSalaryChange.bind(this);
       this.handleAccountChange = this.handleAccountChange.bind(this);
     }
 
@@ -62,10 +59,6 @@ class BillEditForm extends React.Component {
 
     handleIsNotEntranceChange(value) {
         this.setState({is_entrance: false});
-    }
-
-    handleIsSalaryChange(value) {
-        this.setState({is_salary: value});
     }
 
     handleAccountChange(value) {

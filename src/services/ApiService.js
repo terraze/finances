@@ -50,8 +50,6 @@ export default class ApiService {
                         for(let item of result.data){
                             item.date = Datetime.fromDatabase(item.date);
                             item.is_entrance = !!item.is_entrance;
-                            item.is_salary = !!item.is_salary;
-                            item.dolar = item.dollar;
                             item.status = !!item.paid_date;
                             if(item.status){
                                 item.paid_date = Datetime.fromDatabase(item.paid_date);

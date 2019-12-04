@@ -16,13 +16,10 @@ class TransactionEditForm extends React.Component {
 
       this.handleNameChange = this.handleNameChange.bind(this);
       this.handleValueChange = this.handleValueChange.bind(this);
-      this.handleWorkedHoursChange = this.handleWorkedHoursChange.bind(this);
-      this.handleDolarChange = this.handleDolarChange.bind(this);
       this.handleDateChange = this.handleDateChange.bind(this);
       this.handlePaidDateChange = this.handlePaidDateChange.bind(this);
       this.handleIsEntranceChange = this.handleIsEntranceChange.bind(this);
       this.handleIsNotEntranceChange = this.handleIsNotEntranceChange.bind(this);
-      this.handleIsSalaryChange = this.handleIsSalaryChange.bind(this);
       this.handleAccountChange = this.handleAccountChange.bind(this);
     }
 
@@ -36,14 +33,6 @@ class TransactionEditForm extends React.Component {
 
     handleValueChange(value) {
         this.setState({value: value.replace(/,/g, ".")});
-    }
-
-    handleWorkedHoursChange(value) {
-        this.setState({worked_hours: value.replace(/,/g, ".")});
-    }
-
-    handleDolarChange(value) {
-        this.setState({dolar: value.replace(/,/g, ".")});
     }
 
     handleDateChange(value) {
@@ -65,10 +54,6 @@ class TransactionEditForm extends React.Component {
         this.setState({is_entrance: false});
     }
 
-    handleIsSalaryChange(value) {
-        this.setState({is_salary: value});
-    }
-
     handleAccountChange(value) {
         this.setState({account: value});
     }
@@ -88,16 +73,6 @@ class TransactionEditForm extends React.Component {
                                 />
                                 <Label for="is_entrance">Entrada</Label>
                             </Col>
-                            {this.state.is_entrance &&
-                            <Col className={"terra-check"}>
-                                <Input type="checkbox"
-                                       name="is_salary"
-                                       checked={Finance.isSalary(this.state)}
-                                       onChange={(e) => this.handleIsSalaryChange(e.target.checked)}
-                                />
-                                <Label for="is_salary">Salário</Label>
-                            </Col>
-                            }
                         </Row>
                     </Col>
                     <Col lg="2"  className={"terra-radio"} >
@@ -137,36 +112,10 @@ class TransactionEditForm extends React.Component {
                                value={this.state.value}
                                onChange={(e) => this.handleValueChange(e.target.value)}
                                name="value"
-                               readOnly={this.state.is_entrance && this.state.is_salary}
                         />
 
                     </Col>
                 </Row>
-                {this.state.is_entrance && this.state.is_salary &&
-                <>
-                    <br/>
-                    <Row>
-                        <Col className={"terra-extract-worked-hours"}>
-                            <Label for="worked-hours">Horas Trabalhadas</Label>
-                            <Input
-                                value={this.state.worked_hours}
-                                onChange={(e) => this.handleWorkedHoursChange(e.target.value)}
-                                name="worked-hours"
-                            />
-
-                        </Col>
-                        <Col className={"terra-extract-dolar"}>
-                            <Label for="dolar">Dolar</Label>
-                            <Input
-                                value={this.state.dolar}
-                                onChange={(e) => this.handleDolarChange(e.target.value)}
-                                name="dolar"
-                            />
-
-                        </Col>
-                    </Row>
-                </>
-                }
                 <br/>
                 <Row>        
                     <Col className={"terra-extract-date terra-margin-top"}>

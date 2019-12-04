@@ -168,7 +168,7 @@ h6 {
   font-weight: bold;
 }
 
-.terra-icone: {
+.terra-icone {
   background-color: white;
   border: none;
   outline: none;
@@ -199,7 +199,7 @@ h6 {
   outline: none;
 }
 
-.terra-icone-background: {
+.terra-icone-background {
   background-color: #f5f5f5;
   border: none;
   outline: none;
@@ -310,12 +310,8 @@ h6 {
 }
 
 .terra-button-right button {
-  align-content: left;
+  align: left;
   margin-left: 100px !important;
-}
-
-.terra-form-dolar {
-  width: 106px;
 }
 
 .terra-form-frequency {
@@ -354,20 +350,6 @@ h6 {
 .terra-extract-paid-date input,  .terra-extract-paid-date label{
   width: 145px !important;
   margin-left: 0px;
-
-}
-
-
-.terra-extract-dolar input,  .terra-extract-dolar label{
-  width: 120px !important;
-  margin-left: 0px;
-
-}
-
-
-.terra-extract-worked-hours input,  .terra-extract-worked-hours label{
-  width: 140px !important;
-  margin-left: 20px;
 
 }
 

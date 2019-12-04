@@ -47,7 +47,6 @@ class CardWeek extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.addTransaction = this.addTransaction.bind(this);
-        this.saveTransaction = this.saveTransaction.bind(this);
     }
 
     componentDidMount() {
@@ -171,25 +170,6 @@ class CardWeek extends React.Component {
         values[key].delete = true;
         this.setState({
             values: values
-        })
-    }
-
-    saveTransaction() {
-        this.setState({loading: true});
-        let formState = this.transactionFormReference.current.state;
-        if (formState.name.length < 1 || formState.value.length < 1 || formState.date.length < 1) {
-            alert("Favor preencher todos os campos obrigatórios (Nome, Valor e Data de Vencimento");
-            this.setState({loading: false});
-            return;
-        }
-        if (formState.id === '') {
-
-        }
-        ApiService.saveTransactions([formState], () => {
-            this.setState({modal: false});
-            this.toggleMode();
-            this.props.reload();
-            this.loadValues();
         })
     }
 
@@ -329,34 +309,6 @@ class CardWeek extends React.Component {
                     </>
                     }
                 </Card>
-                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={'terra-modal'}>
-                    {!this.state.loading &&
-                    <>
-                        <ModalHeader toggle={this.toggleModal}>
-                            <h2 className={"terra-center"}>Transação</h2>
-                        </ModalHeader>
-                        <ModalBody>
-                            <TransactionEditForm transaction={this.state.edit} accounts={this.props.accounts}
-                                                 ref={this.transactionFormReference}>
-
-                            </TransactionEditForm>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="success" onClick={this.saveTransaction}>Salvar</Button>
-                        </ModalFooter>
-                    </>
-                    }
-                    {this.state.loading &&
-                    <>
-                        <Row>
-                            <Col className={"terra-center"}>
-                                <Spinner animation="border" variant="success" className={'terra-loading'}/>
-                                <p>Carregando...</p>
-                            </Col>
-                        </Row>
-                    </>
-                    }
-                </Modal>
             </>
         )
     }

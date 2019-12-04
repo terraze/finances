@@ -3,22 +3,8 @@ import Datetime from '../utils/datetimeUtils.js';
 
 class Finance {
 
-    static dolarPerHour() {
-        return 30;
-    }
-
     static isInput(item) {
         return item.is_entrance;
-    }
-
-    static isSalary(item) {
-        if (Finance.isInput(item)) {
-            if (item.is_salary !== undefined) {
-                return item.is_salary;
-            }
-        }
-
-        return false;
     }
 
     static isPaid(item) {
@@ -26,10 +12,6 @@ class Finance {
     }
 
     static getValue(item) {
-        if (Finance.isInput(item) && Finance.isSalary(item)) {
-            return Number.parseFloat((item.dolar * item.worked_hours * Finance.dolarPerHour()).toFixed(2));
-        }
-
         return item.value;
     }
 
@@ -61,10 +43,6 @@ class Finance {
 
     static format(value) {
         return value.toLocaleString('pt-br', {style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
-    }
-
-    static dolar(value) {
-        return value.toLocaleString('pt-br', {style: 'currency', currency: 'USD', minimumFractionDigits: 2});
     }
 
     static getBillsForWeek(week, account, bills, transactions) {

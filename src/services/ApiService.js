@@ -1,9 +1,10 @@
 import Datetime from '../utils/datetimeUtils.js';
+import env_config from '../config.js';
 import Finance from '../models/finance.js';
 
 export default class ApiService {
 
-    static path = 'http://finance.iuliaterra.local';
+    static path = env_config.api_url;
 
     static getAccounts = (callback) => {
         fetch(ApiService.path + "/account")

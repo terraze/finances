@@ -257,12 +257,12 @@ class CardWeek extends React.Component {
                                                     <Badge className={"terra-badge"}>E</Badge>
                                                     }
                                                 </td>
+                                                    <td className={"terra-table-col-info"}>
+                                                        <TerraAlert type={Finance.getStatus(values[i])}>
+                                                            {values[i].status ? Datetime.dm(values[i].paid_date) : Datetime.dm(values[i].date)}
+                                                        </TerraAlert>
+                                                    </td>
                                                 <td>{Finance.format(Finance.getValue(values[i]))}</td>
-                                                <td className={"terra-table-col-info"}>
-                                                    <TerraAlert type={Finance.getStatus(values[i])}>
-                                                        {values[i].status ? Datetime.dm(values[i].paid_date) : Datetime.dm(values[i].date)}
-                                                    </TerraAlert>
-                                                </td>
                                                 {mode === 'edit' &&
                                                 <td>
                                                     <Button className={"terra-button terra-icone terra-icone-black"}
@@ -282,10 +282,15 @@ class CardWeek extends React.Component {
                                     })}
                                     {mode === 'view' && values.length > 0 &&
                                     <>
-                                        <tr className={'terra-saldo  terra-button-right'} >
+                                        <tr className={'terra-saldo'} >
                                             <td>Saldo em conta</td>
-                                            <td>{Finance.format(this.state.total)}</td>
+                                            <td className={"terra-table-col-info"}>
+                                                <TerraAlert type={'saldo'}>
+                                                    21/11
+                                                </TerraAlert>
+                                            </td>
                                             <td>
+                                                {Finance.format(this.state.total)}
                                                 <Button className={"terra-button-background terra-icone-background terra-icone-black"} onClick={this.toggleDown}>
                                                     <FontAwesomeIcon icon={faCaretDown}/>
                                                 </Button>

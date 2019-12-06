@@ -237,12 +237,14 @@ class CardWeek extends React.Component {
                                                     <Badge className={"terra-badge"}>E</Badge>
                                                     }
                                                 </td>
-                                                <td>{Finance.format(Finance.getValue(values[i]))}</td>
                                                 <td className={"terra-table-col-info"}>
                                                     <TerraAlert type={Finance.getStatus(values[i])}>
                                                         {values[i].status ? Datetime.dm(values[i].paid_date) : Datetime.dm(values[i].date)}
                                                     </TerraAlert>
                                                 </td>
+                                                {mode === 'view' &&
+                                                    <td>{Finance.format(Finance.getValue(values[i]))}</td>
+                                                }
                                                 {mode === 'edit' &&
                                                 <td>
                                                     <Button className={"terra-button terra-icone terra-icone-black"}

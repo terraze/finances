@@ -36,12 +36,12 @@ class TransactionEditForm extends React.Component {
     }
 
     handleDateChange(value) {
-        this.setState({date: Datetime.fromDatepicker(value)});
+        this.setState({date: value});
     }
 
     handlePaidDateChange(value) {
         this.setState({
-            paid_date: Datetime.fromDatepicker(value),
+            paid_date: value,
             status: value.length > 0
         });
     }

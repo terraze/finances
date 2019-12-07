@@ -131,7 +131,7 @@ class Datetime  {
     }
 
     static toDatabase(date) {
-        return moment(date).unix();
+        return date.format('YYYY-MM-DD')
     }
 
     static isExpired(date) {

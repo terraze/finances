@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import Datetime from '../utils/datetimeUtils.js';
 import {ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-import CardWeek from './cardweek.js';
+import Card from './card.js';
 import ApiService from '../services/ApiService.js';
 
 
@@ -141,7 +141,7 @@ class Extrato extends React.Component {
                 {weeks.map((item, i) => (
                     <Col key={i} lg="6">
                         {accounts.length > 0 && currentAccount >= 0 &&
-                        <CardWeek week={weeks[i]}
+                        <Card week={weeks[i]}
                                   account={accounts[currentAccount].id}
                                   accounts={this.state.accounts}
                                   transactions={this.state.transactions}

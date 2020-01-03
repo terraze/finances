@@ -32,6 +32,8 @@ class CardWeek extends React.Component {
         this.state = {
             mode: "view",
             total: 0,
+            totalin: 0,
+            totalout: 0,
             values: [],
             loading: true,
             modal: false,
@@ -82,6 +84,8 @@ class CardWeek extends React.Component {
             {
                 values: processedData.values,
                 total: processedData.total,
+                totalin: processedData.totalin,
+                totalout: processedData.totalout,
                 loading: false,
                 mode: 'view'
             }
@@ -91,15 +95,25 @@ class CardWeek extends React.Component {
     processData(data) {
         let values = [];
         let total = 0;
+        let totalin = 0;
+        let totalout = 0;
         for (let item of data) {
             if (Datetime.isBetween(item.date, this.props.week.start, this.props.week.end)) {
                 values.push(item);
                 total += Finance.getValue(item);
+                if (Finance.isInput(item)) {
+                    totalin += Finance.getValue(item);
+                }
+                else {
+                    totalout += Finance.getValue(item);
+                }
             }
         }
         return {
             values: values,
-            total: total
+            total: total,
+            totalin: totalin,
+            totalout: totalout*(-1)
         };
     }
 
@@ -264,10 +278,15 @@ class CardWeek extends React.Component {
                                     })}
                                     {mode === 'view' && values.length > 0 &&
                                     <>
-                                        <tr className={'terra-saldo  terra-button-right'} >
+                                        <tr className={'terra-saldo'} >
                                             <td>Saldo em conta</td>
-                                            <td>{Finance.format(this.state.total)}</td>
+                                            <td className={"terra-table-col-info"}>
+                                                <TerraAlert type={'saldo'}>
+                                                    21/11
+                                                </TerraAlert>
+                                            </td>
                                             <td>
+                                                {Finance.format(this.state.total)}
                                                 <Button className={"terra-button-background terra-icone-background terra-icone-black"} onClick={this.toggleDown}>
                                                     <FontAwesomeIcon icon={faCaretDown}/>
                                                 </Button>
@@ -277,18 +296,18 @@ class CardWeek extends React.Component {
                                             <> 
                                                 <tr className={'terra-saldo'}>
                                                     <td>Total Entradas</td>
-                                                    <td>{Finance.format(this.state.total)}</td>
                                                     <td></td>
+                                                    <td>{Finance.format(this.state.totalin)}</td>
                                                 </tr>
                                                 <tr className={'terra-saldo'}>
                                                     <td>Total Saídas</td>
                                                      <td></td>
-                                                    <td>{Finance.format(this.state.total)}</td>
+                                                    <td>{Finance.format(this.state.totalout)}</td>
                                                 </tr>
                                                 <tr className={'terra-saldo'}>
-                                                    <td>Total</td>
-                                                    <td>{Finance.format(this.state.total)}</td>
+                                                    <td>Total Semanal</td>
                                                     <td></td>
+                                                    <td>{Finance.format(this.state.total)}</td>
                                                 </tr>
                                             </>
                                         }
@@ -299,7 +318,7 @@ class CardWeek extends React.Component {
                             </Row>
                         </Form>
                     </CardBody>
-                    }
+}
                     {this.state.loading &&
                     <>
                         <Row>
@@ -311,6 +330,34 @@ class CardWeek extends React.Component {
                     </>
                     }
                 </Card>
+                <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={'terra-modal'}>
+                    {!this.state.loading &&
+                    <>
+                        <ModalHeader toggle={this.toggleModal}>
+                            <h2 className={"terra-center"}>Transação</h2>
+                        </ModalHeader>
+                        <ModalBody>
+                            <TransactionEditForm transaction={this.state.edit} accounts={this.props.accounts}
+                                                 ref={this.transactionFormReference}>
+
+                            </TransactionEditForm>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="success" onClick={this.saveTransaction}>Salvar</Button>
+                        </ModalFooter>
+                    </>
+                    }
+                    {this.state.loading &&
+                    <>
+                        <Row>
+                            <Col className={"terra-center"}>
+                                <Spinner animation="border" variant="success" className={'terra-loading'}/>
+                                <p>Carregando...</p>
+                            </Col>
+                        </Row>
+                    </>
+                    }
+                </Modal>
             </>
         )
     }

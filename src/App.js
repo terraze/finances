@@ -11,6 +11,7 @@ import Footer from './components/footer.js'
 import Saldo from './components/saldo.js'
 import Relatorios from './components/relatorios.js'
 import { Container } from 'reactstrap';
+import ApiService from './services/ApiService.js';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
@@ -20,27 +21,46 @@ Moment.locale('pt-br');
 
 class App extends React.Component {
     state = {
-        data: []
+        data: [],
+        loggedin: ApiService.isAuth()
     };
+
+    constructor(props){
+        super(props);
+        this.onLogin = this.onLogin.bind(this);
+    }
+
+    onLogin(){
+        this.setState({
+            loggedin: true
+        })
+    }
 
     render(){
         return (
-            <BrowserRouter>
-                <div>
-                    <Header/>
-                    <Container>
-                    <Switch>
-                        <Route path="/" exact={true} component={Login} />
-                        <Route path="/resumo" component={Resumo} />
-                        <Route path="/extrato" component={Extrato} />
-                        <Route path="/saldo" component={Saldo} />
-                        <Route path="/relatorios" component={Relatorios} />
-                        <Route path="/cadastro" component={Cadastro} />
-                    </Switch>
-                    </Container>
-                    <Footer/>
-                </div>
-            </BrowserRouter>
+            <>
+            {!this.state.loggedin && 
+                <Login onLogin={this.onLogin}/>
+            }
+            {this.state.loggedin && 
+                <BrowserRouter>
+                    <div>
+                        <Header/>
+                        <Container>
+                        <Switch>
+                            <Route path="/" exact={true} component={Resumo} />
+                            <Route path="/resumo" component={Resumo} />
+                            <Route path="/extrato" component={Extrato}/>
+                            <Route path="/saldo" component={Saldo} />
+                            <Route path="/relatorios" component={Relatorios} />
+                            <Route path="/cadastro" component={Cadastro} />
+                        </Switch>
+                        </Container>
+                        <Footer/>
+                    </div>
+                </BrowserRouter>
+            }
+            </>
         );
     }
 }

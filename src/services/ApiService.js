@@ -1,13 +1,17 @@
 import Datetime from '../utils/datetimeUtils.js';
 import env_config from '../config.js';
 import Finance from '../models/finance.js';
+import Cookies from 'universal-cookie';
 
 export default class ApiService {
 
     static path = env_config.api_url;
 
     static getAccounts = (callback) => {
-        fetch(ApiService.path + "/account")
+        fetch(ApiService.path + "/account", {
+            method: 'get',
+            headers: ApiService.getHeader()
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -20,10 +24,13 @@ export default class ApiService {
                     console.log("getAccounts", error);
                 }
             )
-    };
+    };  
 
     static getBills = (accountId, callback) => {
-        fetch(ApiService.path + "/bill")
+        fetch(ApiService.path + "/bill",{
+            method: 'get',
+            headers: ApiService.getHeader()
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -41,7 +48,10 @@ export default class ApiService {
     static getTransactionsByMonth = (accountId, startDate, endDate, callback) => {
         startDate = Datetime.toDatabase(startDate);
         endDate = Datetime.toDatabase(endDate);
-        fetch(ApiService.path + "/transaction?account="+accountId+"&startDate="+startDate+"&endDate="+endDate)
+        fetch(ApiService.path + "/transaction?account="+accountId+"&startDate="+startDate+"&endDate="+endDate, {
+            method: 'get',
+            headers: ApiService.getHeader()
+        })
             .then(res => res.json())
             .then(
                 (result) => {
@@ -112,7 +122,8 @@ export default class ApiService {
     static saveTransactions(list, callback) {
         fetch(ApiService.path + "/transaction", {
             method: "POST",
-            body: JSON.stringify({data: list})
+            body: JSON.stringify({data: list, token: ApiService.getToken()}),
+            headers: ApiService.getHeader()
         })
         .then(res => res.json())
         .then(
@@ -126,6 +137,53 @@ export default class ApiService {
                 console.log("saveTransactions", error);
             }
         )
+    }
+
+    static login(username, password, callback) {
+        fetch(ApiService.path + "/login", {
+            method: "POST",
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(res => res.json())
+        .then(
+            (result) => {
+                if (result.success) {
+                    ApiService.setToken(result.token);
+                    callback();
+                } else {
+                    alert("Credenciais inválidas");
+                }
+            },
+            (error) => {
+                alert("Error at login");
+                console.log("login", error);
+            }
+        )
+    }
+
+    static setToken(token){
+        const cookies = new Cookies();
+        cookies.set('user_token', token, { path: '/' });
+    }
+
+    static getToken(){
+        const cookies = new Cookies();
+        return cookies.get('user_token');
+    }
+
+    static isAuth()
+    {
+        if(ApiService.getToken()){
+            return true;
+        }
+        return false;
+    }
+
+    static getHeader()
+    {
+        return new Headers({
+         'Authorization': 'Bearer ' + ApiService.getToken()
+       })
     }
 
 }

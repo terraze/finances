@@ -12,8 +12,9 @@ export default class ApiService {
             method: 'get',
             headers: ApiService.getHeader()
         })
+            .then(res => ApiService.handleRedirect(res))
             .then(res => res.json())
-            .then(
+            .then(                
                 (result) => {
                     if (result.success) {
                         callback(result.data);
@@ -31,6 +32,7 @@ export default class ApiService {
             method: 'get',
             headers: ApiService.getHeader()
         })
+            .then(res => ApiService.handleRedirect(res))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -52,6 +54,7 @@ export default class ApiService {
             method: 'get',
             headers: ApiService.getHeader()
         })
+            .then(res => ApiService.handleRedirect(res))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -77,46 +80,7 @@ export default class ApiService {
     };
 
     static getTransactionsByWeek = (weekStart, accountId, callback, field) => {
-        /*let week = Datetime.week(weekStart);
-        let items = [];
-
-        let query = firebaseDatabase.collection('transactions')
-            .where(field, '>=', Datetime.firebaseFormat(week.start))
-            .where(field, '<=', Datetime.firebaseFormat(week.end));
-
-        if(accountId){
-            let accountReference = firebaseDatabase.collection('accounts').doc(accountId);
-            query = query.where('account', '==', accountReference);
-        }
-
-        query
-            .get()
-            .then(docs => {
-                let error = false;
-                docs.forEach(doc => {
-                    let data = doc.data();
-                    let item = doc.data();
-                    item.id = doc.id;
-                    item.is_fixed = false;
-                    if(item.paid_date === undefined){
-                        item.paid_date = null;
-                    }
-                    let include = true;
-                    if(item.paid_date){
-                        if(!Datetime.isBetween(Datetime.fromFirebase(item.paid_date), week.start, week.end)){
-                            include = false;
-                        }
-                    }
-                    item.value = parseFloat(item.value);
-                    if(include){
-                        items.push(item);
-                    }
-                });
-
-                items = Finance.sort(items);
-                
-                callback({error: error, items: items});
-            });*/
+        
     };
 
     static saveTransactions(list, callback) {
@@ -125,6 +89,7 @@ export default class ApiService {
             body: JSON.stringify({data: list, token: ApiService.getToken()}),
             headers: ApiService.getHeader()
         })
+        .then(res => ApiService.handleRedirect(res))
         .then(res => res.json())
         .then(
             (result) => {
@@ -166,6 +131,11 @@ export default class ApiService {
         cookies.set('user_token', token, { path: '/' });
     }
 
+    static removeToken(){
+        const cookies = new Cookies();
+        cookies.remove('user_token', { path: '/' });
+    }
+
     static getToken(){
         const cookies = new Cookies();
         return cookies.get('user_token');
@@ -184,6 +154,16 @@ export default class ApiService {
         return new Headers({
          'Authorization': 'Bearer ' + ApiService.getToken()
        })
+    }
+
+    static handleRedirect(res)
+    {
+        if(res.redirected){
+            ApiService.removeToken();
+            alert("Token inválido, redirecionando para o Login...")
+            window.location.reload();
+        }
+        return res;
     }
 
 }

@@ -335,10 +335,10 @@ h6 {
 }
 
 .terra-navbar {
-  text-align: center !important;
+  align-content: center !important;
   position: absolute;
-  left: 55%;
-  transform: translateX(-50%);
+  left: 0%;
+  transform: translateX(0%);
 }
 
 .terra-form-hour {

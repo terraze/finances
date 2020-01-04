@@ -204,7 +204,7 @@ class CardWeek extends React.Component {
                     <CardBody>
                         <Form inline>
                             <Row>
-                                <Col lg="6">
+                                <Col lg="6" xs="auto">
                                     <h2>Semana {week.number}</h2>
                                     <h3>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h3>
                                 </Col>
@@ -280,11 +280,7 @@ class CardWeek extends React.Component {
                                     <>
                                         <tr className={'terra-saldo'} >
                                             <td>Saldo em conta</td>
-                                            <td className={"terra-table-col-info"}>
-                                                <TerraAlert type={'saldo'}>
-                                                    21/11
-                                                </TerraAlert>
-                                            </td>
+                                            <td className={"terra-table-col-info"}></td>
                                             <td>
                                                 {Finance.format(this.state.total)}
                                                 <Button className={"terra-button-background terra-icone-background terra-icone-black"} onClick={this.toggleDown}>

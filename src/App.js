@@ -2,7 +2,7 @@ import React from 'react';
 
 import './App.css';
 
-import Header from './components/header.js'
+import Navbar from './components/navbar.js'
 import Login from './components/login.js'
 import Resumo from './components/resumo.js'
 import Extrato from './components/extrato.js'
@@ -27,7 +27,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Header/>
+                    <Navbar/>
                     <Container>
                     <Switch>
                         <Route path="/" exact={true} component={Login} />

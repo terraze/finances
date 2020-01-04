@@ -151,7 +151,7 @@ export default class Cadastro extends React.Component {
     return (
       <div className={"terra-body"}>
         <Row>
-          <Col lg={{ size: 8, offset: 2 }} >
+          <Col lg={{ size: 8, offset: 2 }} xs='auto' sm='auto' md='auto' >
             <br/>
             <Card color="link">
               <CardBody>

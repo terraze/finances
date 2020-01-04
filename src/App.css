@@ -338,10 +338,9 @@ h6 {
 
 .terra-navbar {
   align-content: center !important;
-  position: absolute;
-  left: 0%;
-  transform: translateX(0%);
-
+  position: relative;
+  flex-direction: row !important;
+  display: flex !important;
 }
 
 

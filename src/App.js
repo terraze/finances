@@ -47,6 +47,8 @@ class App extends React.Component {
                     <div>
                         <Container>
                             <Navbar/>
+                        </Container>
+                        <Container>
                             <Switch>
                                 <Route path="/" exact={true} component={Resumo} />
                                 <Route path="/resumo" component={Resumo} />

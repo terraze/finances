@@ -45,18 +45,18 @@ class App extends React.Component {
             {this.state.loggedin && 
                 <BrowserRouter>
                     <div>
-                        <Navbar/>
                         <Container>
-                        <Switch>
-                            <Route path="/" exact={true} component={Resumo} />
-                            <Route path="/resumo" component={Resumo} />
-                            <Route path="/extrato" component={Extrato}/>
-                            <Route path="/saldo" component={Saldo} />
-                            <Route path="/relatorios" component={Relatorios} />
-                            <Route path="/cadastro" component={Cadastro} />
-                        </Switch>
+                            <Navbar/>
+                            <Switch>
+                                <Route path="/" exact={true} component={Resumo} />
+                                <Route path="/resumo" component={Resumo} />
+                                <Route path="/extrato" component={Extrato}/>
+                                <Route path="/saldo" component={Saldo} />
+                                <Route path="/relatorios" component={Relatorios} />
+                                <Route path="/cadastro" component={Cadastro} />
+                            </Switch>
+                            <Footer/>
                         </Container>
-                        <Footer/>
                     </div>
                 </BrowserRouter>
             }

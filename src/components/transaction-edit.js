@@ -63,27 +63,33 @@ class TransactionEditForm extends React.Component {
           <Row>
             <Col className={"terra-modal"} >
                 <Row>                     
-                    <Col lg="3">
-                        <Row>
-                            <Col className={"terra-radio"} >
-                                <Input type="radio"
-                                       name="is_entrance"
-                                       checked={Finance.isInput(this.state)}
-                                       onChange={(e) => this.handleIsEntranceChange(e.target.checked)}
-                                />
-                                <Label for="is_entrance">Entrada</Label>
-                            </Col>
-                        </Row>
+                    <Col lg="6" xs='6' sm='6' md='6'>
+                      <Row>
+                        <Col lg="2" xs='2' sm='2' md='2'>
+                            <Row>
+                                <Col className={"terra-radio"} >
+                                    <Input type="radio"
+                                           name="is_entrance"
+                                           checked={Finance.isInput(this.state)}
+                                           onChange={(e) => this.handleIsEntranceChange(e.target.checked)}
+                                    />
+                                    <Label for="is_entrance">Entrada</Label>
+                                </Col>
+                            </Row>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="2"  xs='2' sm='2' md='2' className={"terra-radio"} >
+                            <Input type="radio"
+                                   name="is_entrance"
+                                   checked={!Finance.isInput(this.state)}
+                                   onChange={(e) => this.handleIsNotEntranceChange(e.target.checked)}
+                            />
+                            <Label for="is_entrance">Saída</Label>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col lg="2"  className={"terra-radio"} >
-                        <Input type="radio"
-                               name="is_entrance"
-                               checked={!Finance.isInput(this.state)}
-                               onChange={(e) => this.handleIsNotEntranceChange(e.target.checked)}
-                        />
-                        <Label for="is_entrance">Saída</Label>
-                    </Col>
-                    <Col lg="4">
+                    <Col lg="4" xs='5' sm='5' md='5'>
                         <Label for="account">Conta</Label>
                         <Input
                             type="select"
@@ -97,7 +103,7 @@ class TransactionEditForm extends React.Component {
                 </Row>
                 <br/>
                 <Row>
-                    <Col className={"terra-extract-name"}>
+                    <Col xs='4' sm='4' md='4' className={"terra-extract-name"}>
                         <Label for="name">Nome</Label>
                             <Input 
                                value={this.state.name}
@@ -106,7 +112,7 @@ class TransactionEditForm extends React.Component {
                         />
 
                     </Col>        
-                    <Col className={"terra-extract-value"}>
+                    <Col xs={{ size: 5, offset: 2 }} sm={{ size: 5, offset: 2 }} md={{ size: 5, offset: 2 }} className={"terra-extract-value"}>
                         <Label for="value">Valor</Label>
                         <Input 
                                value={this.state.value}

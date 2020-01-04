@@ -10,7 +10,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
+  NavbarText,
+  Container
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom'
 
@@ -22,6 +23,7 @@ const Example = (props) => {
 
   return (
     <div>
+    <Container>
       <Navbar className={"terra-background terra-navbar"} light expand="md" fixed="top">
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -55,6 +57,7 @@ const Example = (props) => {
         </Collapse>
         <NavbarBrand href="/">Terra Finances</NavbarBrand>
       </Navbar>
+      </Container>
     </div>
   );
 }

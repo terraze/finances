@@ -69,8 +69,10 @@ class BillEditForm extends React.Component {
         return (
           <Row>
             <Col className={"terra-modal"} >
-                <Row>                     
-                    <Col lg="3">
+                <Row>
+                  <Col lg="6" xs='6' sm='6' md='6'>
+                    <Row>
+                      <Col lg="2" xs='2' sm='2' md='2'>
                         <Row>
                             <Col className={"terra-radio"} >
                                 <Input type="radio"
@@ -80,114 +82,104 @@ class BillEditForm extends React.Component {
                                 />
                                 <Label for="is_entrance">Entrada</Label>
                             </Col>
-                            {this.state.is_entrance &&
-                            <Col className={"terra-check"}>
-                                <Input type="checkbox"
-                                       name="is_salary"
-                                       checked={Finance.isSalary(this.state)}
-                                       onChange={(e) => this.handleIsSalaryChange(e.target.checked)}
-                                />
-                                <Label for="is_salary">Salário</Label>
-                            </Col>
-                            }
                         </Row>
-                    </Col>
-                    <Col lg="2"  className={"terra-radio"} >
-                        <Input type="radio"
-                               name="is_entrance"
-                               checked={!Finance.isInput(this.state)}
-                               onChange={(e) => this.handleIsNotEntranceChange(e.target.checked)}
-                        />
-                        <Label for="is_entrance">Saída</Label>
-                    </Col>
-                    <Col lg="4">
-                        <Label for="account">Conta</Label>
-                        <Input
-                            type="select"
-                            bsSize="sm"
-                            name="account">
-                            {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
-                                <option key={i} onClick={(e) => this.handleAccountChange(e.target.id)} id={this.props.accounts[i].id}>{this.props.accounts[i].title}</option>
-                            ))}
-                        </Input>
-                    </Col>
-                </Row>
-                <br/>
-                <Row>
-                    <Col className={"terra-extract-name"}>
-                        <Label for="name">Nome</Label>
-                            <Input 
-                               value={this.state.name}
-                               onChange={(e) => this.handleNameChange(e.target.value)}
-                               name="name"
-                        />
-
-                    </Col>        
-                    <Col className={"terra-extract-value"}>
-                        <Label for="value">Valor</Label>
-                        <Input 
-                               value={this.state.value}
-                               onChange={(e) => this.handleValueChange(e.target.value)}
-                               name="value"
-                               readOnly={this.state.is_entrance && this.state.is_salary}
-                        />
-
-                    </Col>
-                </Row>
-                {this.state.is_entrance && this.state.is_salary &&
-                <>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="2"  xs='2' sm='2' md='2'  className={"terra-radio"} >
+                          <Input type="radio"
+                                 name="is_entrance"
+                                 checked={!Finance.isInput(this.state)}
+                                 onChange={(e) => this.handleIsNotEntranceChange(e.target.checked)}
+                          />
+                          <Label for="is_entrance">Saída</Label>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="6" xs='6' sm='6' md='6'>
+                          <Label for="account">Conta</Label>
+                          <Input
+                              type="select"
+                              bsSize="sm"
+                              name="account">
+                              {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
+                                  <option key={i} onClick={(e) => this.handleAccountChange(e.target.id)} id={this.props.accounts[i].id}>{this.props.accounts[i].title}</option>
+                              ))}
+                          </Input>
+                      </Col>
+                    </Row>
                     <br/>
                     <Row>
-                        <Col className={"terra-extract-worked-hours"}>
-                            <Label for="worked-hours">Horas Trabalhadas</Label>
-                            <Input
-                                value={this.state.worked_hours}
-                                onChange={(e) => this.handleWorkedHoursChange(e.target.value)}
-                                name="worked-hours"
+                        <Col xs='4' sm='4' md='4' className={"terra-extract-name"}>
+                            <Label for="name">Nome</Label>
+                                <Input 
+                                   value={this.state.name}
+                                   onChange={(e) => this.handleNameChange(e.target.value)}
+                                   name="name"
                             />
-
-                        </Col>
-                        <Col className={"terra-extract-dolar"}>
-                            <Label for="dolar">Dolar</Label>
-                            <Input
-                                value={this.state.dolar}
-                                onChange={(e) => this.handleDolarChange(e.target.value)}
-                                name="dolar"
+                        </Col>        
+                        <Col xs={{ size: 5, offset: 2 }} sm={{ size: 5, offset: 2 }} md={{ size: 5, offset: 2 }} className={"terra-extract-value"}>
+                            <Label for="value">Valor</Label>
+                            <Input 
+                                   value={this.state.value}
+                                   onChange={(e) => this.handleValueChange(e.target.value)}
+                                   name="value"
+                                   readOnly={this.state.is_entrance && this.state.is_salary}
                             />
-
                         </Col>
                     </Row>
-                </>
-                }
-                <br/>
-                <Row>
-                  <Col lg="6" className={"terra-extract-date terra-margin-top"}>
-                  <Label for="date">Data de Início</Label>
-                      <Input 
-                             type="date"
-                             value={Datetime.toDatePicker(this.state.date)}
-                             onChange={(e) => this.handleDateChange(e.target.value)}
-                      />
+                    {this.state.is_entrance && this.state.is_salary &&
+                    <>
+                        <br/>
+                        <Row>
+                            <Col className={"terra-extract-worked-hours"}>
+                                <Label for="worked-hours">Horas Trabalhadas</Label>
+                                <Input
+                                    value={this.state.worked_hours}
+                                    onChange={(e) => this.handleWorkedHoursChange(e.target.value)}
+                                    name="worked-hours"
+                                />
+                            </Col>
+                            <Col className={"terra-extract-dolar"}>
+                                <Label for="dolar">Dolar</Label>
+                                <Input
+                                    value={this.state.dolar}
+                                    onChange={(e) => this.handleDolarChange(e.target.value)}
+                                    name="dolar"
+                                />
 
-                  </Col>        
-                  <Col lg="4" className={"terra-margin-top terra-extract-frequency"}>
-                    <Label for="frequency">Frequência</Label>
-                        <Input
-                            type="select"
-                            bsSize="sm"
-                            name="frequency"
-                            className={"terra-extract-frequency"}>
-                            {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
-                                <option key={i} onClick={(e) => this.handleAccountChange(e.target.id)} id={this.props.accounts[i].id}>{this.props.accounts[i].title}</option>
-                            ))}
-                          </Input>
-
-                    </Col>
+                            </Col>
+                        </Row>
+                    </>
+                    }
+                    <br/>
+                    <Row>
+                      <Col lg="6" className={"terra-extract-date terra-margin-top"}>
+                        <Label for="date">Data de Início</Label>
+                          <Input 
+                                 type="date"
+                                 value={Datetime.toDatePicker(this.state.date)}
+                                 onChange={(e) => this.handleDateChange(e.target.value)}
+                          />
+                      </Col>        
+                      <Col lg="4" className={"terra-margin-top terra-extract-frequency"}>
+                        <Label for="frequency">Frequência</Label>
+                            <Input
+                                type="select"
+                                bsSize="sm"
+                                name="frequency"
+                                className={"terra-extract-frequency"}>
+                                {this.props.accounts.length > 0 && this.props.accounts.map((item, i) => (
+                                    <option key={i} onClick={(e) => this.handleAccountChange(e.target.id)} id={this.props.accounts[i].id}>{this.props.accounts[i].title}</option>
+                                ))}
+                            </Input>
+                      </Col>
+                    </Row>
+                    <br/>
+                  </Col>
                 </Row>
-                <br/>
             </Col>
           </Row>
-
         );
       }
 }

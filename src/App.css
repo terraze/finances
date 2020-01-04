@@ -341,6 +341,7 @@ h6 {
   position: absolute;
   left: 0%;
   transform: translateX(0%);
+
 }
 
 
@@ -364,7 +365,7 @@ h6 {
 }
 
 .terra-extract-name input,  .terra-extract-name label{
-  width: 180px !important;
+  width: 155px !important;
   margin-left: 20px;
 }
 

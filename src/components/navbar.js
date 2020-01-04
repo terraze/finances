@@ -24,7 +24,7 @@ const Example = (props) => {
   return (
     <div>
       <Navbar className={"terra-background terra-navbar d-flex p-2"} light expand="md" fixed="top">
-        <NavbarBrand href="/" className="mr-auto p-2 w-100">Terra Finances</NavbarBrand>
+        <NavbarBrand className="mr-auto p-2 w-100">Terra Finances</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>

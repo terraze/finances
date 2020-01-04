@@ -21,7 +21,11 @@ class Login extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {username: '', password: ''};
+        this.state = {
+            username: '', 
+            password: '',
+            loading: true
+        };
 
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -45,41 +49,57 @@ class Login extends React.Component {
 
     render() {
       return (        
-        <div  className={"terra-body"}>          
+        <div  className={"terra-login"}>          
         	<Row>
-        		<Col lg={{ size: 4, offset: 4 }} className={"terra-center  terra-login"}  >
+        		<Col lg={{ size: 4, offset: 4 }} xs={{ size: 10, offset: 1 }} sm={{ size: 10, offset: 1 }} md={{ size: 4, offset: 4 }} className={"terra-center"}  >
         			<Card color="link">
         				<CardBody>
         					<br/>
         					<img src={require('..//assets/images/login/money.png')} width={200} height={200}alt={''}></img>                            
         					<Row>
-        						<Col lg={{ size: 8, offset: 2 }}>
-                                    <Form onSubmit={this.handleSubmit}>
-            							<br/>
-    			        				<Input
-    			        					placeholder="username"
-    			        				    type="input"
-    			        				    name="username"
-    			        				    className={"terra-center"}
-                                            value={this.state.username}
-                                            onChange={this.handleChangeUsername}>
-    			       					</Input>
-    			        				<p/>
-    			        				<Input
-    			        					placeholder="password"
-    			        				    type="password"
-    			        				    name="password" 
-    			        				    className={"terra-center"}
-                                            value={this.state.password}
-                                            onChange={this.handleChangePassword}>
-    			        				</Input>
-    			        				<p/>
-    			        				<Button color="success">Login</Button>
-    			        				<br/>
-                                    </Form>
-			        			</Col>
+        						<Col lg={{ size: 6, offset: 3 }}  xs={{ size: 10, offset: 1 }} sm={{ size: 10, offset: 1 }} md={{ size: 4, offset: 4 }}>
+                                    <Row>
+                                        <Col lg='0' xs='0' sm='0' md='0'>
+                                        </Col>
+                                        <Col lg={{ size: 12, offset: 0 }}  xs={{ size: 10, offset: 1 }} sm={{ size: 10, offset: 1 }} md={{ size: 12, offset: 0 }}>
+                                            <Form onSubmit={this.handleSubmit} className={"terra-center"}>
+                    							<br/>
+            			        				<Input
+            			        					placeholder="username"
+            			        				    type="input"
+            			        				    name="username"
+            			        				    className={"terra-center"}
+                                                    value={this.state.username}
+                                                    onChange={this.handleChangeUsername}>
+            			       					</Input>
+            			        				<p/>
+            			        				<Input
+            			        					placeholder="password"
+            			        				    type="password"
+            			        				    name="password" 
+            			        				    className={"terra-center"}
+                                                    value={this.state.password}
+                                                    onChange={this.handleChangePassword}>
+            			        				</Input>
+            			        				<p/>
+            			        				<Button color="success">Login</Button>
+            			        				<br/>
+                                            </Form>
+        			        			</Col>
+                                    </Row>
+                                </Col>
 			        		</Row>
         				</CardBody>
+                        {this.state.loading &&
+                        <>
+                            <Row>
+                                <Col className={"terra-center"}>
+                                    <Spinner animation="border" variant="success" className={'terra-loading'}/>
+                                    <p>Carregando...</p>
+                                </Col>
+                            </Row>
+                        </>
+                        }
         			</Card>
         		</Col>
         	</Row>

@@ -45,7 +45,7 @@ class App extends React.Component {
             {this.state.loggedin && 
                 <BrowserRouter>
                     <div>
-                        <Header/>
+                        <Navbar/>
                         <Container>
                         <Switch>
                             <Route path="/" exact={true} component={Resumo} />

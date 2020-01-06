@@ -23,11 +23,11 @@ const Example = (props) => {
 
   return (
     <div>
-      <Navbar className={"terra-background terra-navbar d-flex p-2"} light expand="md" fixed="top">
-        <NavbarBrand className="mr-auto p-2 w-100">Terra Finances</NavbarBrand>
+      <Navbar className={"terra-background terra-navbar navbar-expand-md bg-faded justify-content-center"} light expand="lg" fixed="top">
+        <NavbarBrand className="terra-icone-black navbar-brand d-flex w-50 mr-auto" >Terra Finances</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="nav navbar-nav ml-auto w-100 justify-content-end" navbar>
             <NavItem>
                 <NavLink exact className="nav-link" to="/resumo" activeClassName="active">
                   Resumo

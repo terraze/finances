@@ -10,7 +10,11 @@ import Cadastro from './components/cadastro.js'
 import Footer from './components/footer.js'
 import Saldo from './components/saldo.js'
 import Relatorios from './components/relatorios.js'
-import { Container } from 'reactstrap';
+import { 
+    Container,
+    Row,
+    Col
+ } from 'reactstrap';
 import ApiService from './services/ApiService.js';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
@@ -46,18 +50,22 @@ class App extends React.Component {
                 <BrowserRouter>
                     <div>
                         <Container>
-                            <Navbar/>
-                        </Container>
-                        <Container>
-                            <Switch>
-                                <Route path="/" exact={true} component={Resumo} />
-                                <Route path="/resumo" component={Resumo} />
-                                <Route path="/extrato" component={Extrato}/>
-                                <Route path="/saldo" component={Saldo} />
-                                <Route path="/relatorios" component={Relatorios} />
-                                <Route path="/cadastro" component={Cadastro} />
-                            </Switch>
-                            <Footer/>
+                            <Row>
+                                <Col lg='1' xs='0' sm='0' md='0'>
+                                </Col>
+                                <Col lg='10' xs='12' sm='12' md='12'>
+                                    <Navbar/>
+                                    <Switch>
+                                        <Route path="/" exact={true} component={Resumo} />
+                                        <Route path="/resumo" component={Resumo} />
+                                        <Route path="/extrato" component={Extrato}/>
+                                        <Route path="/saldo" component={Saldo} />
+                                        <Route path="/relatorios" component={Relatorios} />
+                                        <Route path="/cadastro" component={Cadastro} />
+                                    </Switch>
+                                    <Footer/>
+                                </Col>
+                            </Row>
                         </Container>
                     </div>
                 </BrowserRouter>

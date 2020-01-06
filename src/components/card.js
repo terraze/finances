@@ -18,7 +18,7 @@ import {Form, Input} from 'reactstrap';
 import TerraAlert from './terra-alert.js'
 import Datetime from '../utils/datetimeUtils.js';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faCheck, faTimes, faEdit, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {faPlus, faCheck, faTimes, faEdit, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import {faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import Finance from '../models/finance.js';
 import ApiService from '../services/ApiService.js';
@@ -238,7 +238,7 @@ class CardWeek extends React.Component {
                                     <tbody>
                                     {values.length < 1 &&
                                     <tr>
-                                        <td><br/>Nenhum valor</td>
+                                        <td ><br/>Nenhum valor</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
@@ -260,7 +260,7 @@ class CardWeek extends React.Component {
                                                     <td>{Finance.format(Finance.getValue(values[i]))}</td>
                                                 }
                                                 {mode === 'edit' &&
-                                                <td>
+                                                <td >
                                                     <Button className={"terra-button terra-icone terra-icone-black"}
                                                             onClick={() => this.editTransaction(i)}>
                                                         <FontAwesomeIcon icon={faEdit}/>
@@ -281,11 +281,11 @@ class CardWeek extends React.Component {
                                         <tr className={'terra-saldo'} >
                                             <td>Saldo em conta</td>
                                             <td className={"terra-table-col-info"}></td>
-                                            <td>
+                                            <td >
                                                 {Finance.format(this.state.total)}
                                                 <Button className={"terra-button-background terra-icone-background terra-icone-black"} onClick={this.toggleDown}>
-                                                    <FontAwesomeIcon icon={faCaretDown}/>
-                                                </Button>
+                                                    <FontAwesomeIcon icon={this.state.dropdown ? faCaretUp : faCaretDown}/>    
+                                                </Button>   
                                             </td>
                                         </tr>
                                         { this.state.dropdown == true &&

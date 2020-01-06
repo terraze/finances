@@ -59,7 +59,7 @@ h6 {
 }
 
 .terra-body {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 
 .terra-login {
@@ -78,6 +78,21 @@ h6 {
   text-align: center;
 }
 
+.terra-fitwidth {
+    width: 0.5px;
+    white-space: nowrap;
+}
+
+.terra-fitwidth2 {
+    width: 1px;
+    white-space: pre;
+}
+
+.terra-fitwidth3 {
+    width: 1px;
+    white-space: normal;
+}
+
 .terra-radio {
   margin-left: 40px !important;
 }
@@ -89,6 +104,17 @@ h6 {
 
 .terra-margin-top {
   margin-top: 20px;
+}
+
+
+.terra-margin-top-down {
+  margin-top: -60px;
+}
+
+
+
+.terra-margin-bottom {
+  margin-bottom: -10px;
 }
 
 .terra-margin-right {
@@ -250,8 +276,10 @@ h6 {
   color: black;
   outline: none;
 }
+
+
 .terra-icone-black {
-  color: black;
+  color: black !important;
 }
 
 .terra-icone-red {
@@ -331,7 +359,7 @@ h6 {
 }
 
 .terra-button-right button {
-  align: left;
+  align-content: left;
   margin-left: 100px !important;
 }
 
@@ -339,9 +367,6 @@ h6 {
 .terra-navbar {
   align-content: center !important;
   position: relative;
-  flex-direction: row !important;
-  display: flex !important;
-  color: gray !important;
 }
 
 

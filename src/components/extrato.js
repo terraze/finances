@@ -94,13 +94,13 @@ class Extrato extends React.Component {
             <div className={"row terra-body"}>
                 <Col lg='12' xs='auto' sm='auto' md='auto' className={"terra-center"}>
                     <Row>
-                        <Col className={'terra-right'} lg="4" xs='3' sm='3' md='3'>
+                        <Col className={'terra-right'} lg="4" xs='2' sm='2' md='2'>
                             <Button onClick={this.prevMonth}
                                     className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon icon={faArrowLeft}/>
                             </Button>
                         </Col>
-                        <Col className={"terra-center"} lg="4" xs='6' sm='6' md='6'>
+                        <Col className={"terra-center"} lg="4" xs='8' sm='8' md='8'>
                             <h1>{Datetime.monthName(this.state.date)} de {Datetime.year(this.state.date)}</h1>
                         </Col>
                         <Col className={"terra-left"} lg="0" xs='1' sm='1' md='1'>

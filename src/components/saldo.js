@@ -47,21 +47,21 @@ class Saldo extends React.Component {
                     <Card color="link" >
                         <CardBody>
                             <Row>
-                                <Col lg="9">
+                                <Col lg="12" xs='12' sm='12' md='12'>
                                     <h2>
-                                        {accounts[i].title} <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={40} height={40} alt={''}></img>
+                                        {accounts[i].title} <img src={require('..//assets/images/bank_icons/' + accounts[i].bank + '.png')} width={25} height={25} alt={''}></img>
                                     </h2>
                                 </Col>
-                                <Col className="terra-right">
-                                    <Button className={"terra-button terra-icone terra-icone-black"}>
+                                <Col>
+                                    <p>({accounts[i].name})</p>
+                                </Col>
+                                <Col lg="4" xs='4' sm='4' md='4' className="terra-right ">
+                                    <Button className={"terra-button terra-icone terra-icone-black terra-margin-bottom terra-margin-top-down"}>
                                         <FontAwesomeIcon  icon={faHandHoldingUsd} />
                                     </Button>
-                                    <Button className={"terra-button terra-icone terra-icone-black"}>
+                                    <Button className={"terra-button terra-icone terra-icone-black terra-margin-bottom terra-margin-top-down"}>
                                         <FontAwesomeIcon  icon={faExchangeAlt} />
                                     </Button>
-                                </Col>
-                                <Col>
-                                    <p>{accounts[i].name}</p>
                                 </Col>
                             </Row>
                             <Row>
@@ -72,8 +72,11 @@ class Saldo extends React.Component {
                                                 <td>
                                                 Saldo
                                                 </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td>
-                                                    {Finance.format(accounts[i].total)}
+                                                    R$ SALDO!
                                                 </td>
                                             </tr>
                                         </tbody>

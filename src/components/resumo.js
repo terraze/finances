@@ -111,18 +111,18 @@ class Resumo extends React.Component {
         let week = Datetime.week(this.state.date);
         return (
             <div className={"row terra-body"}>
-                <Col lg="11" className={"terra-center"}>
+                <Col lg="11" xs='12' sm='12' md='12' className={"terra-center"}>
                     <Row>
-                        <Col lg="5" className={"terra-right"}>
+                        <Col lg="5" xs='3' sm='3' md='3'className={"terra-right"}>
                             <Button onClick={this.prevWeek} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowLeft} />
                             </Button>
                         </Col>
-                        <Col lg="3" className={"terra-center"}>
+                        <Col lg="3" xs='6' sm='6' md='6' className={"terra-center"}>
                             <h1>Semana {week.number}</h1>
                             <h4>de {Datetime.dm(week.start)} a {Datetime.dm(week.end)}</h4>
                         </Col>
-                        <Col lg="4" className={"terra-left"}>
+                        <Col lg="4" xs='3' sm='3' md='3' className={"terra-left"}>
                             <Button onClick={this.nextWeek} className={"terra-button-background terra-icone-background terra-icone-black"}>
                                 <FontAwesomeIcon  icon={faArrowRight} />
                             </Button>
@@ -131,7 +131,9 @@ class Resumo extends React.Component {
                     </Row>
                     <br/>
                 </Col>
-                <Col lg={{size:4, offset:4}}>
+                <Col lg='4' xs='1' sm='1' md='1'>
+                </Col>
+                <Col lg='4' xs='10' sm='10' md='10'>
                     <Alert className={"terra-home terra-pago"}>
                         <Row>
                             <Col>

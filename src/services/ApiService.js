@@ -114,9 +114,11 @@ export default class ApiService {
             (result) => {
                 if (result.success) {
                     ApiService.setToken(result.token);
-                    callback();
+                    callback(true);
                 } else {
                     alert("Credenciais inválidas");
+                    callback(false);
+
                 }
             },
             (error) => {

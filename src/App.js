@@ -50,22 +50,16 @@ class App extends React.Component {
                 <BrowserRouter>
                     <div>
                         <Container>
-                            <Row>
-                                <Col lg='1' xs='0' sm='0' md='0'>
-                                </Col>
-                                <Col lg='10' xs='12' sm='12' md='12'>
-                                    <Navbar/>
-                                    <Switch>
-                                        <Route path="/" exact={true} component={Resumo} />
-                                        <Route path="/resumo" component={Resumo} />
-                                        <Route path="/extrato" component={Extrato}/>
-                                        <Route path="/saldo" component={Saldo} />
-                                        <Route path="/relatorios" component={Relatorios} />
-                                        <Route path="/cadastro" component={Cadastro} />
-                                    </Switch>
-                                    <Footer/>
-                                </Col>
-                            </Row>
+                            <Navbar/>
+                            <Switch>
+                                <Route path="/" exact={true} component={Resumo} />
+                                <Route path="/resumo" component={Resumo} />
+                                <Route path="/extrato" component={Extrato}/>
+                                <Route path="/saldo" component={Saldo} />
+                                <Route path="/relatorios" component={Relatorios} />
+                                <Route path="/cadastro" component={Cadastro} />
+                            </Switch>
+                            <Footer/>
                         </Container>
                     </div>
                 </BrowserRouter>

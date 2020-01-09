@@ -285,12 +285,10 @@ class CardWeek extends React.Component {
                                                             onClick={() => this.editTransaction(i)}>
                                                         <FontAwesomeIcon icon={faEdit}/>
                                                     </Button>
-                                                    {!values[i].is_fixed &&
                                                     <Button className={"terra-button terra-icone terra-icone-red"}
                                                             onClick={() => this.removeTransaction(i)}>
                                                         <FontAwesomeIcon icon={faTrashAlt}/>
                                                     </Button>
-                                                    }
                                                 </td>
                                                 }
                                             </tr>

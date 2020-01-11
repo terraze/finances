@@ -20,7 +20,7 @@ class Finance {
             if (item.status) {
                 return 'recebido';
             }
-            return 'a-receber';
+            return 'a-receber';  
         } else {
             if (item.status) {
                 return 'pago';
@@ -34,7 +34,7 @@ class Finance {
                     return 'vence-hoje';
                 }
             }
-            if (item.is_fixed) {
+            if (item.is_fixed && item.id == null) {
                 return 'estimado';
             }
             return 'a-vencer';

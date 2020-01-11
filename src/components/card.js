@@ -98,8 +98,12 @@ class CardWeek extends React.Component {
         let total = 0;
         let totalin = 0;
         let totalout = 0;
+        console.log(data);
         for (let item of data) {
-            if (Datetime.isBetween(item.date, this.props.week.start, this.props.week.end) || Datetime.isBetween(item.paid_date, this.props.week.start, this.props.week.end)) {
+            if (
+                (Datetime.isBetween(item.paid_date, this.props.week.start, this.props.week.end)) ||
+                ((item.paid_date == 0 || item.paid_date == null) && Datetime.isBetween(item.date, this.props.week.start, this.props.week.end))
+            ) {
                 values.push(item);
                 total += Finance.getValue(item);
                 if (Finance.isInput(item)) {

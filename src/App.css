@@ -94,7 +94,7 @@ h6 {
 }
 
 .terra-radio {
-  margin-left: 40px !important;
+  margin-left: 30px !important;
 }
 
 .terra-check {
@@ -377,6 +377,7 @@ h6 {
 
 .terra-modal {
   margin-top: 20px;
+  max-width: 350px;
 }
 
 .terra-badge {
@@ -390,22 +391,28 @@ h6 {
 }
 
 .terra-extract-name input,  .terra-extract-name label{
-  width: 155px !important;
-  margin-left: 20px;
+  width: 130px !important;
+  margin-left: 10px;
 }
 
 .terra-extract-value input,  .terra-extract-value label{
-  width: 120px !important;
+  width: 130px !important;
+  margin-left: 15px;
 }
 
 
 .terra-extract-date input,  .terra-extract-date label{
-  width: 145px !important;
-  margin-left: 20px;
+  width: 130px !important;
+  margin-left: 10px;
 
 }
 
 .terra-extract-paid-date input,  .terra-extract-paid-date label{
-  width: 145px !important;
-  margin-left: 0px;
+  width: 130px !important;
+  margin-left: 15px;
+}
+
+.terra-extract-account input, .terra-extract-account label, .terra-extract-account select {
+  margin-left: 15px !important;
+  width: 130px;
 }

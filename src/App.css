@@ -390,29 +390,29 @@ h6 {
   margin-left: 200px;
 }
 
-.terra-extract-name input,  .terra-extract-name label{
+.terra-name input,  .terra-name label{
   width: 130px !important;
   margin-left: 10px;
 }
 
-.terra-extract-value input,  .terra-extract-value label{
+.terra-value input,  .terra-value label{
   width: 130px !important;
   margin-left: 15px;
 }
 
 
-.terra-extract-date input,  .terra-extract-date label{
+.terra-date input,  .terra-date label{
   width: 130px !important;
   margin-left: 10px;
 
 }
 
-.terra-extract-paid-date input,  .terra-extract-paid-date label{
+.terra-paid-date input,  .terra-paid-date label{
   width: 130px !important;
   margin-left: 15px;
 }
 
-.terra-extract-account input, .terra-extract-account label, .terra-extract-account select {
+.terra-account input, .terra-account label, .terra-account select {
   margin-left: 15px !important;
   width: 130px;
 }

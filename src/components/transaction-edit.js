@@ -89,7 +89,7 @@ class TransactionEditForm extends React.Component {
                         </Col>
                       </Row>
                     </Col>
-                    <Col lg="4" xs='4' sm='4' md='4' className={"terra-extract-account"}>
+                    <Col lg="4" xs='4' sm='4' md='4' className={"terra-account"}>
                         <Label for="account">Conta</Label>
                         <Input
                             type="select"
@@ -103,7 +103,7 @@ class TransactionEditForm extends React.Component {
                 </Row>
                 <br/>
                 <Row>
-                    <Col xs='4' sm='4' md='4' className={"terra-extract-name"}>
+                    <Col xs='4' sm='4' md='4' className={"terra-name"}>
                         <Label for="name">Nome</Label>
                             <Input 
                                value={this.state.name}
@@ -112,7 +112,7 @@ class TransactionEditForm extends React.Component {
                         />
 
                     </Col>        
-                    <Col xs={{ size: 6, offset: 1 }} sm={{ size: 6, offset: 1 }} md={{ size: 5, offset: 1 }} className={"terra-extract-value"}>
+                    <Col xs={{ size: 6, offset: 1 }} sm={{ size: 6, offset: 1 }} md={{ size: 5, offset: 1 }} className={"terra-value"}>
                         <Label for="value">Valor</Label>
                         <Input 
                                value={this.state.value}
@@ -124,7 +124,7 @@ class TransactionEditForm extends React.Component {
                 </Row>
                 <br/>
                 <Row>        
-                    <Col xs='5' sm='5' md='5' className={"terra-extract-date terra-margin-top"}>
+                    <Col xs='5' sm='5' md='5' className={"terra-date terra-margin-top"}>
                     <Label for="date">Data de Vencimento</Label>
                         <Input 
                                type="date"
@@ -133,7 +133,7 @@ class TransactionEditForm extends React.Component {
                         />
 
                     </Col>
-                    <Col className={"terra-extract-paid-date terra-margin-top"}>
+                    <Col className={"terra-paid-date terra-margin-top"}>
                     <Label for="paid_date">Data de Pagamento</Label>
                         <Input 
                                type="date"

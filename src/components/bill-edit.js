@@ -70,7 +70,7 @@ class BillEditForm extends React.Component {
           <Row>
             <Col className={"terra-modal"} >
                 <Row>                     
-                    <Col lg="6" xs='6' sm='6' md='6'>
+                    <Col lg="5" xs='5' sm='5' md='5'>
                       <Row>
                         <Col lg="2" xs='2' sm='2' md='2'>
                             <Row>
@@ -96,7 +96,7 @@ class BillEditForm extends React.Component {
                         </Col>
                       </Row>
                     </Col>
-                    <Col lg="4" xs='5' sm='5' md='5'>
+                    <Col lg="4" xs='4' sm='4' md='4' className={"terra-account"}>
                         <Label for="account">Conta</Label>
                         <Input
                               type="select"
@@ -110,7 +110,7 @@ class BillEditForm extends React.Component {
                   </Row>
                   <br/>
                   <Row>
-                    <Col xs='4' sm='4' md='4' className={"terra-extract-name"}>
+                    <Col xs='4' sm='4' md='4' className={"terra-name"}>
                             <Label for="name">Nome</Label>
                                 <Input 
                                    value={this.state.name}
@@ -118,7 +118,7 @@ class BillEditForm extends React.Component {
                                    name="name"
                             />
                     </Col>        
-                    <Col xs={{ size: 5, offset: 2 }} sm={{ size: 5, offset: 2 }} md={{ size: 5, offset: 2 }} className={"terra-extract-value"}>
+                    <Col xs={{ size: 6, offset: 1 }} sm={{ size: 6, offset: 1 }} md={{ size: 5, offset: 1 }} className={"terra-value"}>
                             <Label for="value">Valor</Label>
                             <Input 
                                    value={this.state.value}
@@ -129,7 +129,7 @@ class BillEditForm extends React.Component {
                   </Row>
                   <br/>
                   <Row>        
-                      <Col lg="6" xs='6' sm='6' md='6'className={"terra-extract-date terra-margin-top"}>
+                      <Col lg="5" xs='5' sm='5' md='5'className={"terra-date terra-margin-top"}>
                         <Label for="date">Data de Início</Label>
                           <Input 
                                  type="date"
@@ -137,7 +137,7 @@ class BillEditForm extends React.Component {
                                  onChange={(e) => this.handleDateChange(e.target.value)}
                           />
                       </Col>
-                      <Col lg="5" xs='5' sm='5' md='5' className={"terra-extract-name terra-margin-top"}>
+                      <Col lg="5" xs='5' sm='5' md='5' className={"terra-frequency terra-margin-top"}>
                         <Label for="frequency">Frequência</Label>
                             <Input
                                 type="select"

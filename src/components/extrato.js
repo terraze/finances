@@ -139,7 +139,7 @@ class Extrato extends React.Component {
                     <br/>
                 </Col>
                 {weeks.map((item, i) => (
-                    <Col key={i} lg="6">
+                    <Col key={i} lg="6" className={"terra-card ml-lg-1 m-sm-0"}>
                         {accounts.length > 0 && currentAccount >= 0 &&
                         <Card week={weeks[i]}
                                   account={accounts[currentAccount].id}
@@ -147,6 +147,7 @@ class Extrato extends React.Component {
                                   transactions={this.state.transactions}
                                   reload={() => this.loadValues(this.state.currentAccount)}
                                   date={this.state.date}
+
                         />
                         }
                         <br/>

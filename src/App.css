@@ -416,3 +416,14 @@ h6 {
   margin-left: 15px !important;
   width: 130px;
 }
+
+
+.terra-frequency input, .terra-frequency label, .terra-frequency select {
+  margin-left:  15px !important;
+  width: 130px;
+}
+
+.terra-card {
+  max-width: 500px !important;
+}
+

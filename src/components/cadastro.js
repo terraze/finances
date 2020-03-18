@@ -221,7 +221,7 @@ export default class Cadastro extends React.Component {
                 {!this.state.loading &&
                     <>
                         <ModalHeader toggle={this.toggleModal}>
-
+                          <h2 className={"terra-center"}>Conta</h2>
                         </ModalHeader>
                         <ModalBody>
                           <BillEditForm bills={this.state.edit} accounts={this.state.accounts} ref={this.billFormReference}>
